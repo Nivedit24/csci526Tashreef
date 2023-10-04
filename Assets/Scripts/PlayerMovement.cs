@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,8 +9,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed = 8f;
     private float direction = 0f;
     public bool canMove = true;
-    public float xRangeL = 8.56f;
-    public float xRangeR = 8.56f;
     private Rigidbody2D player;
 
     public Transform groundCheck;
@@ -29,15 +28,6 @@ public class PlayerMovement : MonoBehaviour
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         direction = Input.GetAxis("Horizontal");
 
-        if (transform.position.x < -xRangeL)
-        {
-            transform.position = new Vector3(-xRangeL, transform.position.y, transform.position.z);
-        }
-        if (transform.position.x > xRangeR)
-        {
-            transform.position = new Vector3(xRangeR, transform.position.y, transform.position.z);
-        }
-
         if (canMove)
         {
             if (direction != 0f)
@@ -53,6 +43,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 player.velocity = new Vector2(player.velocity.x, jumpSpeed);
             }
+        }
+
+        if (player.transform.position.y <= -5)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
