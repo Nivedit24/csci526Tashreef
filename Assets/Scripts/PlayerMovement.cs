@@ -10,11 +10,13 @@ public class PlayerMovement : MonoBehaviour
     private float direction = 0f;
     public bool canMove = true;
     private Rigidbody2D player;
-
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
+    private bool hoveringOnAirBall = false;
+    public GameObject airBall;
+
     private CheckPoint checkPoint;
     private State currState;
 
@@ -40,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump") && isTouchingGround)
             {
                 player.velocity = new Vector2(player.velocity.x, jumpSpeed);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                HoverOnAirBall();
             }
         }
 
@@ -81,6 +87,27 @@ public class PlayerMovement : MonoBehaviour
                 currState = State.Dead;
                 break;
         }
+    }
+
+    void HoverOnAirBall()
+    {
+        hoveringOnAirBall = !hoveringOnAirBall;
+        var playerPosition = player.transform.position;
+        if (hoveringOnAirBall)
+        {
+            //Spawn Air Ball
+            airBall = Instantiate(airBall, new Vector3(playerPosition.x, playerPosition.y, 0), Quaternion.identity);
+            player.gravityScale = 0.5f;
+            player.transform.position = airBall.transform.position + new Vector3(0, 3, 0);
+            speed *= 5f;
+        }
+        else
+        {
+            //Destroy Air Ball
+            speed /= 5f;
+            Destroy(airBall);
+        }
+
     }
 }
 
