@@ -15,36 +15,27 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
-    private CheckPoint _checkPoint;
-    private State _curState;
+    private CheckPoint checkPoint;
+    private State currState;
 
 
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
-        _checkPoint = new CheckPoint(transform);
-        //Debug.Log("position of checkpoint : "+_checkPoint.Position);
-        _curState = State.Normal;
+        checkPoint = new CheckPoint(transform);
+        currState = State.Normal;
     }
 
     // Update is called once per frame
     void Update()
     {
-        var trans = player.transform;
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         direction = Input.GetAxis("Horizontal");
 
         if (canMove)
         {
-            if (direction != 0f)
-            {
-                player.velocity = new Vector2(direction * speed, player.velocity.y);
-            }
-            else
-            {
-                player.velocity = new Vector2(0, player.velocity.y);
-            }
+            player.velocity = new Vector2(direction * speed, player.velocity.y);
 
             if (Input.GetButtonDown("Jump") && isTouchingGround)
             {
@@ -52,11 +43,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        switch (_curState)
+        switch (currState)
         {
             case State.Dead:
-                trans.position = _checkPoint.Position;
-                _curState = State.Normal;
+                player.transform.position = checkPoint.position;
+                currState = State.Normal;
                 return;
             case State.Normal:
                 break;
@@ -72,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
             case "CheckPoint":
                 Debug.Log("Player reach the CheckPoint");
                 Debug.Log("transform is : ", transform);
-                Debug.Log("Checkpoint is " + _checkPoint.Position);
-                _checkPoint.DoCheckPoint(transform);
+                Debug.Log("Checkpoint is " + checkPoint.position);
+                checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
                 break;
         }
@@ -87,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         {
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                _curState = State.Dead;
+                currState = State.Dead;
                 break;
         }
     }
@@ -95,18 +86,18 @@ public class PlayerMovement : MonoBehaviour
 
 internal class CheckPoint
 {
-    public Vector3 Position;
+    public Vector3 position;
 
     public CheckPoint(Transform transform)
     {
-        Position = transform.position;
-        Debug.LogFormat("Initial CheckPoint Position: ", Position);
+        position = transform.position;
+        Debug.LogFormat("Initial CheckPoint Position: ", position);
     }
 
-    public void DoCheckPoint(Transform transform)
+    public void SetCheckPoint(Transform transform)
     {
-        Position = transform.position;
-        Debug.LogFormat("position: ", Position);
+        position = transform.position;
+        Debug.LogFormat("Current CheckPoint Position: ", position);
     }
 }
 
