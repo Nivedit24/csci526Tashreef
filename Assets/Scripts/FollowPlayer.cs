@@ -7,8 +7,8 @@ public class FollowPlayer : MonoBehaviour
     // Start is called before the first frame update
     public GameObject player;
 
-    public float xOffset = 0f;
-    public float yOffset = 0f;
+    public float xOffset = 0.5f;
+    public float yOffset = 0.5f;
     void Start()
     {
 
