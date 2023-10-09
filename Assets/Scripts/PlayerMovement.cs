@@ -10,21 +10,21 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 20f;
     public float jumpSpeed = 8f;
     private float direction = 0f;
-    public float hoverSpeedFactor = 4f;
-    public float hoverGravityFactor = 0.1f;
-    public float hoverJumpFactor = 1.5f;
+
     public bool canMove = true;
     private Rigidbody2D player;
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
-    public GameObject airBall;
+    public float hoverSpeedFactor = 4f;
+    public float hoverGravityFactor = 0.5f;
+    public float hoverJumpFactor = 1.5f;
     public float hoverTime;
-    private CheckPoint checkPoint;
-    private State currState;
     private DateTime startHoverTime;
 
+    private CheckPoint checkPoint;
+    private State currState;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && isTouchingGround)
             {
-                player.velocity = new Vector2(player.velocity.x, jumpSpeed);
+                player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
             }
         }
 
@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Airball":
                 Debug.Log("Collision with hover ball");
-                if(currState != State.Hover)
+                if (currState != State.Hover)
                 {
                     HoverOnAirBall(collision);
                 }
@@ -119,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
         sphereParent.transform.localPosition = new Vector3(0f, -1.46f, 0f);
         Transform playerBody = transform.Find("Body");
         sphereParent.name = "HoverBall";
+        sphereParent.GetComponent<RotateAir>().startRotate = true;
         Vector3 bodyPosition = playerBody.localPosition;
         bodyPosition.y += sphereParent.transform.localScale.y;
         playerBody.localPosition = bodyPosition;
@@ -127,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
         currState = State.Hover;
         startHoverTime = DateTime.UtcNow;
+        Destroy(collision.gameObject);
     }
 
     void DismountAirBall()
@@ -139,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
+        transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         currState = State.Normal;
     }
 }

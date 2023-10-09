@@ -13,11 +13,15 @@ public class RotateAir : MonoBehaviour
     // Update is called once per frame
     public float speed = 5000f;
     private float direction = 0f;
+    public bool startRotate = false;
 
     void LateUpdate()
     {
-        direction = Input.GetAxis("Horizontal");
-        //Keep rotating the object around previous direction
-        transform.Rotate(Vector3.up * speed * Time.deltaTime * direction);
+        if (startRotate)
+        {
+            direction = Input.GetAxis("Horizontal");
+            //Keep rotating the object around previous direction
+            transform.Rotate(Vector3.up * speed * Time.deltaTime * direction);
+        }
     }
 }
