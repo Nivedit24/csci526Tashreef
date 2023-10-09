@@ -1054,7 +1054,7 @@ MonoBehaviour:
   speed: 20
   jumpSpeed: 8
   hoverSpeedFactor: 4
-  hoverMassFactor: 0.1
+  hoverGravityFactor: 0.5
   hoverJumpFactor: 1.5
   canMove: 1
   groundCheck: {fileID: 1607090839}

@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed = 8f;
     private float direction = 0f;
     public float hoverSpeedFactor = 4f;
-    public float hoverMassFactor = 0.1f;
+    public float hoverGravityFactor = 0.1f;
     public float hoverJumpFactor = 1.5f;
     public bool canMove = true;
     private Rigidbody2D player;
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed *= hoverSpeedFactor;
         jumpSpeed *= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
+        transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
         currState = State.Hover;
         startHoverTime = DateTime.UtcNow;
     }
@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
+        transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
         currState = State.Normal;
     }
 }
