@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private CheckPoint checkPoint;
     private State currState;
 
-    public static bool analytics_01_enabled = false;
+    public static bool analytics01Enabled = false;
 
     // Start is called before the first frame update
     void Start()

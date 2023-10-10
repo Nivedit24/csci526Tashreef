@@ -6,43 +6,43 @@ using UnityEngine.Networking;
 public class Analytics01 : MonoBehaviour
 {
     private string URL;
-    private long _sessionId;
-    private int _testInt;
+    private long sessionId;
+    private int testInt;
     
-    private string _checkpoint_name;
-    private string _level_name;
-    private float _time_taken;
+    private string checkpointName; // Look into this? the accessibility
+    private string levelName;
+    private float timeTaken;
 
     private void Awake()
     {
-        //_sessionId = DateTime.Now.Ticks;
+        //sessionId = DateTime.Now.Ticks;
         URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScRQv83I1oLYwYwnpucIUAv5anjT6hIB-HTqILrXkoFefMnrw/formResponse";
     }
 
-    public void Send(string checkpoint_name, float time_taken,string level_name,long sessionId)
+    public void Send(string checkpointName, float timeTaken,string levelName,long sessionId)
     {
 
-        if (PlayerMovement.analytics_01_enabled==false){
+        if (PlayerMovement.analytics01Enabled==false){
             return;
         }
 
-        Debug.Log(checkpoint_name);
-        Debug.Log(time_taken);
-        _sessionId=sessionId;
+        Debug.Log(checkpointName);
+        Debug.Log(timeTaken);
+        sessionId=sessionId;
 
-        if (time_taken==0){
+        if (timeTaken==0){
             return;
         }
-        _checkpoint_name = checkpoint_name;
-        _testInt = UnityEngine.Random.Range(0, 101);
+        checkpointName = checkpointName;
+        testInt = UnityEngine.Random.Range(0, 101);
         
         
-        _level_name=level_name;
+        levelName=levelName;
 
-        StartCoroutine(Post(_sessionId.ToString(), checkpoint_name, time_taken.ToString(), _checkpoint_name, _level_name));
+        StartCoroutine(Post(sessionId.ToString(), checkpointName, timeTaken.ToString(), checkpointName, levelName));
     }
 
-    private IEnumerator Post(string sessionID, string testInt, string _checkpoint_name, string _time_taken, string _level_name)
+    private IEnumerator Post(string sessionID, string testInt, string checkpointName, string timeTaken, string levelName)
     {
         // Create the form and enter responses
         WWWForm form = new WWWForm();
@@ -50,9 +50,9 @@ public class Analytics01 : MonoBehaviour
         form.AddField("entry.360401964", testInt);
         
         
-        form.AddField("entry.1650855500", _checkpoint_name);
-        form.AddField("entry.953686723", _time_taken);
-        form.AddField("entry.1294741655", _level_name);
+        form.AddField("entry.1650855500", checkpointName);
+        form.AddField("entry.953686723", timeTaken);
+        form.AddField("entry.1294741655", levelName);
         
         
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
