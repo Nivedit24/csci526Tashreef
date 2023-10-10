@@ -3,12 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CheckPoint
+  - DeathFloor
+  - Airball
+  - none
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HoverballLayer
   - Water
   - UI
   - Ground
