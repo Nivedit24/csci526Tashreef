@@ -8,6 +8,7 @@ TagManager:
   - DeathFloor
   - Airball
   - none
+  - Ground
   layers:
   - Default
   - TransparentFX
