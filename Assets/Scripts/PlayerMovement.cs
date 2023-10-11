@@ -17,8 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
-    public float hoverSpeedFactor = 4f;
-    public float hoverGravityFactor = 0.5f;
+    public float hoverSpeedFactor = 2f;
+    public float hoverGravityFactor = 0.75f;
     public float hoverJumpFactor = 1.5f;
     public float hoverTime;
     private DateTime startHoverTime;
