@@ -38,12 +38,12 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
-        foreach (Transform childTrans in allCollectables.transform)
+        foreach (Transform childTransf in allCollectables.transform)
         {
-            String tag = childTrans.gameObject.tag;
+            String tag = childTransf.gameObject.tag;
             if (tag == "Airball")
             {
-                collectables.Add(childTrans.gameObject);
+                collectables.Add(childTransf.gameObject);
             }
         }
     }
@@ -132,6 +132,10 @@ public class PlayerMovement : MonoBehaviour
             case "Respawn":
                 currState = State.Dead;
                 break;
+            case "Tornado":
+                Debug.Log("Player is hit by Tornado");
+                playerReceiver.TakeDamage(10);
+                break;
             default:
                 break;
         }
@@ -147,7 +151,6 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Death Floor");
                 playerReceiver.TakeDamage(30);
                 break;
-
             default:
                 break;
         }
