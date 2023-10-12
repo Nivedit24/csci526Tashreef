@@ -25,8 +25,12 @@ public class PlayerMovement : MonoBehaviour
     private CheckPoint checkPoint;
     public static State currState;
     public DamageReceiver playerReceiver;
+    public bool isHovering = false;
 
     public static bool analytics01Enabled = false;
+
+    [SerializeField] private GameObject allCollectables;
+    [SerializeField] private List<GameObject> collectables;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,14 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
+        foreach (Transform childTrans in allCollectables.transform)
+        {
+            String tag = childTrans.gameObject.tag;
+            if (tag == "Airball")
+            {
+                collectables.Add(childTrans.gameObject);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -55,7 +67,12 @@ public class PlayerMovement : MonoBehaviour
         switch (currState)
         {
             case State.Dead:
+                if (isHovering)
+                {
+                    DismountAirBall();
+                }
                 player.transform.position = checkPoint.position;
+                ResetAllCollectables();
                 currState = State.Normal;
                 return;
             case State.Normal:
@@ -65,12 +82,21 @@ public class PlayerMovement : MonoBehaviour
                 if (span.TotalSeconds > hoverTime)
                 {
                     DismountAirBall();
+                    currState = State.Normal;
                 }
                 break;
             default:
                 return;
         }
 
+    }
+
+    private void ResetAllCollectables()
+    {
+        foreach (var obj in collectables)
+        {
+            obj.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -89,8 +115,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        var player = gameObject;
-        var other = collision.gameObject;
         switch (collision.gameObject.tag)
         {
             case "Airball":
@@ -101,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    Destroy(collision.gameObject.transform.parent.gameObject);
+                    collision.gameObject.SetActive(false);
                     startHoverTime = DateTime.UtcNow;
                 }
                 break;
@@ -121,7 +145,6 @@ public class PlayerMovement : MonoBehaviour
         {
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                //currState = State.Dead;
                 playerReceiver.TakeDamage(30);
                 break;
 
@@ -131,22 +154,20 @@ public class PlayerMovement : MonoBehaviour
     }
     void HoverOnAirBall(Collision2D collision)
     {
-        collision.gameObject.tag = "none";
-        GameObject sphereParent = collision.gameObject.transform.parent.gameObject;
-        sphereParent.transform.SetParent(transform);
-        sphereParent.transform.localPosition = new Vector3(0f, -1.46f, 0f);
         Transform playerBody = transform.Find("Body");
-        sphereParent.name = "HoverBall";
-        sphereParent.GetComponent<RotateAir>().startRotate = true;
+        Transform hiddenHoverball = transform.Find("HoverBall");
+        hiddenHoverball.gameObject.SetActive(true);
+        hiddenHoverball.GetComponent<RotateAir>().startRotate = true;
         Vector3 bodyPosition = playerBody.localPosition;
-        bodyPosition.y += sphereParent.transform.localScale.y;
+        bodyPosition.y += hiddenHoverball.transform.localScale.y;
         playerBody.localPosition = bodyPosition;
         speed *= hoverSpeedFactor;
         jumpSpeed *= hoverJumpFactor;
         transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
         currState = State.Hover;
+        isHovering = true;
         startHoverTime = DateTime.UtcNow;
-        Destroy(collision.gameObject);
+        collision.gameObject.SetActive(false);
     }
 
     void DismountAirBall()
@@ -155,12 +176,12 @@ public class PlayerMovement : MonoBehaviour
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
         bodyPosition.y -= hoverBall.transform.localScale.y;
-        Destroy(hoverBall.gameObject);
+        hoverBall.gameObject.SetActive(false);
         playerBody.localPosition = bodyPosition;
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
-        currState = State.Normal;
+        isHovering = false;
     }
 
     public void KillPlayer()
