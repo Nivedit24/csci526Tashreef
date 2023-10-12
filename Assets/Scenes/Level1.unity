@@ -1183,6 +1183,10 @@ PrefabInstance:
       propertyPath: playerReceiver
       value: 
       objectReference: {fileID: 1026068209}
+    - target: {fileID: 4916174570500887630, guid: 8819039ded2809a478e0f7733824541d, type: 3}
+      propertyPath: groundCheckRadius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7139090081403728304, guid: 8819039ded2809a478e0f7733824541d, type: 3}
       propertyPath: healthBar
       value: 

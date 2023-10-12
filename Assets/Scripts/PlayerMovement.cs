@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
     private Rigidbody2D player;
-    public float groundCheckRadius;
+    public float groundCheckRadius = 5.0f;
     public LayerMask groundLayer;
     private bool isTouchingGround;
     public float hoverSpeedFactor = 2f;
@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-    
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         var player = gameObject;
@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-    
+
     void OnCollisionStay2D(Collision2D collision)
     {
         var player = gameObject;
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
                 //currState = State.Dead;
                 playerReceiver.TakeDamage(30);
                 break;
-            
+
             default:
                 break;
         }
