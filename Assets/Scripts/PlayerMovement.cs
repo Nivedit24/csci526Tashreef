@@ -154,7 +154,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void HoverOnAirBall(Collision2D collision)
     {
-        collision.gameObject.tag = "none";
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
         hiddenHoverball.gameObject.SetActive(true);
