@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
     private Rigidbody2D player;
-    public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
@@ -24,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private DateTime startHoverTime;
 
     private CheckPoint checkPoint;
-    private State currState;
+    public static State currState;
+    public DamageReceiver playerReceiver;
 
     public static bool analytics01Enabled = false;
 
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
         direction = Input.GetAxis("Horizontal");
 
         if (canMove)
@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
             default:
                 return;
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -85,17 +86,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
         var player = gameObject;
         var other = collision.gameObject;
         switch (collision.gameObject.tag)
         {
-            case "DeathFloor":
-                Debug.Log("Player is hit by Death Floor");
-                currState = State.Dead;
-                break;
             case "Airball":
                 Debug.Log("Collision with hover ball");
                 if (currState != State.Hover)
@@ -108,11 +105,30 @@ public class PlayerMovement : MonoBehaviour
                     startHoverTime = DateTime.UtcNow;
                 }
                 break;
+            case "Respawn":
+                currState = State.Dead;
+                break;
             default:
                 break;
         }
     }
-
+    
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        var player = gameObject;
+        var other = collision.gameObject;
+        switch (collision.gameObject.tag)
+        {
+            case "DeathFloor":
+                Debug.Log("Player is hit by Death Floor");
+                //currState = State.Dead;
+                playerReceiver.TakeDamage(30);
+                break;
+            
+            default:
+                break;
+        }
+    }
     void HoverOnAirBall(Collision2D collision)
     {
         collision.gameObject.tag = "none";
@@ -146,6 +162,11 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         currState = State.Normal;
     }
+
+    public void KillPlayer()
+    {
+        currState = State.Dead;
+    }
 }
 
 internal class CheckPoint
@@ -165,7 +186,7 @@ internal class CheckPoint
     }
 }
 
-internal enum State
+public enum State
 {
     Normal, Hover, Dead, Gone
 }
