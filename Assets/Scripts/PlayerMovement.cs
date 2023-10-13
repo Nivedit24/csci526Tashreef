@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
-        transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
+        transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
     }
 
