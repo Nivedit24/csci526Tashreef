@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isHovering = false;
 
     public static bool analytics01Enabled = false;
+    public string gameOverSceneName = "GameOverScene";
 
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private List<GameObject> collectables;
@@ -136,6 +137,12 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Tornado");
                 playerReceiver.TakeDamage(10);
                 break;
+
+            case "Square":
+                 Debug.Log("Mel Success");
+                 SceneManager.LoadScene(gameOverSceneName);
+                 break;
+
             default:
                 break;
         }
