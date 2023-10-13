@@ -142,6 +142,10 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Tornado");
                 playerReceiver.TakeDamage(10);
                 break;
+            case "lightning":
+                Debug.Log("Struck by Lightning");
+                playerReceiver.TakeDamage(50);
+                break;
             default:
                 break;
         }
