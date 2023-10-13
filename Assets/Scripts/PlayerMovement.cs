@@ -15,10 +15,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D player;
     public float groundCheckRadius = 5.0f;
     public LayerMask groundLayer;
+    public float cloudCheckRadius = 5.0f;
+    public LayerMask cloudLayer;
     private bool isTouchingGround;
+    private bool isInsideCloud;
     public float hoverSpeedFactor = 2f;
     public float hoverGravityFactor = 0.75f;
-    public float hoverJumpFactor = 1.5f;
+    public float hoverJumpFactor = 0.5f;
+    public float hoverMassFactor = 0.2f;
     public float hoverTime;
     private DateTime startHoverTime;
 
@@ -52,13 +56,15 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
+        isInsideCloud = Physics2D.OverlapCircle(player.position, cloudCheckRadius, cloudLayer);
+
         direction = Input.GetAxis("Horizontal");
 
         if (canMove)
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
 
-            if (Input.GetButtonDown("Jump") && isTouchingGround)
+            if (Input.GetButtonDown("Jump") && (isTouchingGround || (isHovering && isInsideCloud)))
             {
                 player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
             }
@@ -167,6 +173,8 @@ public class PlayerMovement : MonoBehaviour
         speed *= hoverSpeedFactor;
         jumpSpeed *= hoverJumpFactor;
         transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
+        transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
+        transform.gameObject.layer = LayerMask.NameToLayer("HoverballLayer");
         currState = State.Hover;
         isHovering = true;
         startHoverTime = DateTime.UtcNow;
@@ -178,12 +186,14 @@ public class PlayerMovement : MonoBehaviour
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
+        transform.gameObject.layer = LayerMask.NameToLayer("Default");
         bodyPosition.y -= hoverBall.transform.localScale.y;
         hoverBall.gameObject.SetActive(false);
         playerBody.localPosition = bodyPosition;
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
+        transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
         isHovering = false;
     }
 
