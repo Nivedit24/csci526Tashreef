@@ -150,17 +150,9 @@ public class PlayerMovement : MonoBehaviour
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
-            default:
+            case "LightningCloud":
+                Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        var player = gameObject;
-        var other = collision.gameObject;
-        switch (collision.gameObject.tag)
-        {
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
                 playerReceiver.TakeDamage(30);
@@ -169,6 +161,21 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
+
+    //void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    var player = gameObject;
+    //    var other = collision.gameObject;
+    //    switch (collision.gameObject.tag)
+    //    {
+    //        case "DeathFloor":
+    //            Debug.Log("Player is hit by Death Floor");
+    //            playerReceiver.TakeDamage(30);
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
     void HoverOnAirBall(Collision2D collision)
     {
         Transform playerBody = transform.Find("Body");
