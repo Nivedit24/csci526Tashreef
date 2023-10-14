@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
                 if (span.TotalSeconds > hoverTime)
                 {
                     DismountAirBall();
+                    ResetAllCollectables();
                     currState = State.Normal;
                 }
                 break;
