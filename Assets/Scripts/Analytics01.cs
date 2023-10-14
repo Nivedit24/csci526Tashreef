@@ -20,7 +20,7 @@ public class Analytics01 : MonoBehaviour
         URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScRQv83I1oLYwYwnpucIUAv5anjT6hIB-HTqILrXkoFefMnrw/formResponse";
     }
 
-    public void Send(string checkpointName, float timeTaken,string levelName,long sessionId)
+    public void Send(string checkpointName, double timeTaken,string levelName,long sessionId)
     {
         // Debug.Log("SEND is called");
         if (PlayerMovement.analytics01Enabled==false){
@@ -31,14 +31,15 @@ public class Analytics01 : MonoBehaviour
         // Debug.Log(timeTaken);
         sessionIdGlobal=sessionId;
 
-        if (timeTaken==0){
-            return;
-        }
+        // if (timeTaken==0){
+        //     return;
+        // }
+
         checkpointNameGlobal = checkpointName;
         testInt = UnityEngine.Random.Range(0, 101);
         
         
-        levelNameGlobal=levelName;
+        levelNameGlobal=levelName;// Here level name is number of times player became dead
         
         //Debug.Log("SEND CO-routine is called");
         StartCoroutine(Post(sessionId.ToString(), checkpointName, timeTaken.ToString(), checkpointName, levelName));
