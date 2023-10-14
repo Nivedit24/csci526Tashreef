@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
 
+    private DateTime startGameTime;
+
     //public static bool analytics01Enabled = false;
     public static bool analytics01Enabled = true;
 
@@ -49,9 +51,10 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
+        
         deadCounter = 0;
-
         sessionID = DateTime.Now.Ticks;
+        startGameTime = DateTime.Now;
 
         foreach (Transform childTransf in allCollectables.transform)
         {
@@ -89,11 +92,12 @@ public class PlayerMovement : MonoBehaviour
                     DismountAirBall();
                 }
 
-                Debug.Log("Player entered dead state");
+                //Debug.Log("Player entered dead state");
                 deadCounter++;
+                TimeSpan gameTime = DateTime.Now - startGameTime;
                 
                 Analytics01 ob = gameObject.AddComponent<Analytics01>();
-                ob.Send("Level1", 1, deadCounter.ToString(), sessionID);
+                ob.Send("Level1", gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
 
                 player.transform.position = checkPoint.position;
                 ResetAllCollectables();
