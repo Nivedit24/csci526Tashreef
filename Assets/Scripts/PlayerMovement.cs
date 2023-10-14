@@ -40,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
     //public static bool analytics01Enabled = false;
     public static bool analytics01Enabled = true;
 
+    //public static bool analytics02Enabled = false;
+    public static bool analytics02Enabled = true;
+
     public string gameOverSceneName = "GameOverScene";
 
     [SerializeField] private GameObject allCollectables;
@@ -96,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
                 
-                Analytics01 ob = gameObject.AddComponent<Analytics01>();
+                Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
                 ob.Send("Level1", gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
 
                 player.transform.position = checkPoint.position;

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 
-public class Analytics01 : MonoBehaviour
+public class Analytics01DeadTime : MonoBehaviour
 {
     private string URL;
     private long sessionIdGlobal;
