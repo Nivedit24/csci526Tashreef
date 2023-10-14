@@ -39,7 +39,6 @@ public class blackLighningCloud : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Colliding with left limit");
         if(collision.gameObject.tag == "cloudDirectionChanger")
         {
             movingRight = !movingRight;
