@@ -145,7 +145,10 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                playerReceiver.TakeDamage(50);
+                playerReceiver.TakeDamage(25);
+                break;
+            case "cloudDirectionChanger":
+                Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
             default:
                 break;
