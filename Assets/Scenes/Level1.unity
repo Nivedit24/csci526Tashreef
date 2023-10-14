@@ -1514,11 +1514,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2491556320118585248, guid: 8819039ded2809a478e0f7733824541d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 351.6432
+      value: 301.43
       objectReference: {fileID: 0}
     - target: {fileID: 2491556320118585248, guid: 8819039ded2809a478e0f7733824541d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.46188
+      value: 11.49
       objectReference: {fileID: 0}
     - target: {fileID: 2491556320118585248, guid: 8819039ded2809a478e0f7733824541d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1552,6 +1552,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2491556320118585251, guid: 8819039ded2809a478e0f7733824541d, type: 3}
+      propertyPath: allCollectables
+      value: 
+      objectReference: {fileID: 1471420532}
     - target: {fileID: 2491556320118585252, guid: 8819039ded2809a478e0f7733824541d, type: 3}
       propertyPath: healthBar
       value: 
