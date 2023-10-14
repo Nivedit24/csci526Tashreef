@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.UI;
+using System.Threading;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -25,13 +27,17 @@ public class PlayerMovement : MonoBehaviour
     public float hoverMassFactor = 0.2f;
     public float hoverTime;
     private DateTime startHoverTime;
+    private long sessionID;
+    private long deadCounter;
 
     private CheckPoint checkPoint;
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
 
-    public static bool analytics01Enabled = false;
+    //public static bool analytics01Enabled = false;
+    public static bool analytics01Enabled = true;
+
     public string gameOverSceneName = "GameOverScene";
 
     [SerializeField] private GameObject allCollectables;
@@ -43,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
+        deadCounter = 0;
+
+        sessionID = DateTime.Now.Ticks;
+
         foreach (Transform childTransf in allCollectables.transform)
         {
             String tag = childTransf.gameObject.tag;
@@ -78,9 +88,17 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DismountAirBall();
                 }
+
+                Debug.Log("Player entered dead state");
+                deadCounter++;
+                
+                Analytics01 ob = gameObject.AddComponent<Analytics01>();
+                ob.Send("Level1", 1, deadCounter.ToString(), sessionID);
+
                 player.transform.position = checkPoint.position;
                 ResetAllCollectables();
                 currState = State.Normal;
+
                 return;
             case State.Normal:
                 break;
