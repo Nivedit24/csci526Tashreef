@@ -1,50 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.Networking;
 
 public class Analytics01 : MonoBehaviour
 {
     private string URL;
-    private long sessionId;
+    private long sessionIdGlobal;
     private int testInt;
     
-    private string checkpointName; // Look into this? the accessibility
-    private string levelName;
+    private string checkpointNameGlobal; 
+    private string levelNameGlobal;
     private float timeTaken;
 
     private void Awake()
     {
-        //sessionId = DateTime.Now.Ticks;
+        sessionIdGlobal = DateTime.Now.Ticks;
         URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScRQv83I1oLYwYwnpucIUAv5anjT6hIB-HTqILrXkoFefMnrw/formResponse";
     }
 
     public void Send(string checkpointName, float timeTaken,string levelName,long sessionId)
     {
-
+        // Debug.Log("SEND is called");
         if (PlayerMovement.analytics01Enabled==false){
             return;
         }
 
-        Debug.Log(checkpointName);
-        Debug.Log(timeTaken);
-        sessionId=sessionId;
+        // Debug.Log(checkpointName);
+        // Debug.Log(timeTaken);
+        sessionIdGlobal=sessionId;
 
         if (timeTaken==0){
             return;
         }
-        checkpointName = checkpointName;
+        checkpointNameGlobal = checkpointName;
         testInt = UnityEngine.Random.Range(0, 101);
         
         
-        levelName=levelName;
-
+        levelNameGlobal=levelName;
+        
+        //Debug.Log("SEND CO-routine is called");
         StartCoroutine(Post(sessionId.ToString(), checkpointName, timeTaken.ToString(), checkpointName, levelName));
     }
 
     private IEnumerator Post(string sessionID, string testInt, string checkpointName, string timeTaken, string levelName)
     {
         // Create the form and enter responses
+        //Debug.Log("FORMS is being is called");
         WWWForm form = new WWWForm();
         form.AddField("entry.1383666950", sessionID);
         form.AddField("entry.360401964", testInt);
@@ -67,7 +70,7 @@ public class Analytics01 : MonoBehaviour
         }
         else
         {
-            Debug.Log("Form upload complete!");
+            Debug.Log("Forms upload complete!");
         }
 
         www.Dispose();
