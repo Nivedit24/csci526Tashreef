@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
     private Rigidbody2D player;
-    public float groundCheckRadius = 5.0f;
+    public float groundCheckRadius = 2.5f;
     public LayerMask groundLayer;
     public float cloudCheckRadius = 5.0f;
     public LayerMask cloudLayer;
@@ -164,6 +164,13 @@ public class PlayerMovement : MonoBehaviour
             case "Tornado":
                 Debug.Log("Player is hit by Tornado");
                 playerReceiver.TakeDamage(10);
+                break;
+            case "lightning":
+                Debug.Log("Struck by Lightning");
+                playerReceiver.TakeDamage(25);
+                break;
+            case "cloudDirectionChanger":
+                Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
             default:
                 break;
