@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
     private Rigidbody2D player;
-    public float groundCheckRadius = 5.0f;
+    public float groundCheckRadius = 2.5f;
     public LayerMask groundLayer;
     public float cloudCheckRadius = 5.0f;
     public LayerMask cloudLayer;
