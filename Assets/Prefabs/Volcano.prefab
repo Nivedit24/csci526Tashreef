@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 7348178159349720404}
   - component: {fileID: 7348178159349720407}
   - component: {fileID: 7348178159349720406}
-  - component: {fileID: 6348045086274704925}
+  - component: {fileID: -7248004588436004572}
   m_Layer: 0
   m_Name: Volcano
   m_TagString: Untagged
@@ -168,8 +168,8 @@ MonoBehaviour:
   launchInterval: 3
   projectilesPerLaunch: 2
   projectileSpeed: 6
---- !u!61 &6348045086274704925
-BoxCollider2D:
+--- !u!60 &-7248004588436004572
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -191,6 +191,45 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 6, y: 2.35}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 2.85, y: -1.0849999}
+      - {x: 2.49, y: -0.935}
+      - {x: 2.47, y: -0.935}
+      - {x: 2.22, y: -0.79499996}
+      - {x: 2.08, y: -0.715}
+      - {x: 1.81, y: -0.53499997}
+      - {x: 1.5, y: -0.295}
+      - {x: 1.41, y: -0.21499999}
+      - {x: 1.4, y: -0.21499999}
+      - {x: 0.96999997, y: 0.21499999}
+      - {x: 0.96999997, y: 0.225}
+      - {x: 0.77, y: 0.45499998}
+      - {x: 0.58, y: 0.675}
+      - {x: 0.16, y: 1.175}
+      - {x: 0.099999994, y: 1.175}
+      - {x: -0.04, y: 1.055}
+      - {x: -0.07, y: 1.0849999}
+      - {x: -0.11, y: 1.0849999}
+      - {x: -0.32, y: 1.135}
+      - {x: -0.34, y: 1.165}
+      - {x: -0.38, y: 1.175}
+      - {x: -0.52, y: 0.995}
+      - {x: -0.62, y: 0.84499997}
+      - {x: -0.68, y: 0.765}
+      - {x: -0.87, y: 0.525}
+      - {x: -1, y: 0.385}
+      - {x: -1.09, y: 0.265}
+      - {x: -1.09, y: 0.255}
+      - {x: -1.41, y: -0.065}
+      - {x: -1.42, y: -0.065}
+      - {x: -1.79, y: -0.375}
+      - {x: -2.1599998, y: -0.635}
+      - {x: -2.46, y: -0.815}
+      - {x: -2.85, y: -1.045}
+      - {x: -2.99, y: -1.125}
+      - {x: -3, y: -1.145}
+      - {x: -3, y: -1.175}
+      - {x: 3, y: -1.175}
+      - {x: 3, y: -1.145}
+      - {x: 2.9399998, y: -1.105}
