@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class FireProjectile : MonoBehaviour
+{
+    // Start is called before the first frame update
+    public GameObject fireballPrefab;
+    public Transform launchPointRight;
+    public Transform launchPointLeft;
+    public float shootTime = 3.0f;
+    public float totalFireballs = 5;
+    public float remainingFireballs = 5;
+    public PlayerMovement playerMovement;
+    public TextMeshProUGUI fireballsText;
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && shootTime <= 0 && playerMovement.faceRight)
+        {
+            Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation);
+            shootTime = 3;
+            remainingFireballs -= 1;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift) && shootTime <= 0 && !playerMovement.faceRight)
+        {
+            Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation);
+            shootTime = 3;
+            remainingFireballs -= 1;
+        }
+        shootTime -= Time.deltaTime;
+
+        if (remainingFireballs <= 0)
+        {
+            remainingFireballs = 5;
+            totalFireballs = 5;
+            fireballsText.enabled = false;
+            enabled = false;
+        }
+        updateUI();
+    }
+
+    public void collectFireballs()
+    {
+        remainingFireballs += 5;
+        totalFireballs += 5;
+        updateUI();
+    }
+
+    public void updateUI()
+    {
+        fireballsText.text = "Fireballs:" + $"{remainingFireballs}/{totalFireballs}";
+    }
+}

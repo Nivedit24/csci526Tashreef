@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 20f;
     public float jumpSpeed = 8f;
     private float direction = 0f;
-
+    public bool faceRight = true;
     public bool canMove = true;
     private Rigidbody2D player;
     public float groundCheckRadius = 2.5f;
@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
-
+    public FireProjectile fireProjectile;
     public static bool analytics01Enabled = false;
     public string gameOverSceneName = "GameOverScene";
 
@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
+        fireProjectile.enabled = false;
         foreach (Transform childTransf in allCollectables.transform)
         {
             String tag = childTransf.gameObject.tag;
@@ -68,6 +69,14 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (direction < 0)
+        {
+            faceRight = false;
+        }
+        else if (direction > 0)
+        {
+            faceRight = true;
+        }
         switch (currState)
         {
             case State.Dead:
@@ -148,6 +157,27 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "LightningCloud":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+                break;
+            case "Demon":
+                Debug.Log("Hit by demon");
+                playerReceiver.TakeDamage(20);
+                break;
+            case "Fireball":
+                if (!fireProjectile.enabled)
+                {
+                    fireProjectile.enabled = true;
+                    fireProjectile.fireballsText.enabled = true;
+                    collision.gameObject.SetActive(false);
+                }
+                else
+                {
+                    fireProjectile.collectFireballs();
+                    collision.gameObject.SetActive(false);
+                }
+                break;
+            case "VolcanoBall":
+                Debug.Log("Hit by volcanoBall");
+                playerReceiver.TakeDamage(20);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
