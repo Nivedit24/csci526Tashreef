@@ -17,8 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D player;
     public float groundCheckRadius = 2.5f;
     public LayerMask groundLayer;
-    public float cloudCheckRadius = 5.0f;
-    public LayerMask cloudLayer;
     private bool isTouchingGround;
     private bool isInsideCloud;
     public float hoverSpeedFactor = 2f;
@@ -76,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
-        isInsideCloud = Physics2D.OverlapCircle(player.position, cloudCheckRadius, cloudLayer);
 
         direction = Input.GetAxis("Horizontal");
 
@@ -84,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
 
-            if (Input.GetButtonDown("Jump") && (isTouchingGround || (isHovering && isInsideCloud)))
+            if (Input.GetButtonDown("Jump") && isTouchingGround)
             {
                 player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
             }
@@ -107,7 +104,6 @@ public class PlayerMovement : MonoBehaviour
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
 
                 player.transform.position = checkPoint.position;
-                ResetAllCollectables();
                 currState = State.Normal;
 
                 return;
@@ -118,7 +114,6 @@ public class PlayerMovement : MonoBehaviour
                 if (span.TotalSeconds > hoverTime)
                 {
                     DismountAirBall();
-                    ResetAllCollectables();
                     currState = State.Normal;
                 }
                 break;
@@ -184,17 +179,9 @@ public class PlayerMovement : MonoBehaviour
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
-            default:
+            case "LightningCloud":
+                Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        var player = gameObject;
-        var other = collision.gameObject;
-        switch (collision.gameObject.tag)
-        {
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
                 playerReceiver.TakeDamage(30);
@@ -203,6 +190,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
+
     void HoverOnAirBall(Collision2D collision)
     {
         Transform playerBody = transform.Find("Body");
@@ -237,6 +225,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
+        ResetAllCollectables();
     }
 
     public void KillPlayer()
