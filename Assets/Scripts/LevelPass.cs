@@ -19,6 +19,10 @@ public class LevelPass : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().buildIndex <= 3)
             {
+                //Add Checkpoint Analytics Code
+                PlayerMovement pm = gameObject.AddComponent<PlayerMovement>();
+                pm.callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }

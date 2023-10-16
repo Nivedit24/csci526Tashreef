@@ -12,15 +12,16 @@ public class Analytics02CheckPointTime : MonoBehaviour
     
     private string checkpointNameGlobal; 
     private string levelNameGlobal;
-    private float timeTaken;
+    private float timeTakenCheckPoint;
+    private float timeTakenTotal;
 
     private void Awake()
     {
         sessionIdGlobal = DateTime.Now.Ticks;
-        URL = "";
+        URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSf52CGJmwp3H7iw9Cef0rCYPyyP5X946Uk5F0FPwhptj5OTcQ/formResponse";
     }
 
-    public void Send(string checkpointName, double timeTaken,string levelName,long sessionId)
+    public void Send(long sessionId, string checkpointName, string levelName, double timeTakenCheckPoint, double timeTakenTotal, long totalAttempts)
     {
         // Debug.Log("SEND is called");
         if (PlayerMovement.analytics02Enabled==false){
@@ -29,7 +30,7 @@ public class Analytics02CheckPointTime : MonoBehaviour
 
         // Debug.Log(checkpointName);
         // Debug.Log(timeTaken);
-        sessionIdGlobal=sessionId;
+        sessionIdGlobal = sessionId;
 
         // if (timeTaken==0){
         //     return;
@@ -39,24 +40,23 @@ public class Analytics02CheckPointTime : MonoBehaviour
         testInt = UnityEngine.Random.Range(0, 101);
         
         
-        levelNameGlobal=levelName;// Here level name is number of times player became dead
+        levelNameGlobal = levelName;
         
         //Debug.Log("SEND CO-routine is called");
-        StartCoroutine(Post(sessionId.ToString(), checkpointName, timeTaken.ToString(), checkpointName, levelName));
+        StartCoroutine(Post(sessionId.ToString(), checkpointName, levelName, timeTakenCheckPoint.ToString(), timeTakenTotal.ToString(), totalAttempts.ToString()));
     }
 
-    private IEnumerator Post(string sessionID, string testInt, string checkpointName, string timeTaken, string levelName)
+    private IEnumerator Post(string sessionID, string checkpointName, string levelName, string timeTakenCheckPoint, string timeTakenTotal, string totalAttempts)
     {
         // Create the form and enter responses
         //Debug.Log("FORMS is being is called");
         WWWForm form = new WWWForm();
-        form.AddField("entry.1383666950", sessionID);
-        form.AddField("entry.360401964", testInt);
-        
-        
-        form.AddField("entry.1650855500", checkpointName);
-        form.AddField("entry.953686723", timeTaken);
-        form.AddField("entry.1294741655", levelName);
+        form.AddField("entry.145303953", sessionID);
+        form.AddField("entry.215474747", checkpointName);
+        form.AddField("entry.909676238", levelName);
+        form.AddField("entry.1102669765", timeTakenCheckPoint);
+        form.AddField("entry.1195121878", timeTakenTotal);
+        form.AddField("entry.1557255540", totalAttempts);
         
         
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
@@ -71,7 +71,7 @@ public class Analytics02CheckPointTime : MonoBehaviour
         }
         else
         {
-            Debug.Log("Forms upload complete!");
+            Debug.Log("Forms2 upload complete!");
         }
 
         www.Dispose();
