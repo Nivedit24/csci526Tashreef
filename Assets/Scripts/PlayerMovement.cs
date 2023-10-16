@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.UI;
 using System.Threading;
-
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
-
+    
     private DateTime startGameTime, lastCheckPointTime;
 
     public static bool analytics01Enabled = false;
@@ -44,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
     public string gameOverSceneName = "GameOverScene";
 
+    
+    public TMP_Text displayText;
+    [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private List<GameObject> collectables;
 
@@ -145,16 +148,25 @@ public class PlayerMovement : MonoBehaviour
 
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
+                if (instructions.Contains(other.gameObject))
+                {
+                    DisplayText("Collect stars to checkpoint your progress");
+                }
                 break;
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        
         switch (collision.gameObject.tag)
         {
             case "Airball":
                 Debug.Log("Collision with hover ball");
+                if (instructions.Contains(collision.gameObject))
+                {
+                    DisplayText("Collect airballs to hover through clouds and move more swiftly");
+                }
                 if (currState != State.Hover)
                 {
                     HoverOnAirBall(collision);
@@ -196,6 +208,17 @@ public class PlayerMovement : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void DisplayText(string message)
+    {
+        displayText.text = message;
+        Invoke("HideTextAfterDelay", 3f);
+    }
+
+    void HideTextAfterDelay()
+    {
+        displayText.text = "";
     }
 
     void HoverOnAirBall(Collision2D collision)
@@ -278,6 +301,8 @@ public class PlayerMovement : MonoBehaviour
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 
+
+    
 }
 
 internal class CheckPoint
