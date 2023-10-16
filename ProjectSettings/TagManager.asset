@@ -14,6 +14,8 @@ TagManager:
   - Square
   - cloudDirectionChanger
   - lightning
+  - LightningCloud
+  - Goal
   layers:
   - Default
   - TransparentFX

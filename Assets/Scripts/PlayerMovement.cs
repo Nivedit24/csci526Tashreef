@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.UI;
+using System.Threading;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,13 +25,23 @@ public class PlayerMovement : MonoBehaviour
     public float hoverMassFactor = 0.2f;
     public float hoverTime;
     private DateTime startHoverTime;
+    private long sessionID;
+    private long deadCounter;
+    private int levelName;
 
     private CheckPoint checkPoint;
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
 
+    private DateTime startGameTime, lastCheckPointTime;
+
     public static bool analytics01Enabled = false;
+    //public static bool analytics02Enabled = false;
+
+    //public static bool analytics01Enabled = true;
+    public static bool analytics02Enabled = true;
+
     public string gameOverSceneName = "GameOverScene";
 
     [SerializeField] private GameObject allCollectables;
@@ -41,6 +53,13 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
+
+        // For analytics
+        deadCounter = 0;
+        sessionID = DateTime.Now.Ticks;
+        startGameTime = DateTime.Now;
+        lastCheckPointTime = DateTime.Now;
+
         foreach (Transform childTransf in allCollectables.transform)
         {
             String tag = childTransf.gameObject.tag;
@@ -75,8 +94,18 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DismountAirBall();
                 }
+
+                //Add DeadTime Analytics Code
+                //Debug.Log("Player entered dead state");
+                deadCounter++;
+                TimeSpan gameTime = DateTime.Now - startGameTime;
+                Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
+                levelName = SceneManager.GetActiveScene().buildIndex;
+                ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
+
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
+
                 return;
             case State.Normal:
                 break;
@@ -110,6 +139,10 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player reach the CheckPoint");
                 Debug.Log("transform is : ", transform);
                 Debug.Log("Checkpoint is " + checkPoint.position);
+
+                //Add Checkpoint Analytics Code
+                callCheckPointTimeAnalytics(other);
+
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
                 break;
@@ -152,6 +185,13 @@ public class PlayerMovement : MonoBehaviour
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
                 playerReceiver.TakeDamage(30);
+                break;
+            case "Goal":
+                if (SceneManager.GetActiveScene().buildIndex <= 3)
+                {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
                 break;
             default:
                 break;
@@ -199,6 +239,45 @@ public class PlayerMovement : MonoBehaviour
     {
         currState = State.Dead;
     }
+
+    // private void Awake()
+    // {
+    //     sessionID = 
+    // }
+
+    public void callCheckPointTimeAnalyticsLevelChange(int levelName)
+    {
+        TimeSpan gameTime = DateTime.Now - startGameTime;
+
+
+        TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
+        lastCheckPointTime = DateTime.Now;
+
+        Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
+        //levelName = SceneManager.GetActiveScene().buildIndex;
+        print("forms2 startGameTime: " + startGameTime);
+        print("forms2 sessionid: " + sessionID);
+        print("forms2 checkPointDelta: " + checkPointDelta.TotalSeconds);
+        print("forms2 : gameTime" + gameTime.TotalSeconds);
+        ob2.Send(sessionID, "Level Crossed", levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+    }
+
+    public void callCheckPointTimeAnalytics(Collider2D other)
+    {
+        TimeSpan gameTime = DateTime.Now - startGameTime;
+        TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
+        lastCheckPointTime = DateTime.Now;
+
+        Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
+        levelName = SceneManager.GetActiveScene().buildIndex;
+        // string checkpointName = other.gameObject.tag;
+        // string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString();
+
+        string checkpointName = other.gameObject.name;
+        string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString(); ;
+        ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+    }
+
 }
 
 internal class CheckPoint
