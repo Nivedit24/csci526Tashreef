@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
-        
+
         // For analytics
         deadCounter = 0;
         sessionID = DateTime.Now.Ticks;
@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
-                
+
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
                 break;
@@ -185,6 +185,13 @@ public class PlayerMovement : MonoBehaviour
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
                 playerReceiver.TakeDamage(30);
+                break;
+            case "Goal":
+                if (SceneManager.GetActiveScene().buildIndex <= 3)
+                {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
                 break;
             default:
                 break;
@@ -241,17 +248,17 @@ public class PlayerMovement : MonoBehaviour
     public void callCheckPointTimeAnalyticsLevelChange(int levelName)
     {
         TimeSpan gameTime = DateTime.Now - startGameTime;
-        
+
 
         TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
         lastCheckPointTime = DateTime.Now;
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
         //levelName = SceneManager.GetActiveScene().buildIndex;
-        print("forms2 startGameTime: "+ startGameTime);
-        print("forms2 sessionid: "+ sessionID);
-        print("forms2 checkPointDelta: "+ checkPointDelta.TotalSeconds);
-        print("forms2 : gameTime"+ gameTime.TotalSeconds);
+        print("forms2 startGameTime: " + startGameTime);
+        print("forms2 sessionid: " + sessionID);
+        print("forms2 checkPointDelta: " + checkPointDelta.TotalSeconds);
+        print("forms2 : gameTime" + gameTime.TotalSeconds);
         ob2.Send(sessionID, "Level Crossed", levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 
@@ -267,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
         // string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString();
 
         string checkpointName = other.gameObject.name;
-        string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString();;
+        string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString(); ;
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 
