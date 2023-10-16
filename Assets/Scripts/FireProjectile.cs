@@ -9,7 +9,7 @@ public class FireProjectile : MonoBehaviour
     public GameObject fireballPrefab;
     public Transform launchPointRight;
     public Transform launchPointLeft;
-    public float shootTime = 1.0f;
+    public float shootTime = 0.25f;
     public float totalFireballs = 5;
     public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
@@ -22,17 +22,13 @@ public class FireProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && shootTime <= 0 && playerMovement.faceRight)
-        {
-            Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation);
-            shootTime = 1;
-            remainingFireballs -= 1;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift) && shootTime <= 0 && !playerMovement.faceRight)
-        {
-            Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation);
-            shootTime = 1;
-            remainingFireballs -= 1;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && shootTime <= 0) { 
+            if (playerMovement.faceRight) 
+                Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation); 
+            else 
+                Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation); 
+            shootTime = 0.25f; 
+            remainingFireballs -= 1; 
         }
         shootTime -= Time.deltaTime;
 

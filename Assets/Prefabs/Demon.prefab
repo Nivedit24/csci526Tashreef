@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8897227186735170928}
   - component: {fileID: 2691060101585502997}
   - component: {fileID: 2419738407359874501}
-  - component: {fileID: -5807906302218523134}
+  - component: {fileID: 2037470836619824118}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Demon
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.5, y: 8.34}
   m_EdgeRadius: 0
---- !u!114 &-5807906302218523134
+--- !u!114 &2037470836619824118
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,9 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7559952329552335240}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e309968e998014abecdeac82bd314b, type: 3}
+  m_Script: {fileID: 11500000, guid: a2995dc2553e64acabee7bff8fd6ac5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  speed: 5
+  speed: 10
