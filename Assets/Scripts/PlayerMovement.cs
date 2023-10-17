@@ -52,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
-
         // For analytics
         deadCounter = 0;
         sessionID = DateTime.Now.Ticks;
