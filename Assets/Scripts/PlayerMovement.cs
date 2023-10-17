@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
-    
+
     private DateTime startGameTime, lastCheckPointTime;
 
     public static bool analytics01Enabled = false;
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     public string gameOverSceneName = "GameOverScene";
 
-    
+
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
@@ -150,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
                 other.gameObject.SetActive(false);
                 if (instructions.Contains(other.gameObject))
                 {
-                    DisplayText("Collect stars to checkpoint your progress");
+                    DisplayText("Collect stars to checkpoint your progress", other.gameObject);
                 }
                 break;
         }
@@ -158,14 +158,14 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        
+
         switch (collision.gameObject.tag)
         {
             case "Airball":
                 Debug.Log("Collision with hover ball");
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Collect airballs to hover through clouds and move more swiftly");
+                    DisplayText("Collect airballs to hover through clouds and move more swiftly", collision.gameObject);
                 }
                 if (currState != State.Hover)
                 {
@@ -210,10 +210,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void DisplayText(string message)
+    private void DisplayText(string message, GameObject obj)
     {
         displayText.text = message;
         Invoke("HideTextAfterDelay", 3f);
+        instructions.Remove(obj);
     }
 
     void HideTextAfterDelay()
@@ -302,7 +303,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    
+
 }
 
 internal class CheckPoint
