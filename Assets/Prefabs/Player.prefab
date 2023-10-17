@@ -227,7 +227,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fbc81756d23f9f541938446a2084459c, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -261,6 +261,8 @@ MonoBehaviour:
   isHovering: 0
   fireProjectile: {fileID: 0}
   gameOverSceneName: GameOverScene
+  displayText: {fileID: 0}
+  instructions: []
   allCollectables: {fileID: 0}
   collectables: []
 --- !u!114 &7223069435964574467
