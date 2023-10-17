@@ -9,6 +9,7 @@ public class MousePath : MonoBehaviour
     Vector3[] positions;
     int moveIndex;
     public float speed = 10f;
+    public Camera cam;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,7 @@ public class MousePath : MonoBehaviour
     {
         if( startMovement == true)
         {
+           
             Vector2 currentPos = positions[moveIndex];
             transform.position = Vector2.MoveTowards(transform.position, currentPos, speed*Time.deltaTime);
 
@@ -40,6 +42,7 @@ public class MousePath : MonoBehaviour
 
     private void OnMouseDown()
     {
+        cam.fieldOfView = cam.fieldOfView * 2;
         drawControl.StartLine(transform.position);
 
         
