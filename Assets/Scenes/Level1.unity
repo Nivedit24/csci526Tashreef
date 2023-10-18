@@ -3643,7 +3643,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9716981, g: 0.25117472, b: 0.25117472, a: 1}
+      key0: {r: 0.6118548, g: 0.9622642, b: 0.9559151, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3709,6 +3709,25 @@ MonoBehaviour:
   startMovement: 0
   speed: 50
   cam: {fileID: 519420031}
+  rb: {fileID: 0}
+--- !u!114 &1423674825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423674811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac038ced8debea4aa3a1633f0e2e840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineRenderer: {fileID: 1423674817}
+  targetPosition: {x: 0, y: 0, z: 0}
+  minimumDistanceToObstacle: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!4 &1444904215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4346566584955049410, guid: 155716bef68354797b3d6dc0bb62c7c4, type: 3}
