@@ -44,8 +44,9 @@ public class MousePath : MonoBehaviour
     {
         cam.fieldOfView = cam.fieldOfView * 2;
         drawControl.StartLine(transform.position);
+       
 
-        
+
     }
 
     private void OnMouseDrag()
@@ -61,6 +62,6 @@ public class MousePath : MonoBehaviour
         startMovement = true;
         moveIndex = 0;
 
-        
+
     }
 }
