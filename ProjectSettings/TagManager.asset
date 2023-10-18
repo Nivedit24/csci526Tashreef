@@ -11,6 +11,11 @@ TagManager:
   - Ground
   - Tornado
   - Edge
+  - Square
+  - cloudDirectionChanger
+  - lightning
+  - LightningCloud
+  - Goal
   layers:
   - Default
   - TransparentFX
@@ -19,7 +24,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Cloud
   - 
   - 
   - 
