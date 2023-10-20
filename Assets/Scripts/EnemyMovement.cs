@@ -5,9 +5,14 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float speed = 10f;
+    public GameObject projectilePrefab;
+    public Transform[] LaunchPoints;
     void Start()
     {
-
+        if (gameObject.tag == "Demon")
+        {
+            InvokeRepeating("LaunchProjectiles", 0f, 5.0f);
+        }
     }
 
     // Update is called once per frame
@@ -32,4 +37,17 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    void LaunchProjectiles()
+    {
+        //for (int i = 0; i < LaunchPoints.Length; i++)
+        if (speed >= 0)
+        {
+            Instantiate(projectilePrefab, LaunchPoints[0].position, LaunchPoints[0].rotation);
+        }
+        else
+        {
+            Instantiate(projectilePrefab, LaunchPoints[1].position, LaunchPoints[1].rotation);
+        }
+        
+    }
 }

@@ -19,6 +19,8 @@ TagManager:
   - Fireball
   - Demon
   - VolcanoBall
+  - DemonFireball
+  - PlayerFireball
   layers:
   - Default
   - TransparentFX

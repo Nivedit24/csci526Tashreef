@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class VolcanoController : MonoBehaviour
 {
-    public GameObject projectilePrefab; // Assign the projectile prefab in the Inspector
-    public Transform leftLaunchPoint;   // Left launch point
-    public Transform rightLaunchPoint;  // Right launch point
+    public GameObject projectilePrefab; 
+    public Transform[] LaunchPoints;  
     public float launchInterval = 5f;   // Time interval between each launch
-    public int projectilesPerLaunch = 2; // Number of projectiles to launch in each direction
-    public float projectileSpeed = 5f;   // Speed of the projectiles
+    public float projectileSpeed = 5f;  
 
     void Start()
     {
@@ -18,7 +16,7 @@ public class VolcanoController : MonoBehaviour
 
     void LaunchProjectiles()
     {    
-        Instantiate(projectilePrefab, leftLaunchPoint.position, leftLaunchPoint.rotation);
-        Instantiate(projectilePrefab, rightLaunchPoint.position, rightLaunchPoint.rotation);
+        for(int i=0;i<LaunchPoints.Length;i++)
+            Instantiate(projectilePrefab, LaunchPoints[i].position, LaunchPoints[i].rotation);
     }
 }

@@ -26,6 +26,13 @@ public class VolcanoProjectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        if (collision.gameObject.CompareTag("VolcanoBall"))
+        {
+            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

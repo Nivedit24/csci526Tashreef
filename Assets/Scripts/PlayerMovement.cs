@@ -216,10 +216,14 @@ public class PlayerMovement : MonoBehaviour
                     fireProjectile.collectFireballs();
                     collision.gameObject.SetActive(false);
                 }
+                if (instructions.Contains(collision.gameObject))
+                {
+                    DisplayText("Press Shift to shoot in player's direction", collision.gameObject);
+                }
                 break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                playerReceiver.TakeDamage(20);
+                playerReceiver.TakeDamage(50);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
