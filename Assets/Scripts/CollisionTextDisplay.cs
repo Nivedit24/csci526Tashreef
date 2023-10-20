@@ -12,7 +12,7 @@ public class CollisionTextDisplay : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")  // Change the tag as needed.
         {
-            DisplayText("Use Shift to shoot in player's direction");
+            DisplayText("Grab the SHIELD to protect from Enemy Attacks");
         }
     }
 

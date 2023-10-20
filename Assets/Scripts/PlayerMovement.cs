@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private long sessionID;
     private long deadCounter;
     private int levelName;
+    private bool IsShielded = false;
 
     private CheckPoint checkPoint;
     public static State currState;
@@ -48,10 +49,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private List<GameObject> collectables;
+    [SerializeField] private GameObject shield;
 
     // Start is called before the first frame update
     void Start()
     {
+        IsShielded=false;
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
@@ -64,16 +67,18 @@ public class PlayerMovement : MonoBehaviour
         foreach (Transform childTransf in allCollectables.transform)
         {
             String tag = childTransf.gameObject.tag;
-            if (tag == "Airball")
+            if (tag == "Airball" || tag == "ShieldPowerUp")
             {
                 collectables.Add(childTransf.gameObject);
             }
+           
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
         direction = Input.GetAxis("Horizontal");
@@ -99,10 +104,13 @@ public class PlayerMovement : MonoBehaviour
         switch (currState)
         {
             case State.Dead:
+
                 if (isHovering)
                 {
                     DismountAirBall();
                 }
+
+                ResetAllCollectables();
 
                 //Add DeadTime Analytics Code
                 //Debug.Log("Player entered dead state");
@@ -132,10 +140,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    
+    void NoShielded()
+    {
+        shield.SetActive(false);
+        IsShielded=false;
+    }
+
     private void ResetAllCollectables()
     {
         foreach (var obj in collectables)
         {
+            Debug.Log("Resetting Collectable", obj);
             obj.SetActive(true);
         }
     }
@@ -192,7 +208,11 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                playerReceiver.TakeDamage(25);
+               if(!IsShielded)
+               {
+                    playerReceiver.TakeDamage(25);
+               }
+               
                 break;
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
@@ -216,14 +236,30 @@ public class PlayerMovement : MonoBehaviour
                     fireProjectile.collectFireballs();
                     collision.gameObject.SetActive(false);
                 }
+                
+                break;
+            case "ShieldPowerUp":
+
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Press Shift to shoot in player's direction", collision.gameObject);
+                    DisplayText("Use the SHIELD to protect from Lightining and attacks", collision.gameObject);
+                    
                 }
+                collision.gameObject.SetActive(false);
+                shield.SetActive(true);
+                IsShielded=true;
+                Invoke("NoShielded", 3f);
+
                 break;
+                  
+
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                playerReceiver.TakeDamage(50);
+                if(!IsShielded)
+                {
+                    playerReceiver.TakeDamage(50);
+                }
+                
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
@@ -287,7 +323,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
-        ResetAllCollectables();
+        
     }
 
     public void KillPlayer()

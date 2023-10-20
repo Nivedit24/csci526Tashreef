@@ -21,6 +21,7 @@ TagManager:
   - VolcanoBall
   - DemonFireball
   - PlayerFireball
+  - ShieldPowerUp
   layers:
   - Default
   - TransparentFX
