@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 7223069435964574469}
   - component: {fileID: 7223069435964574468}
   - component: {fileID: 7223069435964574467}
+  - component: {fileID: 4602866493776184856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -264,7 +265,7 @@ MonoBehaviour:
   displayText: {fileID: 0}
   instructions: []
   allCollectables: {fileID: 0}
-  collectables: []
+  clouds: {fileID: 0}
 --- !u!114 &7223069435964574467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +281,26 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   model: {fileID: 7223069435458271577}
   playerMovement: {fileID: 7223069435964574468}
+--- !u!114 &4602866493776184856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223069435964574466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce0c90078777594a8343b904c2d887c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballPrefab: {fileID: 349436567607013170, guid: 70bbc135b3ccf3c4d86443a0f51a0bf3, type: 3}
+  launchPointRight: {fileID: 8586213616985231315}
+  launchPointLeft: {fileID: 1334439577954602093}
+  shootTime: 0.25
+  totalFireballs: 5
+  remainingFireballs: 5
+  playerMovement: {fileID: 7223069435964574468}
+  numberFireballsText: {fileID: 0}
 --- !u!1001 &2301351177530107851
 PrefabInstance:
   m_ObjectHideFlags: 0

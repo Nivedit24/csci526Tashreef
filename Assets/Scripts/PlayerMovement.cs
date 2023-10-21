@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject clouds;
     private GameObject windballs;
-    private GameObject fireballs;
+    public GameObject fireballs;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,10 +59,7 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
 
-        if (fireProjectile != null)
-        {
-            fireProjectile.enabled = false;
-        }
+        fireProjectile.enabled = false;
 
         foreach (Transform t in allCollectables.transform)
         {
@@ -90,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
 
-            if (Input.GetButtonDown("Jump") && isTouchingGround)
+            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
             {
                 player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
             }
@@ -299,7 +296,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void ResetUsedCollectables(GameObject collectables)
+    public void ResetUsedCollectables(GameObject collectables)
     {
         if (collectables == null)
         {

@@ -16,12 +16,12 @@ public class VolcanoProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void setVelocity()
     {
-        volcanoBall.velocity = transform.right * Random.Range(10.0f, 20.0f);
+        volcanoBall.velocity = transform.right * Random.Range(5.0f, 20.0f);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

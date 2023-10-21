@@ -22,13 +22,14 @@ public class FireProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && shootTime <= 0) { 
-            if (playerMovement.faceRight) 
-                Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation); 
-            else 
-                Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation); 
-            shootTime = 0.25f; 
-            remainingFireballs -= 1; 
+        if (Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
+        {
+            if (playerMovement.faceRight)
+                Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation);
+            else
+                Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation);
+            shootTime = 0.25f;
+            remainingFireballs -= 1;
         }
         shootTime -= Time.deltaTime;
 
@@ -36,6 +37,7 @@ public class FireProjectile : MonoBehaviour
         {
             remainingFireballs = 5;
             totalFireballs = 5;
+            playerMovement.ResetUsedCollectables(playerMovement.fireballs);
             numberFireballsText.enabled = false;
             enabled = false;
         }

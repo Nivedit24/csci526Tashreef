@@ -3540,6 +3540,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7223069435964574466, guid: 29f342889eafb4451be094323412b696, type: 3}
   m_PrefabInstance: {fileID: 1491901810}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1423674812 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
+  m_PrefabInstance: {fileID: 1491901810}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423674811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce0c90078777594a8343b904c2d887c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1444904215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4346566584955049410, guid: 155716bef68354797b3d6dc0bb62c7c4, type: 3}
@@ -3765,6 +3776,10 @@ PrefabInstance:
       propertyPath: displayText
       value: 
       objectReference: {fileID: 166794217}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: fireProjectile
+      value: 
+      objectReference: {fileID: 1423674812}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: allCollectables
       value: 
