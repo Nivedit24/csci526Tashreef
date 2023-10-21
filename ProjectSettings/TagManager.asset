@@ -16,11 +16,12 @@ TagManager:
   - lightning
   - LightningCloud
   - Goal
+  - Cloud
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - HoverballLayer
+  - 
   - Water
   - UI
   - Ground
