@@ -36,14 +36,8 @@ public class Projectile : MonoBehaviour
     {
         if (playerMovement != null)
         {
-            if (playerMovement.faceRight)
-            {
-                fireBall.velocity = new Vector2(speed, fireBall.velocity.y);
-            }
-            else
-            {
-                fireBall.velocity = new Vector2(-speed, fireBall.velocity.y);
-            }
+            float dir = playerMovement.faceRight == false ? -1 : 1;
+            fireBall.velocity = new Vector2(dir * speed, fireBall.velocity.y);
         }
     }
 }

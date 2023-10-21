@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject clouds;
     private GameObject windballs;
-    // private GameObject fireballs;
+    private GameObject fireballs;
     // Start is called before the first frame update
     void Start()
     {
@@ -68,10 +68,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 windballs = t.gameObject;
             }
-            // else if (name == "Fireballs")
-            // {
-            //     fireballs = t.gameObject;
-            // }
+            /*else if (name == "Fireballs")
+            {
+                 fireballs = t.gameObject;
+            }*/
         }
     }
 
@@ -92,14 +92,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (direction < 0)
-        {
-            faceRight = false;
-        }
-        else if (direction > 0)
-        {
-            faceRight = true;
-        }
+        faceRight = direction >= 0;
+
         switch (currState)
         {
             case State.Dead:
@@ -204,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
                 if (!fireProjectile.enabled)
                 {
                     fireProjectile.enabled = true;
-                    fireProjectile.fireballsText.enabled = true;
+                    fireProjectile.numberFireballsText.enabled = true;
                     collision.gameObject.SetActive(false);
                 }
                 else
@@ -220,6 +214,10 @@ public class PlayerMovement : MonoBehaviour
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
                 playerReceiver.TakeDamage(50);
+                break;
+            case "DemonFireball":
+                Debug.Log("Hit by DemonFireBall");
+                playerReceiver.TakeDamage(30);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");

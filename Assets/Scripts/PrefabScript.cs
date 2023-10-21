@@ -32,14 +32,8 @@ public class PrefabScript : MonoBehaviour
     {
         if (enemyMovement != null)
         {
-            if (enemyMovement.speed<0)
-            {
-                fireBall.velocity = new Vector2(speed, fireBall.velocity.y);
-            }
-            else
-            {
-                fireBall.velocity = new Vector2(-speed, fireBall.velocity.y);
-            }
+            float dir = enemyMovement.speed < 0 ? 1 : -1;
+            fireBall.velocity = new Vector2(dir * speed, fireBall.velocity.y);
         }
     }
 }

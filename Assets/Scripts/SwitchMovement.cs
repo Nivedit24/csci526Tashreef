@@ -38,16 +38,8 @@ public class SwitchMovement : MonoBehaviour
     {
         if (collider.gameObject.tag == "PlayerFireball")
         {
-            if (!activated)
-            {
-                activated = true;
-                switches.GetComponent<Renderer>().material.color = Color.green;
-            }
-            else
-            {
-                activated = false;
-                switches.GetComponent<Renderer>().material.color = Color.red;
-            }
+            activated = !activated;
+            switches.GetComponent<Renderer>().material.color = activated ? Color.green : Color.red;
         }
     }
 }

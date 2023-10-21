@@ -39,7 +39,6 @@ public class EnemyMovement : MonoBehaviour
 
     void LaunchProjectiles()
     {
-        //for (int i = 0; i < LaunchPoints.Length; i++)
         if (speed >= 0)
         {
             Instantiate(projectilePrefab, LaunchPoints[0].position, LaunchPoints[0].rotation);

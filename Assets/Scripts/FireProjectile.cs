@@ -13,7 +13,7 @@ public class FireProjectile : MonoBehaviour
     public float totalFireballs = 5;
     public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
-    public TextMeshProUGUI fireballsText;
+    public TextMeshProUGUI numberFireballsText;
     void Start()
     {
 
@@ -36,7 +36,7 @@ public class FireProjectile : MonoBehaviour
         {
             remainingFireballs = 5;
             totalFireballs = 5;
-            fireballsText.enabled = false;
+            numberFireballsText.enabled = false;
             enabled = false;
         }
         updateUI();
@@ -51,6 +51,6 @@ public class FireProjectile : MonoBehaviour
 
     public void updateUI()
     {
-        fireballsText.text = "Fireballs:" + $"{remainingFireballs}/{totalFireballs}";
+        numberFireballsText.text = "Fireballs:" + $"{remainingFireballs}/{totalFireballs}";
     }
 }
