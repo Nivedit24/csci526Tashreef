@@ -21,11 +21,12 @@ TagManager:
   - VolcanoBall
   - DemonFireball
   - PlayerFireball
+  - Cloud
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - HoverballLayer
+  - 
   - Water
   - UI
   - Ground
