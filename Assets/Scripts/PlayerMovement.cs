@@ -36,9 +36,6 @@ public class PlayerMovement : MonoBehaviour
     private DateTime startGameTime, lastCheckPointTime;
     public FireProjectile fireProjectile;
     public static bool analytics01Enabled = false;
-    //public static bool analytics02Enabled = false;
-
-    //public static bool analytics01Enabled = true;
     public static bool analytics02Enabled = true;
 
     public string gameOverSceneName = "GameOverScene";
@@ -47,8 +44,9 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
-    [SerializeField] private List<GameObject> collectables;
-
+    [SerializeField] private GameObject clouds;
+    private GameObject windballs;
+    // private GameObject fireballs;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,13 +59,19 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
         fireProjectile.enabled = false;
-        foreach (Transform childTransf in allCollectables.transform)
+
+        foreach (Transform t in allCollectables.transform)
         {
-            String tag = childTransf.gameObject.tag;
-            if (tag == "Airball")
+            String name = t.gameObject.name;
+
+            if (name == "Windballs")
             {
-                collectables.Add(childTransf.gameObject);
+                windballs = t.gameObject;
             }
+            // else if (name == "Fireballs")
+            // {
+            //     fireballs = t.gameObject;
+            // }
         }
     }
 
@@ -130,14 +134,6 @@ public class PlayerMovement : MonoBehaviour
                 return;
         }
 
-    }
-
-    private void ResetAllCollectables()
-    {
-        foreach (var obj in collectables)
-        {
-            obj.SetActive(true);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -266,11 +262,12 @@ public class PlayerMovement : MonoBehaviour
         jumpSpeed *= hoverJumpFactor;
         transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
-        transform.gameObject.layer = LayerMask.NameToLayer("HoverballLayer");
+        transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
         startHoverTime = DateTime.UtcNow;
         collision.gameObject.SetActive(false);
+        ToggleCloudDirectionArrows(true);
     }
 
     void DismountAirBall()
@@ -287,18 +284,35 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
-        ResetAllCollectables();
+        ResetUsedCollectables(windballs);
+        ToggleCloudDirectionArrows(false);
+    }
+
+    private void ToggleCloudDirectionArrows(bool show)
+    {
+        foreach (Transform cloud in clouds.transform)
+        {
+            Transform child = cloud.GetChild(0);
+            child.gameObject.SetActive(show);
+        }
+    }
+
+    private void ResetUsedCollectables(GameObject collectables)
+    {
+        if (collectables == null)
+        {
+            return;
+        }
+        foreach (Transform collectable in collectables.transform)
+        {
+            collectable.gameObject.SetActive(true);
+        }
     }
 
     public void KillPlayer()
     {
         currState = State.Dead;
     }
-
-    // private void Awake()
-    // {
-    //     sessionID = 
-    // }
 
     public void callCheckPointTimeAnalyticsLevelChange(int levelName)
     {
@@ -332,9 +346,6 @@ public class PlayerMovement : MonoBehaviour
         string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString(); ;
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
-
-
-
 }
 
 internal class CheckPoint
