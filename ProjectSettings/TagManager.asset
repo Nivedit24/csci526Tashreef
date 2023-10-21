@@ -16,6 +16,11 @@ TagManager:
   - lightning
   - LightningCloud
   - Goal
+  - Fireball
+  - Demon
+  - VolcanoBall
+  - DemonFireball
+  - PlayerFireball
   - Cloud
   layers:
   - Default

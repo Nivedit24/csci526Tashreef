@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class blackLighningCloud : MonoBehaviour
+public class BlackCloud : MonoBehaviour
 {
     public Transform lightningSpawnPoint;
     public GameObject lighningPrefab;

@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 20f;
     public float jumpSpeed = 8f;
     private float direction = 0f;
-
+    public bool faceRight = true;
     public bool canMove = true;
     private Rigidbody2D player;
     public float groundCheckRadius = 2.5f;
@@ -33,9 +33,8 @@ public class PlayerMovement : MonoBehaviour
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
-
     private DateTime startGameTime, lastCheckPointTime;
-
+    public FireProjectile fireProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
 
@@ -47,18 +46,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject clouds;
     private GameObject windballs;
+    private GameObject fireballs;
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
-
         // For analytics
         deadCounter = 0;
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+
+        if (fireProjectile != null)
+        {
+            fireProjectile.enabled = false;
+        }
 
         foreach (Transform t in allCollectables.transform)
         {
@@ -67,6 +71,10 @@ public class PlayerMovement : MonoBehaviour
             if (name == "Windballs")
             {
                 windballs = t.gameObject;
+            }
+            else if (name == "Fireballs")
+            {
+                fireballs = t.gameObject;
             }
         }
     }
@@ -87,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
                 player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
             }
         }
+
+        faceRight = direction >= 0;
 
         switch (currState)
         {
@@ -184,6 +194,35 @@ public class PlayerMovement : MonoBehaviour
             case "LightningCloud":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
+            case "Demon":
+                Debug.Log("Hit by demon");
+                playerReceiver.TakeDamage(20);
+                break;
+            case "Fireball":
+                if (!fireProjectile.enabled)
+                {
+                    fireProjectile.enabled = true;
+                    fireProjectile.numberFireballsText.enabled = true;
+                    collision.gameObject.SetActive(false);
+                }
+                else
+                {
+                    fireProjectile.collectFireballs();
+                    collision.gameObject.SetActive(false);
+                }
+                if (instructions.Contains(collision.gameObject))
+                {
+                    DisplayText("Press Shift to shoot in player's direction", collision.gameObject);
+                }
+                break;
+            case "VolcanoBall":
+                Debug.Log("Hit by volcanoBall");
+                playerReceiver.TakeDamage(50);
+                break;
+            case "DemonFireball":
+                Debug.Log("Hit by DemonFireBall");
+                playerReceiver.TakeDamage(30);
+                break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
                 playerReceiver.TakeDamage(30);
@@ -247,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
-        ResetAllWindballs();
+        ResetUsedCollectables(windballs);
         ToggleCloudDirectionArrows(false);
     }
 
@@ -260,11 +299,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void ResetAllWindballs()
+    private void ResetUsedCollectables(GameObject collectables)
     {
-        foreach (Transform windball in windballs.transform)
+        if (collectables == null)
         {
-            windball.gameObject.SetActive(true);
+            return;
+        }
+        foreach (Transform collectable in collectables.transform)
+        {
+            collectable.gameObject.SetActive(true);
         }
     }
 
