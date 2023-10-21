@@ -58,7 +58,11 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
-        fireProjectile.enabled = false;
+
+        if (fireProjectile != null)
+        {
+            fireProjectile.enabled = false;
+        }
 
         foreach (Transform t in allCollectables.transform)
         {
@@ -68,10 +72,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 windballs = t.gameObject;
             }
-            /*else if (name == "Fireballs")
+            else if (name == "Fireballs")
             {
-                 fireballs = t.gameObject;
-            }*/
+                fireballs = t.gameObject;
+            }
         }
     }
 
