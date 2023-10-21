@@ -36,6 +36,11 @@ public class PlayerMovement : MonoBehaviour
 
     private DateTime startGameTime, lastCheckPointTime;
 
+    public DrawWithMouse drawwithmouse;
+    public MousePath mousepath;
+    public ObstacleAvoidance obstacleavoidance;
+    public LineRenderer linerenderer;
+
     public static bool analytics01Enabled = false;
     //public static bool analytics02Enabled = false;
 
@@ -62,6 +67,11 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+
+        drawwithmouse.enabled = false;
+        mousepath.enabled = false;
+        obstacleavoidance.enabled = false;
+        linerenderer.enabled = false;
 
         foreach (Transform childTransf in allCollectables.transform)
         {
@@ -204,6 +214,20 @@ public class PlayerMovement : MonoBehaviour
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
+                break;
+
+            case "Waterball":
+                Debug.Log("Waterball collision");
+                if(!drawwithmouse.enabled & !mousepath.enabled & !linerenderer.enabled)
+                {
+                    linerenderer.enabled = true;
+                    drawwithmouse.enabled = true;
+                    mousepath.enabled = true;
+                    obstacleavoidance.enabled = true;
+                    collision.gameObject.SetActive(false);
+                }
+                
+                
                 break;
             default:
                 break;
