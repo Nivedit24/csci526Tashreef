@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireBall: {fileID: 3425581951715454790}
-  speed: 20
+  speed: 50
   projectileCount: 5
 --- !u!50 &3425581951715454790
 Rigidbody2D:

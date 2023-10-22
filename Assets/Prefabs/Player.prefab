@@ -136,7 +136,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
-  m_Color: {r: 0.6603774, g: 0.052954797, b: 0.052954797, a: 1}
+  m_Color: {r: 0.56078434, g: 0.06666667, b: 0.6313726, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 7223069435964574469}
   - component: {fileID: 7223069435964574468}
   - component: {fileID: 7223069435964574467}
+  - component: {fileID: 4602866493776184856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -257,15 +258,20 @@ MonoBehaviour:
   hoverJumpFactor: 0.7
   hoverMassFactor: 0.5
   hoverTime: 10
-  transitionLayerTime: 0.5
+  goldStarsRequired: 5
+  dragFactor: 0
   playerReceiver: {fileID: 7223069435964574467}
   isHovering: 0
   fireProjectile: {fileID: 0}
   gameOverSceneName: GameOverScene
+  goldStarsCollectedText: {fileID: 0}
+  hoverFuel: {fileID: 0}
   displayText: {fileID: 0}
   instructions: []
   allCollectables: {fileID: 0}
   clouds: {fileID: 0}
+  barrier: {fileID: 0}
+  fireballs: {fileID: 0}
 --- !u!114 &7223069435964574467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +287,26 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   model: {fileID: 7223069435458271577}
   playerMovement: {fileID: 7223069435964574468}
+--- !u!114 &4602866493776184856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223069435964574466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce0c90078777594a8343b904c2d887c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballPrefab: {fileID: 349436567607013170, guid: 70bbc135b3ccf3c4d86443a0f51a0bf3, type: 3}
+  launchPointRight: {fileID: 8586213616985231315}
+  launchPointLeft: {fileID: 1334439577954602093}
+  shootTime: 0.25
+  totalFireballs: 5
+  remainingFireballs: 5
+  playerMovement: {fileID: 7223069435964574468}
+  numberFireballsText: {fileID: 0}
 --- !u!1001 &2301351177530107851
 PrefabInstance:
   m_ObjectHideFlags: 0

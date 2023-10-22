@@ -11,7 +11,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (gameObject.tag == "Demon")
         {
-            InvokeRepeating("LaunchProjectiles", 0f, 5.0f);
+            InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
         }
     }
 
@@ -23,10 +23,8 @@ public class EnemyMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision");
         if (collision.gameObject.CompareTag("Edge"))
         {
-            Debug.Log("Edge");
             speed = -speed;
         }
 
@@ -39,14 +37,7 @@ public class EnemyMovement : MonoBehaviour
 
     void LaunchProjectiles()
     {
-        if (speed >= 0)
-        {
-            Instantiate(projectilePrefab, LaunchPoints[0].position, LaunchPoints[0].rotation);
-        }
-        else
-        {
-            Instantiate(projectilePrefab, LaunchPoints[1].position, LaunchPoints[1].rotation);
-        }
-        
+        var dirIndex = speed >= 0 ? 0 : 1;
+        Instantiate(projectilePrefab, LaunchPoints[dirIndex].position, LaunchPoints[dirIndex].rotation);
     }
 }

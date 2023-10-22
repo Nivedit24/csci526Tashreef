@@ -55,8 +55,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
     private GameObject windballs;
-    private GameObject fireballs;
-
+    public GameObject fireballs;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,10 +68,7 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
 
-        if (fireProjectile != null)
-        {
-            fireProjectile.enabled = false;
-        }
+        fireProjectile.enabled = false;
 
         foreach (Transform t in allCollectables.transform)
         {
@@ -102,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
 
-            if (Input.GetButtonDown("Jump") && isTouchingGround)
+            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
             {
                 player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
             }
@@ -110,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
         faceRight = direction >= 0;
 
-        
+
 
         switch (currState)
         {
@@ -134,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case State.Hover:
                 TimeSpan span = DateTime.UtcNow - startHoverTime;
-                hoverFuel.SetHealth((int)((hoverTime-span.TotalSeconds)*10));
+                hoverFuel.SetHealth((int)((hoverTime - span.TotalSeconds) * 10));
                 if (span.TotalSeconds > hoverTime)
                 {
                     DismountAirBall();
@@ -168,18 +164,18 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "tempLayerChanger":
-                if(transform.position.y > other.transform.position.y)
+                if (transform.position.y > other.transform.position.y)
                 {
                     Debug.Log("temporary layer change");
                     string layer = LayerMask.LayerToName(transform.gameObject.layer);
-                    if(layer != transitionLayer)
+                    if (layer != transitionLayer)
                     {
                         beforeTransitionLayer = layer;
                     }
                     cloudDrag = true;
                     transform.gameObject.layer = LayerMask.NameToLayer(transitionLayer);
                     player.drag = dragFactor;
-                    
+
                 }
                 break;
             case "LayerRestorer":
@@ -250,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Press Shift to shoot in player's direction", collision.gameObject);
+                    DisplayText("Press Space to shoot in player's direction", collision.gameObject);
                 }
                 break;
             case "VolcanoBall":
@@ -287,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
     public void updateUI()
     {
         goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
-        if(goldStarsCollected >= goldStarsRequired)
+        if (goldStarsCollected >= goldStarsRequired)
         {
             barrier.SetActive(false);
         }
@@ -315,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
         currState = State.Hover;
         isHovering = true;
         hoverFuel.gameObject.SetActive(true);
-        hoverFuel.SetMaxHealth((int)(hoverTime*10));
+        hoverFuel.SetMaxHealth((int)(hoverTime * 10));
         startHoverTime = DateTime.UtcNow;
         collision.gameObject.SetActive(false);
         ToggleCloudDirectionArrows(true);
@@ -348,7 +344,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void ResetUsedCollectables(GameObject collectables)
+    public void ResetUsedCollectables(GameObject collectables)
     {
         if (collectables == null)
         {
@@ -413,8 +409,6 @@ internal class CheckPoint
         Debug.LogFormat("Current CheckPoint Position: ", position);
     }
 }
-
-
 
 public enum State
 {
