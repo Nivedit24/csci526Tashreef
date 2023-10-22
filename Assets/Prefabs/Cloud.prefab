@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4789867131141367623}
   - component: {fileID: 2315346131580460344}
   m_Layer: 7
-  m_Name: tempLeyerChanger
+  m_Name: tempLayerChanger
   m_TagString: tempLayerChanger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
