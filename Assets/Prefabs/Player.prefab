@@ -257,6 +257,7 @@ MonoBehaviour:
   hoverJumpFactor: 0.7
   hoverMassFactor: 0.5
   hoverTime: 10
+  transitionLayerTime: 0.5
   playerReceiver: {fileID: 7223069435964574467}
   isHovering: 0
   fireProjectile: {fileID: 0}
@@ -264,7 +265,7 @@ MonoBehaviour:
   displayText: {fileID: 0}
   instructions: []
   allCollectables: {fileID: 0}
-  collectables: []
+  clouds: {fileID: 0}
 --- !u!114 &7223069435964574467
 MonoBehaviour:
   m_ObjectHideFlags: 0
