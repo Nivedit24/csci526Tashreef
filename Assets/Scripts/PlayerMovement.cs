@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private long sessionID;
     private long deadCounter;
     private int levelName;
+    private int goldStarsCollected = 0;
+    public int goldStarsRequired = 5;
 
     private CheckPoint checkPoint;
     public float dragFactor;
@@ -44,14 +46,17 @@ public class PlayerMovement : MonoBehaviour
     public static bool analytics02Enabled = true;
 
     public string gameOverSceneName = "GameOverScene";
+    public TextMeshProUGUI goldStarsCollectedText;
 
-
+    public HealthModifier hoverFuel;
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject clouds;
+    [SerializeField] private GameObject barrier;
     private GameObject windballs;
     private GameObject fireballs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,6 +96,8 @@ public class PlayerMovement : MonoBehaviour
 
         direction = Input.GetAxis("Horizontal");
 
+        updateUI();
+
         if (canMove)
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
@@ -111,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isHovering)
                 {
                     DismountAirBall();
+                    hoverFuel.gameObject.SetActive(false);
                 }
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
@@ -126,10 +134,12 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case State.Hover:
                 TimeSpan span = DateTime.UtcNow - startHoverTime;
+                hoverFuel.SetHealth((int)((hoverTime-span.TotalSeconds)*10));
                 if (span.TotalSeconds > hoverTime)
                 {
                     DismountAirBall();
                     currState = State.Normal;
+                    hoverFuel.gameObject.SetActive(false);
                 }
                 break;
             default:
@@ -149,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
 
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
-
+                goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
                 if (instructions.Contains(other.gameObject))
@@ -274,6 +284,15 @@ public class PlayerMovement : MonoBehaviour
         instructions.Remove(obj);
     }
 
+    public void updateUI()
+    {
+        goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
+        if(goldStarsCollected >= goldStarsRequired)
+        {
+            barrier.SetActive(false);
+        }
+    }
+
     void HideTextAfterDelay()
     {
         displayText.text = "";
@@ -295,6 +314,8 @@ public class PlayerMovement : MonoBehaviour
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
+        hoverFuel.gameObject.SetActive(true);
+        hoverFuel.SetMaxHealth((int)(hoverTime*10));
         startHoverTime = DateTime.UtcNow;
         collision.gameObject.SetActive(false);
         ToggleCloudDirectionArrows(true);
@@ -392,6 +413,8 @@ internal class CheckPoint
         Debug.LogFormat("Current CheckPoint Position: ", position);
     }
 }
+
+
 
 public enum State
 {
