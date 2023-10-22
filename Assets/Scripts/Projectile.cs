@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update
     public Rigidbody2D fireBall;
-    public float speed = 20.0f;
+    public float speed = 50.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
     void Start()

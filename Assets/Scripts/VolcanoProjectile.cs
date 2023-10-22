@@ -21,7 +21,7 @@ public class VolcanoProjectile : MonoBehaviour
 
     void setVelocity()
     {
-        volcanoBall.velocity = transform.right * Random.Range(5.0f, 20.0f);
+        volcanoBall.velocity = transform.right * Random.Range(15.0f, 20.0f);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

@@ -237,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Press Shift to shoot in player's direction", collision.gameObject);
+                    DisplayText("Press Space to shoot in player's direction", collision.gameObject);
                 }
                 break;
             case "VolcanoBall":
