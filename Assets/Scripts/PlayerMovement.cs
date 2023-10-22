@@ -118,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isHovering)
                 {
                     DismountAirBall();
+                    hoverFuel.gameObject.SetActive(false);
                 }
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
