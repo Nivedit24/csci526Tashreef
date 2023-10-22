@@ -22,11 +22,13 @@ TagManager:
   - DemonFireball
   - PlayerFireball
   - Cloud
+  - tempLayerChanger
+  - LayerRestorer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Transition
   - Water
   - UI
   - Ground
