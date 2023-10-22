@@ -7610,6 +7610,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3048278660293952286, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
   m_PrefabInstance: {fileID: 1858160840}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1935756620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4525528593305045232, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+  m_PrefabInstance: {fileID: 714656648}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1936445872 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6375413865293614593, guid: 63a6ff3d5b7ea4a6b9baba9d70e7c9e0, type: 3}
@@ -7896,7 +7907,7 @@ PrefabInstance:
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: displayText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1935756620}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: fireProjectile
       value: 
