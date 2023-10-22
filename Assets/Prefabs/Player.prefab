@@ -136,7 +136,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
-  m_Color: {r: 0.6603774, g: 0.052954797, b: 0.052954797, a: 1}
+  m_Color: {r: 0.56078434, g: 0.06666667, b: 0.6313726, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -258,15 +258,20 @@ MonoBehaviour:
   hoverJumpFactor: 0.7
   hoverMassFactor: 0.5
   hoverTime: 10
-  transitionLayerTime: 0.5
+  goldStarsRequired: 5
+  dragFactor: 0
   playerReceiver: {fileID: 7223069435964574467}
   isHovering: 0
   fireProjectile: {fileID: 0}
   gameOverSceneName: GameOverScene
+  goldStarsCollectedText: {fileID: 0}
+  hoverFuel: {fileID: 0}
   displayText: {fileID: 0}
   instructions: []
   allCollectables: {fileID: 0}
   clouds: {fileID: 0}
+  barrier: {fileID: 0}
+  fireballs: {fileID: 0}
 --- !u!114 &7223069435964574467
 MonoBehaviour:
   m_ObjectHideFlags: 0
