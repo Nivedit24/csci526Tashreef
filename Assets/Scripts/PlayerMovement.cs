@@ -25,11 +25,16 @@ public class PlayerMovement : MonoBehaviour
     public float hoverMassFactor = 0.2f;
     public float hoverTime;
     private DateTime startHoverTime;
+    private string transitionLayer = "Transition";
+    private string defaultLayer = "Default";
+    private bool cloudDrag = false;
+    private string beforeTransitionLayer;
     private long sessionID;
     private long deadCounter;
     private int levelName;
 
     private CheckPoint checkPoint;
+    public float dragFactor;
     public static State currState;
     public DamageReceiver playerReceiver;
     public bool isHovering = false;
@@ -95,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
 
         faceRight = direction >= 0;
 
+        
+
         switch (currState)
         {
             case State.Dead:
@@ -102,9 +109,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DismountAirBall();
                 }
-
-                //Add DeadTime Analytics Code
-                //Debug.Log("Player entered dead state");
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
                 Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
@@ -148,6 +152,30 @@ public class PlayerMovement : MonoBehaviour
                 if (instructions.Contains(other.gameObject))
                 {
                     DisplayText("Collect stars to checkpoint your progress", other.gameObject);
+                }
+                break;
+            case "tempLayerChanger":
+                if(transform.position.y > other.transform.position.y)
+                {
+                    Debug.Log("temporary layer change");
+                    string layer = LayerMask.LayerToName(transform.gameObject.layer);
+                    if(layer != transitionLayer)
+                    {
+                        beforeTransitionLayer = layer;
+                    }
+                    cloudDrag = true;
+                    transform.gameObject.layer = LayerMask.NameToLayer(transitionLayer);
+                    player.drag = dragFactor;
+                    
+                }
+                break;
+            case "LayerRestorer":
+                if (cloudDrag)
+                {
+                    transform.gameObject.layer = LayerMask.NameToLayer(beforeTransitionLayer);
+                    Debug.Log("beforeTransitionLayer : " + beforeTransitionLayer);
+                    player.drag = 0.0f;
+                    cloudDrag = false;
                 }
                 break;
         }
@@ -274,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
-        transform.gameObject.layer = LayerMask.NameToLayer("Default");
+        transform.gameObject.layer = LayerMask.NameToLayer(defaultLayer);
         bodyPosition.y -= hoverBall.transform.localScale.y;
         hoverBall.gameObject.SetActive(false);
         playerBody.localPosition = bodyPosition;
@@ -338,8 +366,6 @@ public class PlayerMovement : MonoBehaviour
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
         levelName = SceneManager.GetActiveScene().buildIndex;
-        // string checkpointName = other.gameObject.tag;
-        // string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString();
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString(); ;

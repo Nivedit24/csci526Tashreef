@@ -258,6 +258,7 @@ MonoBehaviour:
   hoverJumpFactor: 0.7
   hoverMassFactor: 0.5
   hoverTime: 10
+  transitionLayerTime: 0.5
   playerReceiver: {fileID: 7223069435964574467}
   isHovering: 0
   fireProjectile: {fileID: 0}
