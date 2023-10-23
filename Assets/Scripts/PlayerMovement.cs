@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed = 8f;
     private float direction = 0f;
     public bool faceRight = true;
-    public bool canMove = true;
     private Rigidbody2D player;
     public float groundCheckRadius = 2.5f;
     public LayerMask groundLayer;
@@ -33,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private long deadCounter;
     private int levelName;
     private int goldStarsCollected = 0;
+    private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
 
     private CheckPoint checkPoint;
@@ -85,25 +85,41 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        // Check if the player is colliding with a platform
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            platformRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        // Reset the platform reference when the player leaves the platform
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            platformRigidbody = null;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
         direction = Input.GetAxis("Horizontal");
+        isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
-        updateUI();
+        player.velocity = new Vector2(direction * speed, player.velocity.y);
 
-        if (canMove)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
         {
-            player.velocity = new Vector2(direction * speed, player.velocity.y);
 
-            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
-            {
-                player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
-            }
+            //transform.SetParent(null);
+            player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
 
+        updateUI();
         faceRight = direction >= 0;
 
 
@@ -174,8 +190,10 @@ public class PlayerMovement : MonoBehaviour
                     }
                     cloudDrag = true;
                     transform.gameObject.layer = LayerMask.NameToLayer(transitionLayer);
-                    player.drag = dragFactor;
-
+                    if (isHovering)
+                    {
+                        player.drag = dragFactor;
+                    }
                 }
                 break;
             case "LayerRestorer":
@@ -186,6 +204,20 @@ public class PlayerMovement : MonoBehaviour
                     player.drag = 0.0f;
                     cloudDrag = false;
                 }
+                break;
+            case "PlatformHolder":
+                transform.SetParent(other.transform);
+                Debug.Log("moving platform");
+                break;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "PlatformHolder":
+                transform.SetParent(null);
                 break;
         }
     }

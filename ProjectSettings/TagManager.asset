@@ -24,6 +24,7 @@ TagManager:
   - Cloud
   - tempLayerChanger
   - LayerRestorer
+  - PlatformHolder
   layers:
   - Default
   - TransparentFX

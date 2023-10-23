@@ -9,12 +9,12 @@ public class SwitchMovement : MonoBehaviour
     public bool activated;
     public float startPositionY;
     public int direction = 1;
-    public float speed = 5.0f;
+    public float speed = 10.0f;
     public float rangeY = 10.0f;
     void Start()
     {
-       startPositionY = platform.transform.position.y;
-       switches.GetComponent<Renderer>().material.color = Color.red;
+        startPositionY = platform.transform.position.y;
+        switches.GetComponent<Renderer>().material.color = Color.red;
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class SwitchMovement : MonoBehaviour
             {
                 direction = -1;
             }
-            else if (platform.transform.position.y < startPositionY)
+            else if (platform.transform.position.y < startPositionY - rangeY / 2)
             {
                 direction = 1;
             }
