@@ -14,9 +14,10 @@ public class FireProjectile : MonoBehaviour
     public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
     public TextMeshProUGUI numberFireballsText;
+    public GameObject fireballPicture;
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -40,6 +41,7 @@ public class FireProjectile : MonoBehaviour
             playerMovement.ResetUsedCollectables(playerMovement.fireballs);
             numberFireballsText.enabled = false;
             enabled = false;
+            fireballPicture.SetActive(false);
         }
         updateUI();
     }
@@ -53,6 +55,6 @@ public class FireProjectile : MonoBehaviour
 
     public void updateUI()
     {
-        numberFireballsText.text = "Fireballs:" + $"{remainingFireballs}/{totalFireballs}";
+        numberFireballsText.text = $"{remainingFireballs}/{totalFireballs}";
     }
 }
