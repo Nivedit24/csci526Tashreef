@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        foreach(Transform movingPlatform in allMovingPlatforms.transform)
+        foreach (Transform movingPlatform in allMovingPlatforms.transform)
         {
             initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
         }
@@ -304,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Press Space to shoot in player's direction", collision.gameObject);
+                    DisplayText("Use Space to shoot", collision.gameObject);
                 }
                 break;
             case "VolcanoBall":
@@ -425,14 +425,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
 
     public void ResetUsedMovingPlatforms()
     {
         if (allSwitches != null)
         {
             int i = 0;
-            foreach(Transform Switch in allSwitches.transform)
+            foreach (Transform Switch in allSwitches.transform)
             {
                 Switch.GetComponent<SwitchMovement>().activated = initialSwitchActivation[i];
                 i += 1;
@@ -453,7 +453,7 @@ public class PlayerMovement : MonoBehaviour
                 i += 1;
             }
         }
-        
+
     }
 
     public void KillPlayer()
@@ -485,7 +485,7 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex;
 
         string checkpointName = other.gameObject.name;
-        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString(); 
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 }
