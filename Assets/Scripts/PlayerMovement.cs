@@ -409,11 +409,7 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        //levelName = SceneManager.GetActiveScene().buildIndex;
-        print("forms2 startGameTime: " + startGameTime);
-        print("forms2 sessionid: " + sessionID);
-        print("forms2 checkPointDelta: " + checkPointDelta.TotalSeconds);
-        print("forms2 : gameTime" + gameTime.TotalSeconds);
+
         ob2.Send(sessionID, "Level Crossed", levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 
@@ -427,7 +423,7 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex;
 
         string checkpointName = other.gameObject.name;
-        string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString(); ;
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString(); 
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 }
