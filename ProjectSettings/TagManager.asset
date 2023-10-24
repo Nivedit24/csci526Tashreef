@@ -25,6 +25,7 @@ TagManager:
   - tempLayerChanger
   - LayerRestorer
   - PlatformHolder
+  - Spikes
   layers:
   - Default
   - TransparentFX

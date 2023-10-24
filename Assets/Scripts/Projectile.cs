@@ -31,8 +31,9 @@ public class Projectile : MonoBehaviour
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
-        else if (collision.gameObject.tag == "Player")
+        else if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("DeathFloor") || collision.gameObject.CompareTag("Fireball") || collision.gameObject.CompareTag("Spikes"))
         {
+            print("fadfdafas");
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
         else

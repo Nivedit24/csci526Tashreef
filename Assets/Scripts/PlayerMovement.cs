@@ -120,9 +120,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         updateUI();
-        faceRight = direction >= 0;
-
-
+        if (direction > 0)
+        {
+            faceRight = true;
+        }
+        else if(direction<0)
+        {
+            faceRight = false;
+        }
 
         switch (currState)
         {
