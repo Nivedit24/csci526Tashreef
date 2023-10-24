@@ -5,13 +5,13 @@ using UnityEngine;
 public class DamageReceiver : MonoBehaviour
 {
     // Start is called before the first frame update
-    private int maxHealth = 100;
-    private int currHealth;
+    public int maxHealth = 100;
+    public int currHealth;
     private bool isInvincible = false;
     private float invicibilityDuration = 1f;
     private float invincibilityDeltaTime = 0.1f;
     private Vector3 initScale; // Since model scale is not initScale, we use this instead
-    
+
     public HealthModifier healthBar;
 
     public GameObject model;
@@ -60,15 +60,11 @@ public class DamageReceiver : MonoBehaviour
 
         currHealth -= damage;
         healthBar.SetHealth(currHealth);
-        
         if (currHealth <= 0)
         {
             playerMovement.KillPlayer();
             healthBar.SetMaxHealth(maxHealth);
-            currHealth = maxHealth;
         }
-        
         StartCoroutine(InvincibilityFrame());
-        
     }
 }

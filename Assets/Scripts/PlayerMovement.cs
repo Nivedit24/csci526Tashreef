@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private CheckPoint checkPoint;
     public float dragFactor;
     public static State currState;
-    public DamageReceiver playerReceiver;
+    public DamageReceiver damageReceiver;
     public bool isHovering = false;
     private DateTime startGameTime, lastCheckPointTime;
     public FireProjectile fireProjectile;
@@ -52,8 +52,16 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
+    [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
+
+    [SerializeField] private GameObject allMovingPlatforms;
+    [SerializeField] private GameObject allSwitches;
+    private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
+    private List<int> initialSwitchDirection = new List<int>();
+    private List<bool> initialSwitchActivation = new List<bool>();
+
     private GameObject windballs;
     public GameObject fireballs;
     // Start is called before the first frame update
@@ -69,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         fireProjectile.enabled = false;
+        fireProjectile.fireballUI.SetActive(false);
 
         foreach (Transform t in allCollectables.transform)
         {
@@ -82,6 +91,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 fireballs = t.gameObject;
             }
+        }
+
+        foreach(Transform movingPlatform in allMovingPlatforms.transform)
+        {
+            initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
+        }
+
+        foreach (Transform Switch in allSwitches.transform)
+        {
+            initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
+            initialSwitchActivation.Add(Switch.GetComponent<SwitchMovement>().activated);
         }
     }
 
@@ -121,9 +141,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         updateUI();
-        faceRight = direction >= 0;
-
-
+        if (direction > 0)
+        {
+            faceRight = true;
+        }
+        else if (direction < 0)
+        {
+            faceRight = false;
+        }
 
         switch (currState)
         {
@@ -138,7 +163,8 @@ public class PlayerMovement : MonoBehaviour
                 Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
                 levelName = SceneManager.GetActiveScene().buildIndex;
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
-
+                ResetUsedMovingPlatforms();
+                ResetAllDemons();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
 
@@ -245,15 +271,15 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "Respawn":
-                currState = State.Dead;
+                KillPlayer();
                 break;
             case "Tornado":
                 Debug.Log("Player is hit by Tornado");
-                playerReceiver.TakeDamage(10);
+                damageReceiver.TakeDamage(10);
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                playerReceiver.TakeDamage(25);
+                damageReceiver.TakeDamage(25);
                 break;
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
@@ -263,13 +289,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Demon":
                 Debug.Log("Hit by demon");
-                playerReceiver.TakeDamage(20);
+                damageReceiver.TakeDamage(20);
                 break;
             case "Fireball":
                 if (!fireProjectile.enabled)
                 {
                     fireProjectile.enabled = true;
-                    fireProjectile.numberFireballsText.enabled = true;
+                    fireProjectile.fireballUI.SetActive(true);
                     collision.gameObject.SetActive(false);
                 }
                 else
@@ -284,15 +310,15 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                playerReceiver.TakeDamage(50);
+                damageReceiver.TakeDamage(50);
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
-                playerReceiver.TakeDamage(30);
+                damageReceiver.TakeDamage(30);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                playerReceiver.TakeDamage(30);
+                damageReceiver.TakeDamage(30);
                 break;
             case "Goal":
                 if (SceneManager.GetActiveScene().buildIndex <= 3)
@@ -404,9 +430,52 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void ResetAllDemons()
+    {
+        if (allDemons != null)
+        {
+            foreach (Transform demon in allDemons.transform)
+            {
+                demon.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    
+
+    public void ResetUsedMovingPlatforms()
+    {
+        if (allSwitches != null)
+        {
+            int i = 0;
+            foreach(Transform Switch in allSwitches.transform)
+            {
+                Switch.GetComponent<SwitchMovement>().activated = initialSwitchActivation[i];
+                i += 1;
+            }
+            i = 0;
+            foreach (Transform Switch in allSwitches.transform)
+            {
+                Switch.GetComponent<SwitchMovement>().direction = initialSwitchDirection[i];
+                i += 1;
+            }
+        }
+        if (allMovingPlatforms != null)
+        {
+            int i = 0;
+            foreach (Transform movingPlatform in allMovingPlatforms.transform)
+            {
+                movingPlatform.transform.position = initialPositionsOfMovingPlatforms[i];
+                i += 1;
+            }
+        }
+        
+    }
+
     public void KillPlayer()
     {
         currState = State.Dead;
+        damageReceiver.currHealth = damageReceiver.maxHealth;
     }
 
     public void callCheckPointTimeAnalyticsLevelChange(int levelName)
@@ -418,11 +487,7 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        //levelName = SceneManager.GetActiveScene().buildIndex;
-        print("forms2 startGameTime: " + startGameTime);
-        print("forms2 sessionid: " + sessionID);
-        print("forms2 checkPointDelta: " + checkPointDelta.TotalSeconds);
-        print("forms2 : gameTime" + gameTime.TotalSeconds);
+
         ob2.Send(sessionID, "Level Crossed", levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 
@@ -436,7 +501,7 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex;
 
         string checkpointName = other.gameObject.name;
-        string checkPointNumber = checkpointName[checkpointName.Length - 1].ToString(); ;
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString(); 
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 }
