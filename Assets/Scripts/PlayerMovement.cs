@@ -108,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         direction = Input.GetAxis("Horizontal");
+        Debug.Log(direction);
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
         player.velocity = new Vector2(direction * speed, player.velocity.y);
