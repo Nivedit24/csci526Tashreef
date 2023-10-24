@@ -29,8 +29,16 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.tag == "Demon")
         {
             Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     void SetInitialVelocity()
     {
