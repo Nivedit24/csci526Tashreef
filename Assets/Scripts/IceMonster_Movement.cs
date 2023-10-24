@@ -7,7 +7,7 @@ public class IceMonster_Movement : MonoBehaviour
     // Start is called before the first frame update
     private int currIndex = 0;
 
-    
+    private bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
     //Public Variables
@@ -23,14 +23,16 @@ public class IceMonster_Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = Vector2.MoveTowards(transform.position, setPoints[currIndex], movingSpeed * Time.deltaTime);
-        if (Vector2.Distance(transform.position, setPoints[currIndex]) < 0.02f)
-        {
-            currIndex++;
-            if (currIndex >= setPoints.Length)
+        if (!isFrozen) { 
+            transform.position = Vector2.MoveTowards(transform.position, setPoints[currIndex], movingSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, setPoints[currIndex]) < 0.02f)
             {
-                currIndex = 0;
+                currIndex++;
+                if (currIndex >= setPoints.Length)
+                {
+                    currIndex = 0;
                
+                }
             }
         }
     }
@@ -44,6 +46,15 @@ public class IceMonster_Movement : MonoBehaviour
 
             setPoints[i] = new Vector2(randomx, randomy);
             Debug.Log(setPoints[i]);
+        }
+        isFrozen = false;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerFireball")
+        {
+            isFrozen = true;
         }
     }
 }

@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         direction = Input.GetAxis("Horizontal");
-        Debug.Log(direction);
+        //Debug.Log(direction);
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
         player.velocity = new Vector2(direction * speed, player.velocity.y);
@@ -299,6 +299,21 @@ public class PlayerMovement : MonoBehaviour
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                break;
+            case "Waterball":
+                if (!fireProjectile.enabled)
+                {
+                    Debug.Log("if waterball");
+                    fireProjectile.enabled = true;
+                    fireProjectile.numberFireballsText.enabled = true;
+                    collision.gameObject.SetActive(false);
+                }
+                else
+                {
+                    Debug.Log("else statement");
+                    fireProjectile.collectFireballs();
+                    collision.gameObject.SetActive(false);
                 }
                 break;
             default:
