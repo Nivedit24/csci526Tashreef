@@ -25,8 +25,8 @@ TagManager:
   - tempLayerChanger
   - LayerRestorer
   - PlatformHolder
-  - Waterball
   - Spikes
+  - Waterball
   layers:
   - Default
   - TransparentFX
