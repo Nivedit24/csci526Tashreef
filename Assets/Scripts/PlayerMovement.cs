@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private CheckPoint checkPoint;
     public float dragFactor;
     public static State currState;
-    public DamageReceiver playerReceiver;
+    public DamageReceiver damageReceiver;
     public bool isHovering = false;
     private DateTime startGameTime, lastCheckPointTime;
     public FireProjectile fireProjectile;
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         {
             faceRight = true;
         }
-        else if(direction<0)
+        else if (direction < 0)
         {
             faceRight = false;
         }
@@ -249,15 +249,15 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "Respawn":
-                currState = State.Dead;
+                KillPlayer();
                 break;
             case "Tornado":
                 Debug.Log("Player is hit by Tornado");
-                playerReceiver.TakeDamage(10);
+                damageReceiver.TakeDamage(10);
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                playerReceiver.TakeDamage(25);
+                damageReceiver.TakeDamage(25);
                 break;
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
@@ -267,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Demon":
                 Debug.Log("Hit by demon");
-                playerReceiver.TakeDamage(20);
+                damageReceiver.TakeDamage(20);
                 break;
             case "Fireball":
                 if (!fireProjectile.enabled)
@@ -289,15 +289,15 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                playerReceiver.TakeDamage(50);
+                damageReceiver.TakeDamage(50);
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
-                playerReceiver.TakeDamage(30);
+                damageReceiver.TakeDamage(30);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                playerReceiver.TakeDamage(30);
+                damageReceiver.TakeDamage(30);
                 break;
             case "Goal":
                 if (SceneManager.GetActiveScene().buildIndex <= 3)
@@ -397,6 +397,7 @@ public class PlayerMovement : MonoBehaviour
     public void KillPlayer()
     {
         currState = State.Dead;
+        damageReceiver.currHealth = damageReceiver.maxHealth;
     }
 
     public void callCheckPointTimeAnalyticsLevelChange(int levelName)

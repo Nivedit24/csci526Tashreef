@@ -17,7 +17,7 @@ public class FireProjectile : MonoBehaviour
     public GameObject fireballPicture;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -48,8 +48,8 @@ public class FireProjectile : MonoBehaviour
 
     public void collectFireballs()
     {
-        remainingFireballs += 5;
-        totalFireballs += 5;
+        remainingFireballs = 5;
+        totalFireballs = 5;
         updateUI();
     }
 
