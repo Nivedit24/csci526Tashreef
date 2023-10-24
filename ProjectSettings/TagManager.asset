@@ -26,6 +26,7 @@ TagManager:
   - LayerRestorer
   - PlatformHolder
   - Waterball
+  - Spikes
   layers:
   - Default
   - TransparentFX
