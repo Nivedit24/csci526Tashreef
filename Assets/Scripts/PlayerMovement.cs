@@ -52,8 +52,16 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
+    [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
+
+    [SerializeField] private GameObject allMovingPlatforms;
+    [SerializeField] private GameObject allSwitches;
+    private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
+    private List<int> initialSwitchDirection = new List<int>();
+    private List<bool> initialSwitchActivation = new List<bool>();
+
     private GameObject windballs;
     public GameObject fireballs;
     // Start is called before the first frame update
@@ -83,6 +91,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 fireballs = t.gameObject;
             }
+        }
+
+        foreach(Transform movingPlatform in allMovingPlatforms.transform)
+        {
+            initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
+        }
+
+        foreach (Transform Switch in allSwitches.transform)
+        {
+            initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
+            initialSwitchActivation.Add(Switch.GetComponent<SwitchMovement>().activated);
         }
     }
 
@@ -143,7 +162,8 @@ public class PlayerMovement : MonoBehaviour
                 Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
                 levelName = SceneManager.GetActiveScene().buildIndex;
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
-
+                ResetUsedMovingPlatforms();
+                ResetAllDemons();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
 
@@ -392,6 +412,48 @@ public class PlayerMovement : MonoBehaviour
         {
             collectable.gameObject.SetActive(true);
         }
+    }
+
+    public void ResetAllDemons()
+    {
+        if (allDemons != null)
+        {
+            foreach (Transform demon in allDemons.transform)
+            {
+                demon.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    
+
+    public void ResetUsedMovingPlatforms()
+    {
+        if (allSwitches != null)
+        {
+            int i = 0;
+            foreach(Transform Switch in allSwitches.transform)
+            {
+                Switch.GetComponent<SwitchMovement>().activated = initialSwitchActivation[i];
+                i += 1;
+            }
+            i = 0;
+            foreach (Transform Switch in allSwitches.transform)
+            {
+                Switch.GetComponent<SwitchMovement>().direction = initialSwitchDirection[i];
+                i += 1;
+            }
+        }
+        if (allMovingPlatforms != null)
+        {
+            int i = 0;
+            foreach (Transform movingPlatform in allMovingPlatforms.transform)
+            {
+                movingPlatform.transform.position = initialPositionsOfMovingPlatforms[i];
+                i += 1;
+            }
+        }
+        
     }
 
     public void KillPlayer()

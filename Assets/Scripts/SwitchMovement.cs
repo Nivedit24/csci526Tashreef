@@ -10,7 +10,8 @@ public class SwitchMovement : MonoBehaviour
     public float startPositionY;
     public int direction = 1;
     public float speed = 10.0f;
-    public float rangeY = 10.0f;
+    public float rangeYUp = 10.0f;
+    public float rangeYDown = 10.0f;
     void Start()
     {
         startPositionY = platform.transform.position.y;
@@ -22,16 +23,17 @@ public class SwitchMovement : MonoBehaviour
     {
         if (activated)
         {
-            if (platform.transform.position.y > startPositionY + rangeY)
+            if (platform.transform.position.y > startPositionY + rangeYUp)
             {
                 direction = -1;
             }
-            else if (platform.transform.position.y < startPositionY - rangeY / 2)
+            else if (platform.transform.position.y < startPositionY - rangeYDown)
             {
                 direction = 1;
             }
             platform.transform.Translate(Vector3.up * speed * Time.deltaTime * direction);
         }
+        switches.GetComponent<Renderer>().material.color = activated ? Color.green : Color.red;
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -39,7 +41,7 @@ public class SwitchMovement : MonoBehaviour
         if (collider.gameObject.tag == "PlayerFireball")
         {
             activated = !activated;
-            switches.GetComponent<Renderer>().material.color = activated ? Color.green : Color.red;
+            
         }
     }
 }

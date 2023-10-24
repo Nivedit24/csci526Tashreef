@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 3
   fireBall: {fileID: -3897117481698143505}
-  speed: 20
+  speed: 40
 --- !u!61 &1022388876539218313
 BoxCollider2D:
   m_ObjectHideFlags: 0

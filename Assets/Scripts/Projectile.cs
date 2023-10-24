@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Demon")
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Player"))

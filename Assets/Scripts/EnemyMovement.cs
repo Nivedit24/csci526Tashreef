@@ -7,18 +7,28 @@ public class EnemyMovement : MonoBehaviour
     public float speed = 10f;
     public GameObject projectilePrefab;
     public Transform[] LaunchPoints;
-    void Start()
-    {
-        if (gameObject.tag == "Demon")
-        {
-            InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
-        }
-    }
 
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.left * speed * Time.deltaTime);
+    }
+
+    void OnDisable()
+    {
+        // Cancel the InvokeRepeating when the GameObject is deactivated
+        if (gameObject.tag == "Demon")
+        {
+            CancelInvoke("LaunchProjectiles");
+        }
+    }
+
+    void OnEnable()
+    {
+        if (gameObject.tag == "Demon")
+        {
+            InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
