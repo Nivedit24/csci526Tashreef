@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2995dc2553e64acabee7bff8fd6ac5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 10
   projectilePrefab: {fileID: 3879156187539167178, guid: eef081527ce98644cb9ba1472be6809b, type: 3}
   LaunchPoints:
   - {fileID: 1704445365196783922}
