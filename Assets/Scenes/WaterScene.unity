@@ -420,6 +420,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   movingSpeed: 5
+  frozenSprite: {fileID: 21300000, guid: f3dfc38cc4548c044a54574ca0d8b3b7, type: 3}
 --- !u!212 &573809155
 SpriteRenderer:
   m_ObjectHideFlags: 0

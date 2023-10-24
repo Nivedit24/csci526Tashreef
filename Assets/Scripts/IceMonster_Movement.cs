@@ -13,11 +13,22 @@ public class IceMonster_Movement : MonoBehaviour
     //Public Variables
     public Vector2[] setPoints;
     public float movingSpeed = 1.0f;
+    private SpriteRenderer frozenSpriteRenderer;
+    public Sprite frozenSprite;
+    private SpriteRenderer spriteRenderer;
+
+    private Sprite originalSprite;
     void Start()
     {
+        originalSprite = spriteRenderer.sprite;
         setPoints[0] = new Vector2(GameObject.Find("ice-monster").transform.position.x, GameObject.Find("ice-monster").transform.position.y);
         generatePoints();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
+    }
+    void Awake()
+    {
+        spriteRenderer = GetComponent < SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -48,6 +59,7 @@ public class IceMonster_Movement : MonoBehaviour
             Debug.Log(setPoints[i]);
         }
         isFrozen = false;
+        spriteRenderer.sprite = originalSprite;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -55,6 +67,22 @@ public class IceMonster_Movement : MonoBehaviour
         if (collision.gameObject.tag == "PlayerFireball")
         {
             isFrozen = true;
+            ApplyFrozenAppearance();
+            StartCoroutine(UnfreezeAfterDelay(5f)); // Unfreeze
         }
+    }
+    void ApplyFrozenAppearance()
+    {
+        if (frozenSprite != null)
+        {
+            spriteRenderer.sprite = frozenSprite;
+        }
+    }
+
+    IEnumerator UnfreezeAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isFrozen = false;
+        spriteRenderer.sprite = originalSprite;
     }
 }
