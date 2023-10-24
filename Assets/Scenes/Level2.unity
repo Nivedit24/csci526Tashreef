@@ -6434,6 +6434,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ce0c90078777594a8343b904c2d887c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1673886439 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7223069435964574467, guid: 29f342889eafb4451be094323412b696, type: 3}
+  m_PrefabInstance: {fileID: 2015487309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673886437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 580d1984a7bdfd14a81448c9da8401ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1678750596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8184,10 +8195,6 @@ PrefabInstance:
       propertyPath: fireballUI
       value: 
       objectReference: {fileID: 2015919537}
-    - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
-      propertyPath: fireballPicture
-      value: 
-      objectReference: {fileID: 1514290944}
     - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: numberFireballsText
       value: 
