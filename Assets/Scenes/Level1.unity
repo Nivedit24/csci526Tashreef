@@ -2380,6 +2380,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
   m_PrefabInstance: {fileID: 2081052004}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &682281425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4886305008745323794, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+  m_PrefabInstance: {fileID: 4525528593444576025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &707450986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4354,6 +4359,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: fireballUI
+      value: 
+      objectReference: {fileID: 682281425}
     - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: fireballPicture
       value: 

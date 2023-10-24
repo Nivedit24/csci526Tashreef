@@ -69,7 +69,8 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         fireProjectile.enabled = false;
-        fireProjectile.fireballPicture.SetActive(false);
+        fireProjectile.fireballUI.SetActive(false);
+
         foreach (Transform t in allCollectables.transform)
         {
             String name = t.gameObject.name;
@@ -273,8 +274,7 @@ public class PlayerMovement : MonoBehaviour
                 if (!fireProjectile.enabled)
                 {
                     fireProjectile.enabled = true;
-                    fireProjectile.numberFireballsText.enabled = true;
-                    fireProjectile.fireballPicture.SetActive(true);
+                    fireProjectile.fireballUI.SetActive(true);
                     collision.gameObject.SetActive(false);
                 }
                 else
