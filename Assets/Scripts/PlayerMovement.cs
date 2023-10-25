@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private int goldStarsCollected = 0;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
-
+    private bool IsShielded=false;
     private CheckPoint checkPoint;
     public float dragFactor;
     public static State currState;
@@ -55,18 +55,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
+    [SerializeField] private GameObject shield;
 
     [SerializeField] private GameObject allMovingPlatforms;
     [SerializeField] private GameObject allSwitches;
     private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
-
+    private GameObject shieldballs;
     private GameObject windballs;
     public GameObject fireballs;
     // Start is called before the first frame update
     void Start()
     {
+        IsShielded=false;
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
@@ -89,8 +91,16 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (name == "Fireballs")
             {
+                
                 fireballs = t.gameObject;
             }
+
+            else if(name == "Shields")
+            {
+                shieldballs = t.gameObject;
+            }
+
+            
         }
 
         foreach (Transform movingPlatform in allMovingPlatforms.transform)
@@ -157,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
                     DismountAirBall();
                     hoverFuel.gameObject.SetActive(false);
                 }
+                 ResetUsedCollectables(shieldballs);
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
                 Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
@@ -164,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
                 ResetUsedMovingPlatforms();
                 ResetAllDemons();
+                
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
 
@@ -278,7 +290,11 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                damageReceiver.TakeDamage(25);
+                if(!IsShielded)
+               {
+                    damageReceiver.TakeDamage(25);
+               }
+                
                 break;
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
@@ -307,9 +323,27 @@ public class PlayerMovement : MonoBehaviour
                     DisplayText("Use Space to shoot", collision.gameObject);
                 }
                 break;
+
+            case "Shield":
+                
+                collision.gameObject.SetActive(false);
+                shield.SetActive(true);
+                IsShielded=true;
+                Invoke("NoShielded", 5f);
+
+                if (instructions.Contains(collision.gameObject))
+                {
+                    DisplayText("Shield to protect and break the barrier ", collision.gameObject);
+                }
+           
+                break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                damageReceiver.TakeDamage(50);
+                if(!IsShielded)
+                {
+                    damageReceiver.TakeDamage(50);
+                }
+                
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
@@ -400,6 +434,12 @@ public class PlayerMovement : MonoBehaviour
             Transform child = cloud.GetChild(0);
             child.gameObject.SetActive(show);
         }
+    }
+    public void NoShielded()
+    {
+        shield.SetActive(false);
+        IsShielded=false;
+
     }
 
     public void ResetUsedCollectables(GameObject collectables)
