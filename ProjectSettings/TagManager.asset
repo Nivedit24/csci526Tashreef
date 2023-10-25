@@ -26,6 +26,9 @@ TagManager:
   - LayerRestorer
   - PlatformHolder
   - Spikes
+  - Shield
+  - Wall
+  - BreakWall
   layers:
   - Default
   - TransparentFX

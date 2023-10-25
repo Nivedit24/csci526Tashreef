@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
 
+
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
 
@@ -62,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
+     public GameObject breakwall;
     private GameObject shieldballs;
     private GameObject windballs;
     public GameObject fireballs;
@@ -324,6 +326,15 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
 
+            case "BreakWall":
+                if(IsShielded){
+                    Debug.Log("Player's shield is active. Wall touched.");
+                    Destroy(collision.gameObject);
+                }
+                
+           
+                break;
+
             case "Shield":
                 
                 collision.gameObject.SetActive(false);
@@ -337,6 +348,7 @@ public class PlayerMovement : MonoBehaviour
                 }
            
                 break;
+
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
                 if(!IsShielded)
