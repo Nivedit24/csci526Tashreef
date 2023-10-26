@@ -44,13 +44,14 @@ public class PlayerMovement : MonoBehaviour
     public FireProjectile fireProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
-
-
-    public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
-
-    public HealthModifier hoverFuel;
     public TMP_Text displayText;
+    public TMP_Text shieldTimerText;
+    public string gameOverSceneName = "GameOverScene";
+    
+    private float shieldTimerDuration = 5f;
+    public HealthModifier hoverFuel;
+   
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject allDemons;
@@ -337,7 +338,7 @@ public class PlayerMovement : MonoBehaviour
                 collision.gameObject.SetActive(false);
                 shield.SetActive(true);
                 IsShielded=true;
-                Invoke("NoShielded", 5f);
+                StartCoroutine(ShieldTimer(shieldTimerDuration));
 
                 if (instructions.Contains(collision.gameObject))
                 {
@@ -381,6 +382,26 @@ public class PlayerMovement : MonoBehaviour
     }
 }
 
+         private IEnumerator ShieldTimer(float duration)
+    {
+        float timer = duration;
+
+        while (timer > 0)
+        {
+            // Update the shield timer text
+            shieldTimerText.text = "Shield Time: " + timer.ToString("F1");
+
+            yield return new WaitForSeconds(1f); // Update every second
+            timer -= 1f;
+        }
+
+        // Timer is done, deactivate the shield
+        shield.SetActive(false);
+        IsShielded = false;
+        shieldTimerText.text="";
+        
+    }
+    
     private void DisplayText(string message, GameObject obj)
     {
         displayText.text = message;
