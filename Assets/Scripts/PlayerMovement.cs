@@ -264,6 +264,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        bool isShielded = IsShielded; 
 
         switch (collision.gameObject.tag)
         {
@@ -288,14 +289,12 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Tornado":
                 Debug.Log("Player is hit by Tornado");
-                damageReceiver.TakeDamage(10);
+               HandleDamage(isShielded, 10);
+               
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                if(!IsShielded)
-               {
-                    damageReceiver.TakeDamage(25);
-               }
+               HandleDamage(isShielded, 25);
                 
                 break;
             case "cloudDirectionChanger":
@@ -306,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Demon":
                 Debug.Log("Hit by demon");
-                damageReceiver.TakeDamage(20);
+               HandleDamage(isShielded, 20);
                 break;
             case "Fireball":
                 if (!fireProjectile.enabled)
@@ -332,11 +331,9 @@ public class PlayerMovement : MonoBehaviour
                     Destroy(collision.gameObject);
                 }
                 
-           
                 break;
 
             case "Shield":
-                
                 collision.gameObject.SetActive(false);
                 shield.SetActive(true);
                 IsShielded=true;
@@ -351,19 +348,17 @@ public class PlayerMovement : MonoBehaviour
 
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                if(!IsShielded)
-                {
-                    damageReceiver.TakeDamage(50);
-                }
+                HandleDamage(isShielded, 50);
                 
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
-                damageReceiver.TakeDamage(30);
+                HandleDamage(isShielded, 30);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                damageReceiver.TakeDamage(30);
+                HandleDamage(isShielded, 30);
+               
                 break;
             case "Goal":
                 if (SceneManager.GetActiveScene().buildIndex <= 3)
@@ -376,6 +371,15 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
+    // Added HandleDamage function to check if IsShielded and based on it take damage.
+
+    void HandleDamage(bool isShielded, int damageAmount)
+{
+    if (!isShielded)
+    {
+        damageReceiver.TakeDamage(damageAmount);
+    }
+}
 
     private void DisplayText(string message, GameObject obj)
     {
