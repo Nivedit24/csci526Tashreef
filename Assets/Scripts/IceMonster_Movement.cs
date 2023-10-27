@@ -16,14 +16,16 @@ public class IceMonster_Movement : MonoBehaviour
     private SpriteRenderer frozenSpriteRenderer;
     public Sprite frozenSprite;
     private SpriteRenderer spriteRenderer;
-
+    public GameObject monster;
     private Sprite originalSprite;
+    //private TimerBarController timerBarController; // Reference to the TimerBarController script
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
-        setPoints[0] = new Vector2(GameObject.Find("ice-monster").transform.position.x, GameObject.Find("ice-monster").transform.position.y);
+        setPoints[0] = new Vector2(monster.transform.position.x, monster.transform.position.y);
         generatePoints();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        //timerBarController = GetComponentInChildren<TimerBarController>();
 
     }
     void Awake()
@@ -52,8 +54,8 @@ public class IceMonster_Movement : MonoBehaviour
     {
         for(int i =1; i<2;i++)
         {
-            float randomx =  GameObject.Find("ice-monster").transform.position.x + moveRangeX;
-            float randomy = GameObject.Find("ice-monster").transform.position.y + moveRangeY;
+            float randomx = monster.transform.position.x + moveRangeX;
+            float randomy = monster.transform.position.y + moveRangeY;
 
             setPoints[i] = new Vector2(randomx, randomy);
             Debug.Log(setPoints[i]);
@@ -68,6 +70,7 @@ public class IceMonster_Movement : MonoBehaviour
         {
             isFrozen = true;
             ApplyFrozenAppearance();
+            //timerBarController.StartTimer(5f); // Start the timer on the progress bar
             StartCoroutine(UnfreezeAfterDelay(5f)); // Unfreeze
         }
     }
