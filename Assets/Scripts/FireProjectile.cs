@@ -13,10 +13,14 @@ public class FireProjectile : MonoBehaviour
     public float totalFireballs = 5;
     public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
-    public TextMeshProUGUI numberFireballsText;
+    private TextMeshProUGUI numberFireballsText;
+
+    private GameObject fireballPicture;
+    public GameObject fireballUI;
     void Start()
     {
-
+        numberFireballsText = fireballUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        fireballPicture = fireballUI.transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
@@ -38,7 +42,7 @@ public class FireProjectile : MonoBehaviour
             remainingFireballs = 5;
             totalFireballs = 5;
             playerMovement.ResetUsedCollectables(playerMovement.fireballs);
-            numberFireballsText.enabled = false;
+            fireballUI.SetActive(false);
             enabled = false;
         }
         updateUI();
@@ -46,13 +50,14 @@ public class FireProjectile : MonoBehaviour
 
     public void collectFireballs()
     {
-        remainingFireballs += 5;
-        totalFireballs += 5;
+        remainingFireballs = 5;
+        totalFireballs = 5;
+        fireballUI.SetActive(true);
         updateUI();
     }
 
     public void updateUI()
     {
-        numberFireballsText.text = "Fireballs:" + $"{remainingFireballs}/{totalFireballs}";
+        numberFireballsText.text = $"{remainingFireballs}/{totalFireballs}";
     }
 }
