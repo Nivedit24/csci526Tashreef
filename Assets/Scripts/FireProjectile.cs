@@ -13,7 +13,7 @@ public class FireProjectile : MonoBehaviour
     public float totalFireballs = 5;
     public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
-    private TextMeshProUGUI numberFireballsText;
+    public TextMeshProUGUI numberFireballsText;
 
     private GameObject fireballPicture;
     public GameObject fireballUI;

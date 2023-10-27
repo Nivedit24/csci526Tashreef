@@ -236,6 +236,10 @@ public class PlayerMovement : MonoBehaviour
                 transform.SetParent(other.transform);
                 Debug.Log("moving platform");
                 break;
+            case "WaterBody":
+                Debug.Log("I'm in the water, pls help me ooo!");
+                damageReceiver.TakeDamage(5);
+                break;
         }
     }
 
@@ -291,6 +295,11 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Hit by demon");
                 damageReceiver.TakeDamage(20);
                 break;
+            case "IceMonster":
+                Debug.Log("Collided with Ice Monster");
+                damageReceiver.TakeDamage(10);
+                break;
+           
             case "Fireball":
                 if (!fireProjectile.enabled)
                 {

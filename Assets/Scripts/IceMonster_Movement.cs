@@ -10,6 +10,7 @@ public class IceMonster_Movement : MonoBehaviour
     private bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
+    public float timeFrozen =5f;
     //Public Variables
     public Vector2[] setPoints;
     public float movingSpeed = 1.0f;
@@ -71,7 +72,7 @@ public class IceMonster_Movement : MonoBehaviour
             isFrozen = true;
             ApplyFrozenAppearance();
             //timerBarController.StartTimer(5f); // Start the timer on the progress bar
-            StartCoroutine(UnfreezeAfterDelay(5f)); // Unfreeze
+            StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
         }
     }
     void ApplyFrozenAppearance()
@@ -79,6 +80,7 @@ public class IceMonster_Movement : MonoBehaviour
         if (frozenSprite != null)
         {
             spriteRenderer.sprite = frozenSprite;
+            monster.tag = "Untagged";
         }
     }
 
@@ -87,5 +89,6 @@ public class IceMonster_Movement : MonoBehaviour
         yield return new WaitForSeconds(delay);
         isFrozen = false;
         spriteRenderer.sprite = originalSprite;
+        monster.tag = "IceMonster";
     }
 }
