@@ -62,8 +62,7 @@ public class PlayerMovement : MonoBehaviour
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
 
-    private GameObject windballs;
-    public GameObject fireballs;
+    private GameObject energyBalls;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,19 +78,23 @@ public class PlayerMovement : MonoBehaviour
         fireProjectile.enabled = false;
         fireProjectile.fireballUI.SetActive(false);
 
-        foreach (Transform t in allCollectables.transform)
+        if (allCollectables != null)
         {
-            String name = t.gameObject.name;
+            foreach (Transform t in allCollectables.transform)
+            {
+                String name = t.gameObject.name;
 
-            if (name == "Windballs")
-            {
-                windballs = t.gameObject;
-            }
-            else if (name == "Fireballs")
-            {
-                fireballs = t.gameObject;
+                if (name == "Windballs")
+                {
+                    windballs = t.gameObject;
+                }
+                else if (name == "Fireballs")
+                {
+                    fireballs = t.gameObject;
+                }
             }
         }
+
         if (allMovingPlatforms != null)
         {
             foreach (Transform movingPlatform in allMovingPlatforms.transform)
