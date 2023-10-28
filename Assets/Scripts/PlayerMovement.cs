@@ -51,18 +51,18 @@ public class PlayerMovement : MonoBehaviour
     public HealthModifier hoverFuel;
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
-    [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
-
     [SerializeField] private GameObject allMovingPlatforms;
     [SerializeField] private GameObject allSwitches;
+    [SerializeField] public List<Power> activePowers;
     private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
-
     public GameObject energyBalls;
+
+    private Power currPower = Power.None;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,8 +76,6 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         fireProjectile.enabled = false;
-        fireProjectile.fireballUI.SetActive(false);
-
 
         if (allMovingPlatforms != null)
         {
@@ -94,24 +92,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        // Check if the player is colliding with a platform
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            platformRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        // Reset the platform reference when the player leaves the platform
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            platformRigidbody = null;
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -123,9 +103,49 @@ public class PlayerMovement : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
         {
-
-            //transform.SetParent(null);
             player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
+        }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            currPower = Power.Air;
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            currPower = Power.Fire;
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            currPower = Power.Water;
+        }
+        else if (Input.GetKeyDown(KeyCode.Y))
+        {
+            currPower = Power.Earth;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            switch (currPower)
+            {
+                case Power.Air:
+                    if (currState == State.Hover)
+                    {
+                        DismountAirBall();
+                    }
+                    else
+                    {
+                        HoverOnAirBall();
+
+                    }
+                    break;
+                case Power.Fire:
+                    fireProjectile.enabled = !fireProjectile.enabled;
+                    break;
+                case Power.Water:
+                    break;
+                case Power.Earth:
+                    break;
+                default:
+                    break;
+            }
         }
 
         updateUI();
@@ -172,7 +192,6 @@ public class PlayerMovement : MonoBehaviour
             default:
                 return;
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -236,27 +255,37 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
+    void OnCollisionEnter(Collision collision)
+    {
+        // Check if the player is colliding with a platform
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            platformRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        // Reset the platform reference when the player leaves the platform
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            platformRigidbody = null;
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
 
         switch (collision.gameObject.tag)
         {
-            case "Airball":
-                Debug.Log("Collision with hover ball");
+            case "EnergyBall":
+                Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Collect airballs to hover through clouds and move more swiftly", collision.gameObject);
+                    DisplayText("Replenish your Energy", collision.gameObject);
                 }
-                if (currState != State.Hover)
-                {
-                    HoverOnAirBall(collision);
-                }
-                else
-                {
-                    collision.gameObject.SetActive(false);
-                    startHoverTime = DateTime.UtcNow;
-                }
+
+                collision.gameObject.SetActive(false);
                 break;
             case "Respawn":
                 KillPlayer();
@@ -283,7 +312,6 @@ public class PlayerMovement : MonoBehaviour
                 if (!fireProjectile.enabled)
                 {
                     fireProjectile.enabled = true;
-                    fireProjectile.fireballUI.SetActive(true);
                     collision.gameObject.SetActive(false);
                 }
                 else
@@ -329,7 +357,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void updateUI()
     {
-        goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
         if (goldStarsCollected >= goldStarsRequired)
         {
             barrier.SetActive(false);
@@ -341,7 +368,7 @@ public class PlayerMovement : MonoBehaviour
         displayText.text = "";
     }
 
-    void HoverOnAirBall(Collision2D collision)
+    void HoverOnAirBall()
     {
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
@@ -360,7 +387,7 @@ public class PlayerMovement : MonoBehaviour
         hoverFuel.gameObject.SetActive(true);
         hoverFuel.SetMaxHealth((int)(hoverTime * 10));
         startHoverTime = DateTime.UtcNow;
-        collision.gameObject.SetActive(false);
+
         ToggleCloudDirectionArrows(true);
     }
 
@@ -378,6 +405,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
+        currState = State.Normal;
         ResetUsedCollectables(energyBalls);
         ToggleCloudDirectionArrows(false);
     }
@@ -499,4 +527,9 @@ internal class CheckPoint
 public enum State
 {
     Normal, Hover, Dead, Gone
+}
+
+public enum Power
+{
+    None, Air, Fire, Water, Earth
 }
