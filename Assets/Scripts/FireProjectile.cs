@@ -41,7 +41,7 @@ public class FireProjectile : MonoBehaviour
         {
             remainingFireballs = 5;
             totalFireballs = 5;
-            playerMovement.ResetUsedCollectables(playerMovement.fireballs);
+            playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
             fireballUI.SetActive(false);
             enabled = false;
         }

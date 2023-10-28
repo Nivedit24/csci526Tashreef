@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
 
-    private GameObject energyBalls;
+    public GameObject energyBalls;
     // Start is called before the first frame update
     void Start()
     {
@@ -78,22 +78,6 @@ public class PlayerMovement : MonoBehaviour
         fireProjectile.enabled = false;
         fireProjectile.fireballUI.SetActive(false);
 
-        if (allCollectables != null)
-        {
-            foreach (Transform t in allCollectables.transform)
-            {
-                String name = t.gameObject.name;
-
-                if (name == "Windballs")
-                {
-                    windballs = t.gameObject;
-                }
-                else if (name == "Fireballs")
-                {
-                    fireballs = t.gameObject;
-                }
-            }
-        }
 
         if (allMovingPlatforms != null)
         {
@@ -394,7 +378,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
-        ResetUsedCollectables(windballs);
+        ResetUsedCollectables(energyBalls);
         ToggleCloudDirectionArrows(false);
     }
 
