@@ -9,14 +9,14 @@ public class StarUpdate : MonoBehaviour
     private bool check = true;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        curScale = check ? curScale + 0.001f : curScale - 0.001f;
-        if (curScale >= 0.35 || curScale<=0.25)
+        curScale = check ? curScale + 0.0002f : curScale - 0.0002f;
+        if (curScale >= 0.5 || curScale <= 0.25)
             check = !check;
 
         transform.localScale = new Vector3(curScale, curScale, 1.0f);
