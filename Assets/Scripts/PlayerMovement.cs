@@ -105,16 +105,18 @@ public class PlayerMovement : MonoBehaviour
 
             
         }
-
-        foreach (Transform movingPlatform in allMovingPlatforms.transform)
+        if (allMovingPlatforms != null)
         {
-            initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
-        }
+            foreach (Transform movingPlatform in allMovingPlatforms.transform)
+            {
+                initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
+            }
 
-        foreach (Transform Switch in allSwitches.transform)
-        {
-            initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
-            initialSwitchActivation.Add(Switch.GetComponent<SwitchMovement>().activated);
+            foreach (Transform Switch in allSwitches.transform)
+            {
+                initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
+                initialSwitchActivation.Add(Switch.GetComponent<SwitchMovement>().activated);
+            }
         }
     }
 
