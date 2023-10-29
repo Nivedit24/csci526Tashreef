@@ -40,6 +40,7 @@ public class AcidPrefab : MonoBehaviour
 
             transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
             transform.gameObject.tag = "Untagged";
+            transform.localScale =  new Vector3(1.0f,1.0f,1.0f);
         }
 
         else if (collision.gameObject.tag == "Ground")
