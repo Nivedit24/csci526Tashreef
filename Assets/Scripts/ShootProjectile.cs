@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class FireProjectile : MonoBehaviour
+public class ShootProjectile : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject fireballPrefab;
+    public GameObject firePrefab;
+    public GameObject icePrefab;
+
     public Transform launchPointRight;
     public Transform launchPointLeft;
     public float shootTime = 0.25f;
@@ -19,12 +21,14 @@ public class FireProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject projectile = playerMovement.currPower == Power.Fire ? firePrefab : icePrefab;
+
         if (playerMovement.energyLeft > 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
         {
             if (playerMovement.faceRight)
-                Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation);
+                Instantiate(projectile, launchPointRight.position, launchPointRight.rotation);
             else
-                Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation);
+                Instantiate(projectile, launchPointLeft.position, launchPointLeft.rotation);
             shootTime = 0.25f;
             playerMovement.energyBar.slider.value -= 10;
             playerMovement.energyLeft = playerMovement.energyBar.slider.value;
