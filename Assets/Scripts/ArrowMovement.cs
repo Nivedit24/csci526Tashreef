@@ -33,8 +33,7 @@ public class ArrowMovement : MonoBehaviour
         {
             flip = -1f;
             isVerticle = false;
-            Debug.Log("Angle is getting detected");
-        }       
+        }
     }
 
     // Update is called once per frame
@@ -55,21 +54,14 @@ public class ArrowMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("Horizontal Motion");
             if (transform.position.x > startX + Range)
             {
                 direction = 1f;
-                Debug.Log("Too right");
             }
             else if (transform.position.x <= startX - Range)
             {
                 direction = -1f;
-                Debug.Log("Too left");
             }
         }
-
-        //Flip direction after moving yRange
-        
-        
     }
 }
