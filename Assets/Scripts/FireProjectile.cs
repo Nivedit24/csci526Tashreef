@@ -10,8 +10,6 @@ public class FireProjectile : MonoBehaviour
     public Transform launchPointRight;
     public Transform launchPointLeft;
     public float shootTime = 0.25f;
-    public float totalFireballs = 5;
-    public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
 
     void Start()
@@ -28,23 +26,7 @@ public class FireProjectile : MonoBehaviour
             else
                 Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation);
             shootTime = 0.25f;
-            remainingFireballs -= 1;
         }
         shootTime -= Time.deltaTime;
-
-        if (remainingFireballs <= 0)
-        {
-            remainingFireballs = 5;
-            totalFireballs = 5;
-            playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
-            ;
-            enabled = false;
-        }
-    }
-
-    public void collectFireballs()
-    {
-        remainingFireballs = 5;
-        totalFireballs = 5;
     }
 }

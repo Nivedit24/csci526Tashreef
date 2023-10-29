@@ -22,7 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float hoverGravityFactor = 0.75f;
     public float hoverJumpFactor = 0.5f;
     public float hoverMassFactor = 0.2f;
-    public float hoverTime;
+    public float maxEnergy;
+    private float energyLeft;
     private DateTime startHoverTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
@@ -44,11 +45,9 @@ public class PlayerMovement : MonoBehaviour
     public FireProjectile fireProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
-
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
-
-    public HealthModifier hoverFuel;
+    public HealthModifier energyBar;
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allDemons;
@@ -97,17 +96,8 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        
+
         fireProjectile.enabled = false;
-        if (allMovingPlatforms != null)
-        {
-            foreach (Transform movingPlatform in allMovingPlatforms.transform)
-            {
-                initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
-            }
-
-
-        }
         if (allMovingPlatforms != null)
         {
             foreach (Transform movingPlatform in allMovingPlatforms.transform)
@@ -126,7 +116,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         direction = Input.GetAxis("Horizontal");
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
@@ -139,10 +128,17 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Z))
         {
             currPower = Power.Air;
+            fireProjectile.enabled = false;
+            if (energyLeft > 0)
+            {
+                HoverOnAirBall();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
             currPower = Power.Fire;
+            fireProjectile.enabled = true;
+            DismountAirBall();
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
@@ -163,12 +159,13 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else
                     {
+                        // if (energyLeft > 0)
+                        // {
                         HoverOnAirBall();
-
+                        // }
                     }
                     break;
                 case Power.Fire:
-                    fireProjectile.enabled = !fireProjectile.enabled;
                     break;
                 case Power.Water:
                     break;
@@ -195,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
         {
             logoChange(7);
         }
-        updateUI();
+        updateStarsUI();
         if (direction > 0)
         {
             faceRight = true;
@@ -211,7 +208,6 @@ public class PlayerMovement : MonoBehaviour
                 if (isHovering)
                 {
                     DismountAirBall();
-                    hoverFuel.gameObject.SetActive(false);
                 }
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
@@ -228,12 +224,16 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case State.Hover:
                 TimeSpan span = DateTime.UtcNow - startHoverTime;
-                hoverFuel.SetHealth((int)((hoverTime - span.TotalSeconds) * 10));
-                if (span.TotalSeconds > hoverTime)
+                energyBar.SetHealth((int)(energyLeft - (span.TotalSeconds * 10)));
+
+
+                Debug.Log("Energy Left : " + energyBar.slider.value);
+
+                if (energyBar.slider.value <= 0)
                 {
                     DismountAirBall();
-                    currState = State.Normal;
-                    hoverFuel.gameObject.SetActive(false);
+                    energyBar.gameObject.SetActive(false);
+                    ResetUsedCollectables(energyBalls);
                 }
                 break;
             default:
@@ -338,7 +338,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DisplayText("Replenish your Energy", collision.gameObject);
                 }
-
+                SetEnergyLevel();
                 collision.gameObject.SetActive(false);
                 break;
             case "Respawn":
@@ -362,22 +362,6 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Hit by demon");
                 damageReceiver.TakeDamage(20);
                 break;
-            case "Fireball":
-                if (!fireProjectile.enabled)
-                {
-                    fireProjectile.enabled = true;
-                    collision.gameObject.SetActive(false);
-                }
-                else
-                {
-                    fireProjectile.collectFireballs();
-                    collision.gameObject.SetActive(false);
-                }
-                if (instructions.Contains(collision.gameObject))
-                {
-                    DisplayText("Use Space to shoot", collision.gameObject);
-                }
-                break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
                 damageReceiver.TakeDamage(50);
@@ -390,10 +374,16 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(30);
                 break;
-            
             default:
                 break;
         }
+    }
+
+    private void SetEnergyLevel()
+    {
+        energyBar.gameObject.SetActive(true);
+        energyBar.SetMaxHealth((int)(maxEnergy * 10));
+        energyLeft = maxEnergy * 10;
     }
 
     private void DisplayText(string message, GameObject obj)
@@ -403,7 +393,7 @@ public class PlayerMovement : MonoBehaviour
         instructions.Remove(obj);
     }
 
-    public void updateUI()
+    public void updateStarsUI()
     {
         goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
         if (goldStarsCollected >= goldStarsRequired)
@@ -433,8 +423,6 @@ public class PlayerMovement : MonoBehaviour
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
-        hoverFuel.gameObject.SetActive(true);
-        hoverFuel.SetMaxHealth((int)(hoverTime * 10));
         startHoverTime = DateTime.UtcNow;
 
         ToggleCloudDirectionArrows(true);
@@ -455,7 +443,7 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
         currState = State.Normal;
-        ResetUsedCollectables(energyBalls);
+        energyLeft = energyBar.slider.value;
         ToggleCloudDirectionArrows(false);
     }
 
@@ -490,8 +478,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
 
     public void ResetUsedMovingPlatforms()
     {
@@ -557,13 +543,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void logoChange(int curLogo)
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if(curLogo - 4 == i)
+            if (curLogo - 4 == i)
             {
                 if (elements.transform.GetChild(curLogo).gameObject.activeSelf)
                 {
-                    elements.transform.GetChild(curLogo-4).gameObject.SetActive(true);
+                    elements.transform.GetChild(curLogo - 4).gameObject.SetActive(true);
                     elements.transform.GetChild(curLogo).gameObject.SetActive(false);
                 }
             }
@@ -572,7 +558,7 @@ public class PlayerMovement : MonoBehaviour
                 if (elements.transform.GetChild(i).gameObject.activeSelf)
                 {
                     elements.transform.GetChild(i).gameObject.SetActive(false);
-                    elements.transform.GetChild(i+4).gameObject.SetActive(true);
+                    elements.transform.GetChild(i + 4).gameObject.SetActive(true);
                 }
             }
         }
