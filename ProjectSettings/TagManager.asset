@@ -29,6 +29,8 @@ TagManager:
   - Waterball
   - IceMonster
   - WaterBody
+  - AcidDrop
+  - AcidCloud
   layers:
   - Default
   - TransparentFX

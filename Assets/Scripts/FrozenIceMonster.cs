@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceMonster_Movement : MonoBehaviour
-{
-    // Start is called before the first frame update
+public class FrozenIceMonster : MonoBehaviour
+{// Start is called before the first frame update
     private int currIndex = 0;
-
     private bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
     public float timeFrozen = 5f;
-    //Public Variables
     public Vector2[] setPoints;
     public float movingSpeed = 1.0f;
     private SpriteRenderer frozenSpriteRenderer;
@@ -19,22 +16,27 @@ public class IceMonster_Movement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public GameObject monster;
     private Sprite originalSprite;
-    //private TimerBarController timerBarController; // Reference to the TimerBarController script
+
+    public GameObject iceMonster; // Parent GameObject
+    public GameObject frozenMonster; // Child GameObject
+
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
+        spriteRenderer = GetComponent < SpriteRenderer>();
+        monster = GetComponent<GameObject>();
+        // Initialize the positions and activate the ice monster
+        InitializeIceMonster();
+    }
+
+    void InitializeIceMonster()
+    {
         setPoints[0] = new Vector2(monster.transform.position.x, monster.transform.position.y);
         generatePoints();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        //timerBarController = GetComponentInChildren<TimerBarController>();
-
-    }
-    void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        iceMonster.SetActive(true);
+        frozenMonster.SetActive(false);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (!isFrozen)
@@ -46,7 +48,6 @@ public class IceMonster_Movement : MonoBehaviour
                 if (currIndex >= setPoints.Length)
                 {
                     currIndex = 0;
-
                 }
             }
         }
@@ -54,6 +55,7 @@ public class IceMonster_Movement : MonoBehaviour
 
     void generatePoints()
     {
+        // Generate new random points
         for (int i = 1; i < 2; i++)
         {
             float randomx = monster.transform.position.x + moveRangeX;
@@ -66,19 +68,21 @@ public class IceMonster_Movement : MonoBehaviour
         spriteRenderer.sprite = originalSprite;
     }
 
-    
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "PlayerFireball")
         {
             isFrozen = true;
             ApplyFrozenAppearance();
-            //timerBarController.StartTimer(5f); // Start the timer on the progress bar
-            StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
-            Destroy(collision.gameObject);
+
+            // Activate the frozen monster and deactivate the ice monster
+            iceMonster.SetActive(false);
+            frozenMonster.SetActive(true);
+
+            StartCoroutine(UnfreezeAfterDelay(timeFrozen));
         }
     }
+
 
     void ApplyFrozenAppearance()
     {
@@ -86,16 +90,20 @@ public class IceMonster_Movement : MonoBehaviour
         {
             spriteRenderer.sprite = frozenSprite;
             monster.tag = "Untagged";
-            monster.GetComponent<Collider2D>().isTrigger = false;
         }
     }
 
     IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        monster.tag = "IceMonster";
-        monster.GetComponent<Collider2D>().isTrigger = true;
         isFrozen = false;
-        spriteRenderer.sprite = originalSprite;
+
+        // Deactivate the frozen monster and activate the ice monster
+        iceMonster.SetActive(true);
+        frozenMonster.SetActive(false);
+
+        //spriteRenderer.sprite = originalSprite;
+        monster.tag = "IceMonster";
+        InitializeIceMonster();
     }
 }
