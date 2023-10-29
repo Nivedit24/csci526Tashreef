@@ -265,19 +265,15 @@ public class PlayerMovement : MonoBehaviour
                 return;
         }
 
-        if(currPower == Power.Fire && energyLeft > 0)
+        if (currPower == Power.Air || currPower == Power.Earth || energyLeft <= 0)
         {
             removeLaunchPointDisplays();
-            launchPointDisplay(0);
         }
-        if (currPower == Power.Water && energyLeft > 0)
+        else
         {
+            int idx = currPower == Power.Fire ? 0 : 1;
             removeLaunchPointDisplays();
-            launchPointDisplay(1);
-        }
-        if(currPower == Power.Air || currPower == Power.Earth)
-        {
-            removeLaunchPointDisplays();
+            launchPointDisplay(idx);
         }
     }
 
@@ -636,7 +632,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void launchPointDisplay(int childOne)
+    private void launchPointDisplay(int childOne)
     {
         if (faceRight)
         {
@@ -650,7 +646,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void removeLaunchPointDisplays()
+    private void removeLaunchPointDisplays()
     {
         transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
