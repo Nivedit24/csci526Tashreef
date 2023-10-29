@@ -6648,6 +6648,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireCollectable
       objectReference: {fileID: 0}
+    - target: {fileID: 2225038230347914111, guid: 29a42a67c5702514f84f324cfcbed255, type: 3}
+      propertyPath: m_TagString
+      value: Goal
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29a42a67c5702514f84f324cfcbed255, type: 3}
 --- !u!1001 &2060836105
