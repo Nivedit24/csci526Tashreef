@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c2c2b6bc1d25b4c97536825aa88128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireBall: {fileID: 3425581951715454790}
+  projectileBody: {fileID: 3425581951715454790}
   speed: 50
   projectileCount: 5
 --- !u!50 &3425581951715454790

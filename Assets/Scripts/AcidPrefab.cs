@@ -16,10 +16,6 @@ public class AcidPrefab : MonoBehaviour
         }
 
     }
-    //void Awake()
-    //{
-    //    Destroy(gameObject, life);
-    //}
 
     // Update is called once per frame
     void Update()
@@ -28,33 +24,21 @@ public class AcidPrefab : MonoBehaviour
         {
             adtbScript = FindObjectOfType<AcidDropToBlock>();
         }
-
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerFireball")
+        if (collision.gameObject.tag == "PlayerSnowBall")
         {
-            Debug.Log("Collided with snowball from acid prefab");
-
             transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
-            transform.gameObject.tag = "Untagged";
-            transform.localScale =  new Vector3(1.0f,1.0f,1.0f);
+            transform.gameObject.tag = "AcidBlock";
+            transform.GetComponent<BoxCollider2D>().size = new Vector2(3f, 3f);
+            transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
         else if (collision.gameObject.tag == "Ground")
         {
-            Debug.Log("Collided with ground form acid prefab");
             Destroy(gameObject);
         }
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-       
-        //Destroy(gameObject);
-    }
-
-    
 }

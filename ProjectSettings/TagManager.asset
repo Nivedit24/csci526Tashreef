@@ -32,6 +32,8 @@ TagManager:
   - AcidDrop
   - AcidCloud
   - EnergyBall
+  - PlayerSnowBall
+  - AcidBlock
   layers:
   - Default
   - TransparentFX

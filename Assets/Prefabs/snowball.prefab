@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3627929279707004234}
   - component: {fileID: 4151579750241300351}
   - component: {fileID: -7397381614248002600}
-  - component: {fileID: 2556259759261015065}
+  - component: {fileID: 7545298274661774123}
   m_Layer: 0
   m_Name: snowball
-  m_TagString: PlayerFireball
+  m_TagString: PlayerSnowBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c2c2b6bc1d25b4c97536825aa88128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireBall: {fileID: -7397381614248002600}
+  projectileBody: {fileID: -7397381614248002600}
   speed: 50
   projectileCount: 5
 --- !u!50 &-7397381614248002600
@@ -123,8 +123,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &2556259759261015065
-CapsuleCollider2D:
+--- !u!61 &7545298274661774123
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,9 +133,19 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.99, y: 2}
+    newSize: {x: 1.99, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1.99, y: 2}
-  m_Direction: 0
+  m_EdgeRadius: 0
