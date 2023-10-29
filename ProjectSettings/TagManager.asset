@@ -31,6 +31,7 @@ TagManager:
   - WaterBody
   - AcidDrop
   - AcidCloud
+  - EnergyBall
   layers:
   - Default
   - TransparentFX

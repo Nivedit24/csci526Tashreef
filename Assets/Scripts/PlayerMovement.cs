@@ -22,7 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float hoverGravityFactor = 0.75f;
     public float hoverJumpFactor = 0.5f;
     public float hoverMassFactor = 0.2f;
-    public float hoverTime;
+    public float maxEnergy;
+    public float energyLeft;
     private DateTime startHoverTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
@@ -44,26 +45,28 @@ public class PlayerMovement : MonoBehaviour
     public FireProjectile fireProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
-
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
-
-    public HealthModifier hoverFuel;
+    public HealthModifier energyBar;
     public TMP_Text displayText;
     [SerializeField] private List<GameObject> instructions;
-    [SerializeField] private GameObject allCollectables;
     [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
-
     [SerializeField] private GameObject allMovingPlatforms;
     [SerializeField] private GameObject allSwitches;
+    [SerializeField] public List<Power> activePowers;
     private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
+    public GameObject energyBalls;
+    public Power currPower = Power.Air;
+    public GameObject elements;
 
-    private GameObject windballs;
-    public GameObject fireballs;
+    private bool airPower = false;
+    private bool firePower = false;
+    private bool waterPower = false;
+    private bool earthPower = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,58 +78,53 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+        energyBar.SetMaxHealth((int)(maxEnergy * 10));
+        for (int i = 0; i < activePowers.Count; i++)
+        {
+            switch (activePowers[i])
+            {
+                case Power.Air:
+                    elements.transform.GetChild(0).gameObject.SetActive(true);
+                    elements.transform.GetChild(8).gameObject.SetActive(true);
+                    airPower = true;
+                    break;
+                case Power.Fire:
+                    elements.transform.GetChild(5).gameObject.SetActive(true);
+                    elements.transform.GetChild(9).gameObject.SetActive(true);
+                    firePower = true;
+                    break;
+                case Power.Water:
+                    elements.transform.GetChild(6).gameObject.SetActive(true);
+                    elements.transform.GetChild(10).gameObject.SetActive(true);
+                    waterPower = true;
+                    break;
+                case Power.Earth:
+                    elements.transform.GetChild(7).gameObject.SetActive(true);
+                    elements.transform.GetChild(11).gameObject.SetActive(true);
+                    earthPower = true;
+                    break;
+            }
+        }
 
         fireProjectile.enabled = false;
-        fireProjectile.fireballUI.SetActive(false);
-
-        foreach (Transform t in allCollectables.transform)
+        if (allMovingPlatforms != null)
         {
-            String name = t.gameObject.name;
-
-            if (name == "Windballs")
+            foreach (Transform movingPlatform in allMovingPlatforms.transform)
             {
-                windballs = t.gameObject;
+                initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
             }
-            else if (name == "Fireballs")
+
+            foreach (Transform Switch in allSwitches.transform)
             {
-                fireballs = t.gameObject;
+                initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
+                initialSwitchActivation.Add(Switch.GetComponent<SwitchMovement>().activated);
             }
-        }
-
-        foreach(Transform movingPlatform in allMovingPlatforms.transform)
-        {
-            initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
-        }
-
-        foreach (Transform Switch in allSwitches.transform)
-        {
-            initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
-            initialSwitchActivation.Add(Switch.GetComponent<SwitchMovement>().activated);
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        // Check if the player is colliding with a platform
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            platformRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        // Reset the platform reference when the player leaves the platform
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            platformRigidbody = null;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-
         direction = Input.GetAxis("Horizontal");
         //Debug.Log(direction);
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
@@ -135,12 +133,80 @@ public class PlayerMovement : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
         {
-
-            //transform.SetParent(null);
             player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
+        else if (airPower && Input.GetKeyDown(KeyCode.Z))
+        {
+            currPower = Power.Air;
+            fireProjectile.enabled = false;
+            if (energyLeft > 0 && currState != State.Hover)
+            {
+                HoverOnAirBall();
+            }
+        }
+        else if (firePower && Input.GetKeyDown(KeyCode.X))
+        {
+            currPower = Power.Fire;
+            fireProjectile.enabled = true;
 
-        updateUI();
+            if (currState == State.Hover)
+            {
+                DismountAirBall();
+            }
+        }
+        else if (waterPower && Input.GetKeyDown(KeyCode.C))
+        {
+            currPower = Power.Water;
+        }
+        else if (earthPower && Input.GetKeyDown(KeyCode.Y))
+        {
+            currPower = Power.Earth;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            switch (currPower)
+            {
+                case Power.Air:
+                    if (currState == State.Hover)
+                    {
+                        DismountAirBall();
+                    }
+                    else
+                    {
+                        if (energyLeft > 0)
+                        {
+                            HoverOnAirBall();
+                        }
+                    }
+                    break;
+                case Power.Fire:
+                    break;
+                case Power.Water:
+                    break;
+                case Power.Earth:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z) && activePowers.Contains(Power.Air))
+        {
+            logoChange(4);
+        }
+        if (Input.GetKeyDown(KeyCode.X) && activePowers.Contains(Power.Fire))
+        {
+            logoChange(5);
+        }
+        if (Input.GetKeyDown(KeyCode.C) && activePowers.Contains(Power.Water))
+        {
+            logoChange(6);
+        }
+        if (Input.GetKeyDown(KeyCode.V) && activePowers.Contains(Power.Earth))
+        {
+            logoChange(7);
+        }
+        updateStarsUI();
         if (direction > 0)
         {
             faceRight = true;
@@ -156,7 +222,6 @@ public class PlayerMovement : MonoBehaviour
                 if (isHovering)
                 {
                     DismountAirBall();
-                    hoverFuel.gameObject.SetActive(false);
                 }
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
@@ -173,18 +238,21 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case State.Hover:
                 TimeSpan span = DateTime.UtcNow - startHoverTime;
-                hoverFuel.SetHealth((int)((hoverTime - span.TotalSeconds) * 10));
-                if (span.TotalSeconds > hoverTime)
+                energyBar.SetHealth((int)(energyLeft - (span.TotalSeconds * 10)));
+
+
+                Debug.Log("Energy Left : " + energyBar.slider.value);
+
+                if (energyBar.slider.value <= 0)
                 {
                     DismountAirBall();
-                    currState = State.Normal;
-                    hoverFuel.gameObject.SetActive(false);
+                    energyBar.gameObject.SetActive(false);
+                    ResetUsedCollectables(energyBalls);
                 }
                 break;
             default:
                 return;
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -236,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.SetParent(other.transform);
                 Debug.Log("moving platform");
                 break;
-            
+
             case "AcidDrop":
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5);
@@ -268,27 +336,48 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
+    void OnCollisionEnter(Collision collision)
+    {
+        // Check if the player is colliding with a platform
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            platformRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        // Reset the platform reference when the player leaves the platform
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            platformRigidbody = null;
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
 
         switch (collision.gameObject.tag)
         {
-            case "Airball":
-                Debug.Log("Collision with hover ball");
+            case "Goal":
+                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                break;
+            case "EnergyBall":
+                Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
                 {
-                    DisplayText("Collect airballs to hover through clouds and move more swiftly", collision.gameObject);
+                    DisplayText("Replenish your Energy", collision.gameObject);
                 }
-                if (currState != State.Hover)
+                SetEnergyLevel(maxEnergy);
+                if (currState == State.Hover)
                 {
-                    HoverOnAirBall(collision);
-                }
-                else
-                {
-                    collision.gameObject.SetActive(false);
                     startHoverTime = DateTime.UtcNow;
                 }
+                collision.gameObject.SetActive(false);
                 break;
             case "Respawn":
                 KillPlayer();
@@ -311,25 +400,6 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Hit by demon");
                 damageReceiver.TakeDamage(20);
                 break;
-            
-           
-            case "Fireball":
-                if (!fireProjectile.enabled)
-                {
-                    fireProjectile.enabled = true;
-                    fireProjectile.fireballUI.SetActive(true);
-                    collision.gameObject.SetActive(false);
-                }
-                else
-                {
-                    fireProjectile.collectFireballs();
-                    collision.gameObject.SetActive(false);
-                }
-                if (instructions.Contains(collision.gameObject))
-                {
-                    DisplayText("Press Space to shoot in player's direction", collision.gameObject);
-                }
-                break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
                 damageReceiver.TakeDamage(50);
@@ -342,30 +412,24 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(30);
                 break;
-            case "Goal":
-                if (SceneManager.GetActiveScene().buildIndex <= 3)
-                {
-                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                }
-                break;
-            case "Waterball":
-                if (!fireProjectile.enabled)
-                {
-                    Debug.Log("if waterball");
-                    fireProjectile.enabled = true;
-                    fireProjectile.numberFireballsText.enabled = true;
-                    collision.gameObject.SetActive(false);
-                }
-                else
-                {
-                    Debug.Log("else statement of waterball collision");
-                    fireProjectile.collectFireballs();
-                    collision.gameObject.SetActive(false);
-                }
-                break;
             default:
                 break;
+        }
+    }
+
+    public void SetEnergyLevel(float energy)
+    {
+        energyBar.gameObject.SetActive(true);
+        energyBar.SetHealth((int)(energy * 10));
+        energyLeft = energy * 10;
+
+        if (energy == 0)
+        {
+            energyBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            energyBar.gameObject.SetActive(true);
         }
     }
 
@@ -376,7 +440,7 @@ public class PlayerMovement : MonoBehaviour
         instructions.Remove(obj);
     }
 
-    public void updateUI()
+    public void updateStarsUI()
     {
         goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
         if (goldStarsCollected >= goldStarsRequired)
@@ -390,7 +454,7 @@ public class PlayerMovement : MonoBehaviour
         displayText.text = "";
     }
 
-    void HoverOnAirBall(Collision2D collision)
+    void HoverOnAirBall()
     {
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
@@ -406,10 +470,8 @@ public class PlayerMovement : MonoBehaviour
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
-        hoverFuel.gameObject.SetActive(true);
-        hoverFuel.SetMaxHealth((int)(hoverTime * 10));
         startHoverTime = DateTime.UtcNow;
-        collision.gameObject.SetActive(false);
+
         ToggleCloudDirectionArrows(true);
     }
 
@@ -427,7 +489,8 @@ public class PlayerMovement : MonoBehaviour
         transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
         transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
         isHovering = false;
-        ResetUsedCollectables(windballs);
+        currState = State.Normal;
+        energyLeft = energyBar.slider.value;
         ToggleCloudDirectionArrows(false);
     }
 
@@ -463,14 +526,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
-
     public void ResetUsedMovingPlatforms()
     {
         if (allSwitches != null)
         {
             int i = 0;
-            foreach(Transform Switch in allSwitches.transform)
+            foreach (Transform Switch in allSwitches.transform)
             {
                 Switch.GetComponent<SwitchMovement>().activated = initialSwitchActivation[i];
                 i += 1;
@@ -491,7 +552,6 @@ public class PlayerMovement : MonoBehaviour
                 i += 1;
             }
         }
-        
     }
 
     public void KillPlayer()
@@ -523,8 +583,31 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex;
 
         string checkpointName = other.gameObject.name;
-        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString(); 
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+    }
+
+    private void logoChange(int curLogo)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (curLogo - 4 == i)
+            {
+                if (elements.transform.GetChild(curLogo).gameObject.activeSelf)
+                {
+                    elements.transform.GetChild(curLogo - 4).gameObject.SetActive(true);
+                    elements.transform.GetChild(curLogo).gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (elements.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    elements.transform.GetChild(i).gameObject.SetActive(false);
+                    elements.transform.GetChild(i + 4).gameObject.SetActive(true);
+                }
+            }
+        }
     }
 }
 
@@ -548,4 +631,9 @@ internal class CheckPoint
 public enum State
 {
     Normal, Hover, Dead, Gone
+}
+
+public enum Power
+{
+    None, Air, Fire, Water, Earth
 }

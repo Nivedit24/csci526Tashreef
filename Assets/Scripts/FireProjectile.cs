@@ -10,54 +10,31 @@ public class FireProjectile : MonoBehaviour
     public Transform launchPointRight;
     public Transform launchPointLeft;
     public float shootTime = 0.25f;
-    public float totalFireballs = 5;
-    public float remainingFireballs = 5;
     public PlayerMovement playerMovement;
-    public TextMeshProUGUI numberFireballsText;
 
-    private GameObject fireballPicture;
-    public GameObject fireballUI;
     void Start()
     {
-        numberFireballsText = fireballUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-        fireballPicture = fireballUI.transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
+        if (playerMovement.energyLeft > 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
         {
             if (playerMovement.faceRight)
                 Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation);
             else
                 Instantiate(fireballPrefab, launchPointLeft.position, launchPointLeft.rotation);
             shootTime = 0.25f;
-            remainingFireballs -= 1;
+            playerMovement.energyBar.slider.value -= 10;
+            playerMovement.energyLeft = playerMovement.energyBar.slider.value;
         }
         shootTime -= Time.deltaTime;
 
-        if (remainingFireballs <= 0)
+        if (playerMovement.energyBar.slider.value <= 0)
         {
-            remainingFireballs = 5;
-            totalFireballs = 5;
-            playerMovement.ResetUsedCollectables(playerMovement.fireballs);
-            fireballUI.SetActive(false);
-            enabled = false;
+            playerMovement.SetEnergyLevel(0);
+            playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
         }
-        updateUI();
-    }
-
-    public void collectFireballs()
-    {
-        remainingFireballs = 5;
-        totalFireballs = 5;
-        fireballUI.SetActive(true);
-        updateUI();
-    }
-
-    public void updateUI()
-    {
-        numberFireballsText.text = $"{remainingFireballs}/{totalFireballs}";
     }
 }
