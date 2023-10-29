@@ -19,7 +19,7 @@ public class FireProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerMovement.energyBar.slider.value > 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
+        if (playerMovement.energyLeft > 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
         {
             if (playerMovement.faceRight)
                 Instantiate(fireballPrefab, launchPointRight.position, launchPointRight.rotation);
@@ -34,6 +34,7 @@ public class FireProjectile : MonoBehaviour
         if (playerMovement.energyBar.slider.value <= 0)
         {
             playerMovement.SetEnergyLevel(0);
+            playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
         }
     }
 }

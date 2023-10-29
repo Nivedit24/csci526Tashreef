@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+        energyBar.SetMaxHealth((int)(maxEnergy * 10));
         for (int i = 0; i < activePowers.Count; i++)
         {
             switch (activePowers[i])
@@ -146,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currPower = Power.Fire;
             fireProjectile.enabled = true;
+
             if (currState == State.Hover)
             {
                 DismountAirBall();
@@ -337,7 +339,7 @@ public class PlayerMovement : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Goal":
-                if (SceneManager.GetActiveScene().buildIndex <= 3)
+                if (SceneManager.GetActiveScene().buildIndex <= 5)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -350,6 +352,10 @@ public class PlayerMovement : MonoBehaviour
                     DisplayText("Replenish your Energy", collision.gameObject);
                 }
                 SetEnergyLevel(maxEnergy);
+                if (currState == State.Hover)
+                {
+                    startHoverTime = DateTime.UtcNow;
+                }
                 collision.gameObject.SetActive(false);
                 break;
             case "Respawn":
@@ -393,9 +399,8 @@ public class PlayerMovement : MonoBehaviour
     public void SetEnergyLevel(float energy)
     {
         energyBar.gameObject.SetActive(true);
-        energyBar.SetMaxHealth((int)(energy * 10));
+        energyBar.SetHealth((int)(energy * 10));
         energyLeft = energy * 10;
-
 
         if (energy == 0)
         {
