@@ -264,6 +264,17 @@ public class PlayerMovement : MonoBehaviour
             default:
                 return;
         }
+
+        if (currPower == Power.Air || currPower == Power.Earth || energyLeft <= 0)
+        {
+            removeLaunchPointDisplays();
+        }
+        else
+        {
+            int idx = currPower == Power.Fire ? 0 : 1;
+            removeLaunchPointDisplays();
+            launchPointDisplay(idx);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -619,6 +630,28 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void launchPointDisplay(int childOne)
+    {
+        if (faceRight)
+        {
+            transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
+            transform.GetChild(3).GetChild(childOne).gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.GetChild(2).GetChild(childOne).gameObject.SetActive(false);
+            transform.GetChild(3).GetChild(childOne).gameObject.SetActive(true);
+        }
+    }
+
+    private void removeLaunchPointDisplays()
+    {
+        transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
     }
 }
 
