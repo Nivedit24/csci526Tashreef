@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     public DamageReceiver damageReceiver;
     public bool isHovering = false;
     private DateTime startGameTime, lastCheckPointTime;
-    public FireProjectile fireProjectile;
+    public ShootProjectile shootProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
     public string gameOverSceneName = "GameOverScene";
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject breakwall;
     public Power currPower = Power.Air;
     public GameObject elements;
-    private bool isShielded= false;
+    private bool isShielded = false;
 
     private bool airPower = false;
     private bool firePower = false;
@@ -85,13 +85,19 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
+
+        shootProjectile.enabled = false;
+
         for (int i = 0; i < activePowers.Count; i++)
         {
             switch (activePowers[i])
             {
                 case Power.Air:
                     elements.transform.GetChild(0).gameObject.SetActive(true);
-                    elements.transform.GetChild(8).gameObject.SetActive(true);
+                    if (activePowers.Count > 1)
+                    {
+                        elements.transform.GetChild(8).gameObject.SetActive(true);
+                    }
                     airPower = true;
                     break;
                 case Power.Fire:
@@ -112,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        fireProjectile.enabled = false;
         if (allMovingPlatforms != null)
         {
             foreach (Transform movingPlatform in allMovingPlatforms.transform)
@@ -132,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         direction = Input.GetAxis("Horizontal");
+
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
         player.velocity = new Vector2(direction * speed, player.velocity.y);
@@ -143,27 +149,26 @@ public class PlayerMovement : MonoBehaviour
         else if (airPower && Input.GetKeyDown(KeyCode.Z))
         {
             currPower = Power.Air;
-            fireProjectile.enabled = false;
+            shootProjectile.enabled = false;
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
             if (energyLeft > 0 && currState != State.Hover)
             {
-                if (currState == State.Shielded)
-                {
-                    RemoveEarthShield();
-                }
                 HoverOnAirBall();
             }
         }
         else if (firePower && Input.GetKeyDown(KeyCode.X))
         {
             currPower = Power.Fire;
-            fireProjectile.enabled = true;
-
+            shootProjectile.enabled = true;
             if (currState == State.Hover)
             {
                 DismountAirBall();
             }
 
-            if(currState == State.Shielded)
+            if (currState == State.Shielded)
             {
                 RemoveEarthShield();
             }
@@ -171,21 +176,25 @@ public class PlayerMovement : MonoBehaviour
         else if (waterPower && Input.GetKeyDown(KeyCode.C))
         {
             currPower = Power.Water;
+            shootProjectile.enabled = true;
+            if (currState == State.Hover)
+            {
+                DismountAirBall();
+            }
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
             Debug.Log("Earth Power");
             currPower = Power.Earth;
-            fireProjectile.enabled = false;
+            shootProjectile.enabled = false;
+            if (currState == State.Hover)
+            {
+                DismountAirBall();
+            }
             if (energyLeft > 0 && currState != State.Shielded)
             {
-                if (currState == State.Hover)
-                {
-                    DismountAirBall();
-                }
                 GrabEarthShield();
             }
-
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -221,7 +230,7 @@ public class PlayerMovement : MonoBehaviour
                         }
                     }
 
-                    
+
                     break;
                 default:
                     break;
@@ -290,30 +299,49 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.Shielded:
-                    TimeSpan tspan = DateTime.UtcNow - startShieldTime;
-                    energyBar.SetHealth((int)(energyLeft - (tspan.TotalSeconds * 10)));
-                    if (energyBar.slider.value <= 0)
-                    {
-                        RemoveEarthShield();
-                        energyBar.gameObject.SetActive(false);
-                        ResetUsedCollectables(energyBalls);
-                    }
+                TimeSpan tspan = DateTime.UtcNow - startShieldTime;
+                energyBar.SetHealth((int)(energyLeft - (tspan.TotalSeconds * 10)));
+                if (energyBar.slider.value <= 0)
+                {
+                    RemoveEarthShield();
+                    energyBar.gameObject.SetActive(false);
+                    ResetUsedCollectables(energyBalls);
+                }
 
-                    break;
-                
+                break;
+
             default:
                 return;
+        }
+
+        if (currPower == Power.Air || currPower == Power.Earth || energyLeft <= 0)
+        {
+            removeLaunchPointDisplays();
+        }
+        else
+        {
+            int idx = currPower == Power.Fire ? 0 : 1;
+            removeLaunchPointDisplays();
+            launchPointDisplay(idx);
         }
     }
     void noShielded()
     {
         shield.SetActive(false);
-        isShielded=false;
+        isShielded = false;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
+            case "Goal":
+                Debug.Log("Fire Log Triggered");
+                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                break;
             case "CheckPoint":
                 Debug.Log("Player reach the CheckPoint");
                 Debug.Log("transform is : ", transform);
@@ -359,6 +387,25 @@ public class PlayerMovement : MonoBehaviour
                 transform.SetParent(other.transform);
                 Debug.Log("moving platform");
                 break;
+            case "AcidDrop":
+                Debug.Log("Collided with Acid drop");
+                damageReceiver.TakeDamage(5);
+                break;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "IceMonster":
+                Debug.Log("Collided with Ice Monster");
+                damageReceiver.TakeDamage(10);
+                break;
+            case "WaterBody":
+                Debug.Log("I'm in the water, pls help me ooo!");
+                damageReceiver.TakeDamage(5);
+                break;
         }
     }
 
@@ -394,13 +441,6 @@ public class PlayerMovement : MonoBehaviour
 
         switch (collision.gameObject.tag)
         {
-            case "Goal":
-                if (SceneManager.GetActiveScene().buildIndex <= 5)
-                {
-                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                }
-                break;
             case "EnergyBall":
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
@@ -510,7 +550,7 @@ public class PlayerMovement : MonoBehaviour
         currState = State.Hover;
         isHovering = true;
         startHoverTime = DateTime.UtcNow;
-        
+
 
         ToggleCloudDirectionArrows(true);
     }
@@ -518,15 +558,15 @@ public class PlayerMovement : MonoBehaviour
     void GrabEarthShield()
     {
         shield.SetActive(true);
-        isShielded=true;
+        isShielded = true;
         currState = State.Shielded;
-        startShieldTime= DateTime.UtcNow;
+        startShieldTime = DateTime.UtcNow;
     }
 
     void RemoveEarthShield()
     {
         shield.SetActive(false);
-        isShielded=false;
+        isShielded = false;
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
 
@@ -666,6 +706,28 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void launchPointDisplay(int childOne)
+    {
+        if (faceRight)
+        {
+            transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
+            transform.GetChild(3).GetChild(childOne).gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.GetChild(2).GetChild(childOne).gameObject.SetActive(false);
+            transform.GetChild(3).GetChild(childOne).gameObject.SetActive(true);
+        }
+    }
+
+    private void removeLaunchPointDisplays()
+    {
+        transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
     }
 }
 

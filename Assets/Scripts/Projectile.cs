@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Rigidbody2D fireBall;
+    public Rigidbody2D projectileBody;
     public float speed = 50.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
         if (playerMovement != null)
         {
             float dir = playerMovement.faceRight == false ? -1 : 1;
-            fireBall.velocity = new Vector2(dir * speed, fireBall.velocity.y);
+            projectileBody.velocity = new Vector2(dir * speed, projectileBody.velocity.y);
         }
     }
 }

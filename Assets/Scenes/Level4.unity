@@ -3177,11 +3177,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
   m_PrefabInstance: {fileID: 1698348374}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1192327087 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4755821352814518994, guid: 29f342889eafb4451be094323412b696, type: 3}
-  m_PrefabInstance: {fileID: 2015487309}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1203950542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
@@ -5410,6 +5405,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: icePrefab
+      value: 
+      objectReference: {fileID: 5625917835844508118, guid: db4f28ebbeb3fd04983c559f0c09166f, type: 3}
+    - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: firePrefab
+      value: 
+      objectReference: {fileID: 349436567607013170, guid: 70bbc135b3ccf3c4d86443a0f51a0bf3, type: 3}
+    - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: fireballUI
       value: 
       objectReference: {fileID: 0}
@@ -5468,7 +5471,7 @@ PrefabInstance:
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: shield
       value: 
-      objectReference: {fileID: 1192327087}
+      objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: barrier
       value: 
@@ -5529,6 +5532,10 @@ PrefabInstance:
       propertyPath: shieldTimerText
       value: 
       objectReference: {fileID: 1289393450}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: shootProjectile
+      value: 
+      objectReference: {fileID: 1673886438}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: goldStarsRequired
       value: 5
