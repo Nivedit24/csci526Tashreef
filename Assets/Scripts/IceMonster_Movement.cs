@@ -66,12 +66,13 @@ public class IceMonster_Movement : MonoBehaviour
         spriteRenderer.sprite = originalSprite;
     }
 
-    
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerFireball")
+        if (collision.gameObject.tag == "PlayerSnowball")
         {
+            Debug.Log("Hit Snow monster");
             isFrozen = true;
             ApplyFrozenAppearance();
             //timerBarController.StartTimer(5f); // Start the timer on the progress bar

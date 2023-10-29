@@ -34,13 +34,13 @@ public class AcidPrefab : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerFireball")
+        if (collision.gameObject.tag == "PlayerSnowball")
         {
             Debug.Log("Collided with snowball from acid prefab");
 
             transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
             transform.gameObject.tag = "Untagged";
-            transform.localScale =  new Vector3(1.0f,1.0f,1.0f);
+            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
 
         else if (collision.gameObject.tag == "Ground")
@@ -52,9 +52,9 @@ public class AcidPrefab : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-       
+
         //Destroy(gameObject);
     }
 
-    
+
 }

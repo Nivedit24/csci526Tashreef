@@ -23,7 +23,7 @@ public class FrozenIceMonster : MonoBehaviour
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
-        spriteRenderer = GetComponent < SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         monster = GetComponent<GameObject>();
         // Initialize the positions and activate the ice monster
         InitializeIceMonster();
@@ -70,7 +70,7 @@ public class FrozenIceMonster : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "PlayerFireball")
+        if (collision.gameObject.tag == "PlayerSnowball")
         {
             isFrozen = true;
             ApplyFrozenAppearance();
