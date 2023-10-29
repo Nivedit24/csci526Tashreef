@@ -49,12 +49,12 @@ public class canvas2_script : MonoBehaviour
             text1.text = "";
         }
 
-        
-        if(energyBall.activeSelf && checkpointFirst.activeSelf != true)
+
+        if (energyBall.activeSelf && checkpointFirst.activeSelf != true)
         {
             text2.text = "Energy Exhausted. Go Back to collect.";
         }
-        else if(Hoverball.activeSelf == false && checkpointFirst.activeSelf != true)
+        else if (Hoverball.activeSelf == false && checkpointFirst.activeSelf != true)
         {
             text2.text = "Activate Wind";
         }
@@ -63,9 +63,9 @@ public class canvas2_script : MonoBehaviour
             text2.text = "";
         }
 
-        if(checkpointLast.activeSelf == false && barrier.activeSelf)
+        if (checkpointLast.activeSelf == false && barrier.activeSelf)
         {
-            text3.text = "You Misssed Some Stars!";
+            text3.text = "You Missed Some Stars!";
         }
         else
         {

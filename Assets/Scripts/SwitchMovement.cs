@@ -41,7 +41,6 @@ public class SwitchMovement : MonoBehaviour
         if (collider.gameObject.tag == "PlayerFireball")
         {
             activated = !activated;
-            
         }
     }
 }

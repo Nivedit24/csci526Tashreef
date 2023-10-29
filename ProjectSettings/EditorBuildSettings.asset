@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuScene.unity
     guid: 45ed06a17a1ddad40b8fd816739f5876
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/LevelSelector.unity
     guid: 99ffb9572626ff748a2e8fe2680188a3
   - enabled: 1
     path: Assets/Scenes/Level0.unity
@@ -26,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level4.unity
     guid: eb2136832ca71425e8c6b9f236ec3b47
+  - enabled: 0
+    path: Assets/Scenes/checkpointsScene.unity
+    guid: 5aefc725aa86c46b6a99b2d071155fdb
+  - enabled: 0
+    path: Assets/Scenes/WaterScene.unity
+    guid: 79ff04c8b94168e4f89396d29279c355
   - enabled: 0
     path: Assets/Scenes/Level 2.unity
     guid: 062db530b9180d0408a24e75d494bac7
