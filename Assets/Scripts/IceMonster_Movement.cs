@@ -6,7 +6,6 @@ public class IceMonster_Movement : MonoBehaviour
 {
     // Start is called before the first frame update
     private int currIndex = 0;
-
     private bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
@@ -19,15 +18,13 @@ public class IceMonster_Movement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public GameObject monster;
     private Sprite originalSprite;
-    //private TimerBarController timerBarController; // Reference to the TimerBarController script
+
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
         setPoints[0] = new Vector2(monster.transform.position.x, monster.transform.position.y);
         generatePoints();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        //timerBarController = GetComponentInChildren<TimerBarController>();
-
     }
     void Awake()
     {
@@ -46,7 +43,6 @@ public class IceMonster_Movement : MonoBehaviour
                 if (currIndex >= setPoints.Length)
                 {
                     currIndex = 0;
-
                 }
             }
         }
@@ -66,16 +62,12 @@ public class IceMonster_Movement : MonoBehaviour
         spriteRenderer.sprite = originalSprite;
     }
 
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSnowball")
+        if (collision.gameObject.tag == "PlayerSnowBall")
         {
-            Debug.Log("Hit Snow monster");
             isFrozen = true;
             ApplyFrozenAppearance();
-            //timerBarController.StartTimer(5f); // Start the timer on the progress bar
             StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
             Destroy(collision.gameObject);
         }

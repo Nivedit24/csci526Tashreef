@@ -15,7 +15,6 @@ public class AcidDropToBlock : MonoBehaviour
         originalSprite = spriteRenderer.sprite;
         spriteRenderer = GetComponent<SpriteRenderer>();
         isFrozen = false;
-
     }
     void Awake()
     {
@@ -30,14 +29,13 @@ public class AcidDropToBlock : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSnowball")
+        if (collision.gameObject.tag == "PlayerSnowBall")
         {
             if (!isFrozen)
             {
                 isFrozen = true;
                 ApplyFrozenAppearance();
-                //timerBarController.StartTimer(5f); // Start the timer on the progress bar
-                StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
+                StartCoroutine(UnfreezeAfterDelay(timeFrozen));
                 Destroy(collision.gameObject);
             }
         }
@@ -48,7 +46,6 @@ public class AcidDropToBlock : MonoBehaviour
         if (frozenSprite != null)
         {
             spriteRenderer.sprite = frozenSprite;
-            //monster.tag = "Untagged";
             transform.gameObject.GetComponent<Collider2D>().isTrigger = false;
         }
     }
@@ -56,7 +53,6 @@ public class AcidDropToBlock : MonoBehaviour
     IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        //monster.tag = "LightningCloud";
         transform.gameObject.GetComponent<Collider2D>().isTrigger = true;
         isFrozen = false;
         spriteRenderer.sprite = originalSprite;
