@@ -9266,17 +9266,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d01e4c4138ce440e8afd5f1bf475101c, type: 3}
---- !u!114 &1525685904 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8983427073842776313, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
-  m_PrefabInstance: {fileID: 714656648}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1526501497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11420,6 +11409,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
   m_PrefabInstance: {fileID: 1800832200}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1817849677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1930186519063623081, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+  m_PrefabInstance: {fileID: 714656648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1820147567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12576,11 +12570,11 @@ PrefabInstance:
     - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: fireballUI
       value: 
-      objectReference: {fileID: 2015919537}
+      objectReference: {fileID: 0}
     - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: numberFireballsText
       value: 
-      objectReference: {fileID: 1525685904}
+      objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574466, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: m_Name
       value: Player
@@ -12597,6 +12591,10 @@ PrefabInstance:
       propertyPath: barrier
       value: 
       objectReference: {fileID: 1017399954}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: elements
+      value: 
+      objectReference: {fileID: 1817849677}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: allDemons
       value: 
@@ -12646,8 +12644,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 912442466}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: activePowers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: instructions.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: activePowers.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: activePowers.Array.data[1]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: instructions.Array.data[0]
@@ -12715,11 +12725,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29f342889eafb4451be094323412b696, type: 3}
---- !u!1 &2015919537 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4886305008745323794, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
-  m_PrefabInstance: {fileID: 714656648}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2018321476
 PrefabInstance:
   m_ObjectHideFlags: 0

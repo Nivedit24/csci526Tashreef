@@ -230,6 +230,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 511199755752921039, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+      propertyPath: m_Color.b
+      value: 0.31167677
+      objectReference: {fileID: 0}
+    - target: {fileID: 511199755752921039, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+      propertyPath: m_Color.g
+      value: 0.31167677
+      objectReference: {fileID: 0}
+    - target: {fileID: 511199755752921039, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6415094
+      objectReference: {fileID: 0}
+    - target: {fileID: 511199755752921039, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3178992764207720050, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -440,13 +456,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2022743370}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: barrier
       value: 
       objectReference: {fileID: 1854829099}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: elements
+      value: 
+      objectReference: {fileID: 1363469515}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: currPower
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: displayText
       value: 
       objectReference: {fileID: 1880180121}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: energyBalls
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: damageReceiver
       value: 
@@ -535,6 +567,22 @@ PrefabInstance:
     - target: {fileID: 5560768821630576977, guid: 525f29769670a4fb585839b79a93287d, type: 3}
       propertyPath: m_Name
       value: WindBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560768821630576977, guid: 525f29769670a4fb585839b79a93287d, type: 3}
+      propertyPath: m_TagString
+      value: Goal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560768821630576980, guid: 525f29769670a4fb585839b79a93287d, type: 3}
+      propertyPath: m_Color.b
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560768821630576980, guid: 525f29769670a4fb585839b79a93287d, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560768821630576980, guid: 525f29769670a4fb585839b79a93287d, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9811321
       objectReference: {fileID: 0}
     - target: {fileID: 5560768821630576981, guid: 525f29769670a4fb585839b79a93287d, type: 3}
       propertyPath: m_RootOrder

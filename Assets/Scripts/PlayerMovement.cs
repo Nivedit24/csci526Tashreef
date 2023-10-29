@@ -61,8 +61,8 @@ public class PlayerMovement : MonoBehaviour
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
     public GameObject energyBalls;
-
-    private Power currPower = Power.None;
+    public Power currPower = Power.Air;
+    public GameObject elements;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,9 +74,31 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+        for (int i = 0; i < activePowers.Count; i++)
+        {
+            switch (activePowers[i])
+            {
+                case Power.Air:
+                    elements.transform.GetChild(0).gameObject.SetActive(true);
+                    elements.transform.GetChild(8).gameObject.SetActive(true);
+                    break;
+                case Power.Fire:
+                    elements.transform.GetChild(5).gameObject.SetActive(true);
+                    elements.transform.GetChild(9).gameObject.SetActive(true);
+                    break;
+                case Power.Water:
+                    elements.transform.GetChild(6).gameObject.SetActive(true);
+                    elements.transform.GetChild(10).gameObject.SetActive(true);
+                    break;
+                case Power.Earth:
+                    elements.transform.GetChild(7).gameObject.SetActive(true);
+                    elements.transform.GetChild(11).gameObject.SetActive(true);
+                    break;
+            }
 
+        }
+        
         fireProjectile.enabled = false;
-
         if (allMovingPlatforms != null)
         {
             foreach (Transform movingPlatform in allMovingPlatforms.transform)
@@ -148,6 +170,22 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Z) && activePowers.Contains(Power.Air))
+        {
+            logoChange(4);
+        }
+        if (Input.GetKeyDown(KeyCode.X) && activePowers.Contains(Power.Fire))
+        {
+            logoChange(5);
+        }
+        if (Input.GetKeyDown(KeyCode.C) && activePowers.Contains(Power.Water))
+        {
+            logoChange(6);
+        }
+        if (Input.GetKeyDown(KeyCode.V) && activePowers.Contains(Power.Earth))
+        {
+            logoChange(7);
+        }
         updateUI();
         if (direction > 0)
         {
@@ -278,6 +316,13 @@ public class PlayerMovement : MonoBehaviour
 
         switch (collision.gameObject.tag)
         {
+            case "Goal":
+                if (SceneManager.GetActiveScene().buildIndex <= 3)
+                {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                break;
             case "EnergyBall":
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
@@ -336,13 +381,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(30);
                 break;
-            case "Goal":
-                if (SceneManager.GetActiveScene().buildIndex <= 3)
-                {
-                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                }
-                break;
+            
             default:
                 break;
         }
@@ -357,6 +396,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void updateUI()
     {
+        goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
         if (goldStarsCollected >= goldStarsRequired)
         {
             barrier.SetActive(false);
@@ -504,6 +544,29 @@ public class PlayerMovement : MonoBehaviour
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+    }
+
+    private void logoChange(int curLogo)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if(curLogo - 4 == i)
+            {
+                if (elements.transform.GetChild(curLogo).gameObject.activeSelf)
+                {
+                    elements.transform.GetChild(curLogo-4).gameObject.SetActive(true);
+                    elements.transform.GetChild(curLogo).gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (elements.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    elements.transform.GetChild(i).gameObject.SetActive(false);
+                    elements.transform.GetChild(i+4).gameObject.SetActive(true);
+                }
+            }
+        }
     }
 }
 

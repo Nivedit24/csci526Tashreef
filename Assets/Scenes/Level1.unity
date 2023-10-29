@@ -4325,6 +4325,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1894944747}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: elements
+      value: 
+      objectReference: {fileID: 4525528593444576026}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: hoverFuel
       value: 
       objectReference: {fileID: 750917536}
@@ -6643,6 +6647,11 @@ PrefabInstance:
       objectReference: {fileID: 519420031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+--- !u!1 &4525528593444576026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1930186519063623081, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+  m_PrefabInstance: {fileID: 4525528593444576025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7217051827246152248
 PrefabInstance:
   m_ObjectHideFlags: 0
