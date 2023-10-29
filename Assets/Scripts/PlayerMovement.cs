@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float hoverJumpFactor = 0.5f;
     public float hoverMassFactor = 0.2f;
     public float maxEnergy;
-    private float energyLeft;
+    public float energyLeft;
     private DateTime startHoverTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
@@ -62,6 +62,11 @@ public class PlayerMovement : MonoBehaviour
     public GameObject energyBalls;
     public Power currPower = Power.Air;
     public GameObject elements;
+
+    private bool airPower = false;
+    private bool firePower = false;
+    private bool waterPower = false;
+    private bool earthPower = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,21 +85,24 @@ public class PlayerMovement : MonoBehaviour
                 case Power.Air:
                     elements.transform.GetChild(0).gameObject.SetActive(true);
                     elements.transform.GetChild(8).gameObject.SetActive(true);
+                    airPower = true;
                     break;
                 case Power.Fire:
                     elements.transform.GetChild(5).gameObject.SetActive(true);
                     elements.transform.GetChild(9).gameObject.SetActive(true);
+                    firePower = true;
                     break;
                 case Power.Water:
                     elements.transform.GetChild(6).gameObject.SetActive(true);
                     elements.transform.GetChild(10).gameObject.SetActive(true);
+                    waterPower = true;
                     break;
                 case Power.Earth:
                     elements.transform.GetChild(7).gameObject.SetActive(true);
                     elements.transform.GetChild(11).gameObject.SetActive(true);
+                    earthPower = true;
                     break;
             }
-
         }
 
         fireProjectile.enabled = false;
@@ -125,26 +133,29 @@ public class PlayerMovement : MonoBehaviour
         {
             player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
-        else if (Input.GetKeyDown(KeyCode.Z))
+        else if (airPower && Input.GetKeyDown(KeyCode.Z))
         {
             currPower = Power.Air;
             fireProjectile.enabled = false;
-            if (energyLeft > 0)
+            if (energyLeft > 0 && currState != State.Hover)
             {
                 HoverOnAirBall();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (firePower && Input.GetKeyDown(KeyCode.X))
         {
             currPower = Power.Fire;
             fireProjectile.enabled = true;
-            DismountAirBall();
+            if (currState == State.Hover)
+            {
+                DismountAirBall();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (waterPower && Input.GetKeyDown(KeyCode.C))
         {
             currPower = Power.Water;
         }
-        else if (Input.GetKeyDown(KeyCode.Y))
+        else if (earthPower && Input.GetKeyDown(KeyCode.Y))
         {
             currPower = Power.Earth;
         }
@@ -159,10 +170,10 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else
                     {
-                        // if (energyLeft > 0)
-                        // {
-                        HoverOnAirBall();
-                        // }
+                        if (energyLeft > 0)
+                        {
+                            HoverOnAirBall();
+                        }
                     }
                     break;
                 case Power.Fire:
@@ -338,7 +349,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DisplayText("Replenish your Energy", collision.gameObject);
                 }
-                SetEnergyLevel();
+                SetEnergyLevel(maxEnergy);
                 collision.gameObject.SetActive(false);
                 break;
             case "Respawn":
@@ -379,11 +390,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void SetEnergyLevel()
+    public void SetEnergyLevel(float energy)
     {
         energyBar.gameObject.SetActive(true);
-        energyBar.SetMaxHealth((int)(maxEnergy * 10));
-        energyLeft = maxEnergy * 10;
+        energyBar.SetMaxHealth((int)(energy * 10));
+        energyLeft = energy * 10;
+
+
+        if (energy == 0)
+        {
+            energyBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            energyBar.gameObject.SetActive(true);
+        }
     }
 
     private void DisplayText(string message, GameObject obj)
@@ -505,7 +526,6 @@ public class PlayerMovement : MonoBehaviour
                 i += 1;
             }
         }
-
     }
 
     public void KillPlayer()
