@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxEnergy;
     public float energyLeft;
     private DateTime startHoverTime;
+    private DateTime startShieldTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
     private bool cloudDrag = false;
@@ -56,12 +57,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject allMovingPlatforms;
     [SerializeField] private GameObject allSwitches;
     [SerializeField] public List<Power> activePowers;
+    [SerializeField] public GameObject shield;
     private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
     public GameObject energyBalls;
+    public GameObject breakwall;
     public Power currPower = Power.Air;
     public GameObject elements;
+    private bool isShielded= false;
 
     private bool airPower = false;
     private bool firePower = false;
@@ -70,6 +74,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetEnergyLevel(maxEnergy);
+
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
         currState = State.Normal;
@@ -140,6 +146,10 @@ public class PlayerMovement : MonoBehaviour
             fireProjectile.enabled = false;
             if (energyLeft > 0 && currState != State.Hover)
             {
+                if (currState == State.Shielded)
+                {
+                    RemoveEarthShield();
+                }
                 HoverOnAirBall();
             }
         }
@@ -152,14 +162,30 @@ public class PlayerMovement : MonoBehaviour
             {
                 DismountAirBall();
             }
+
+            if(currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
         }
         else if (waterPower && Input.GetKeyDown(KeyCode.C))
         {
             currPower = Power.Water;
         }
-        else if (earthPower && Input.GetKeyDown(KeyCode.Y))
+        else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
+            Debug.Log("Earth Power");
             currPower = Power.Earth;
+            fireProjectile.enabled = false;
+            if (energyLeft > 0 && currState != State.Shielded)
+            {
+                if (currState == State.Hover)
+                {
+                    DismountAirBall();
+                }
+                GrabEarthShield();
+            }
+
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -183,6 +209,19 @@ public class PlayerMovement : MonoBehaviour
                 case Power.Water:
                     break;
                 case Power.Earth:
+                    if (currState == State.Shielded)
+                    {
+                        RemoveEarthShield();
+                    }
+                    else
+                    {
+                        if (energyLeft > 0)
+                        {
+                            GrabEarthShield();
+                        }
+                    }
+
+                    
                     break;
                 default:
                     break;
@@ -249,11 +288,28 @@ public class PlayerMovement : MonoBehaviour
                     ResetUsedCollectables(energyBalls);
                 }
                 break;
+
+            case State.Shielded:
+                    TimeSpan tspan = DateTime.UtcNow - startShieldTime;
+                    energyBar.SetHealth((int)(energyLeft - (tspan.TotalSeconds * 10)));
+                    if (energyBar.slider.value <= 0)
+                    {
+                        RemoveEarthShield();
+                        energyBar.gameObject.SetActive(false);
+                        ResetUsedCollectables(energyBalls);
+                    }
+
+                    break;
+                
             default:
                 return;
         }
     }
-
+    void noShielded()
+    {
+        shield.SetActive(false);
+        isShielded=false;
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
@@ -356,6 +412,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     startHoverTime = DateTime.UtcNow;
                 }
+                if (currState == State.Shielded)
+                {
+                    startShieldTime = DateTime.UtcNow;
+                }
                 collision.gameObject.SetActive(false);
                 break;
             case "Respawn":
@@ -450,8 +510,27 @@ public class PlayerMovement : MonoBehaviour
         currState = State.Hover;
         isHovering = true;
         startHoverTime = DateTime.UtcNow;
+        
 
         ToggleCloudDirectionArrows(true);
+    }
+
+    void GrabEarthShield()
+    {
+        shield.SetActive(true);
+        isShielded=true;
+        currState = State.Shielded;
+        startShieldTime= DateTime.UtcNow;
+    }
+
+    void RemoveEarthShield()
+    {
+        shield.SetActive(false);
+        isShielded=false;
+        currState = State.Normal;
+        energyLeft = energyBar.slider.value;
+
+
     }
 
     void DismountAirBall()
@@ -609,7 +688,7 @@ internal class CheckPoint
 
 public enum State
 {
-    Normal, Hover, Dead, Gone
+    Normal, Hover, Shielded, Dead, Gone
 }
 
 public enum Power
