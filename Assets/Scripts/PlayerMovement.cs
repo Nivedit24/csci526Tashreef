@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     private long deadCounter;
     private int levelName;
     private int goldStarsCollected = 0;
+    private int fireballsCollected;
+    public int fireShotsUsed;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
 
@@ -105,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
                     break;
             }
         }
+        fireballsCollected = 0;
+        fireShotsUsed = 0;
 
         fireProjectile.enabled = false;
         if (allMovingPlatforms != null)
@@ -378,6 +382,25 @@ public class PlayerMovement : MonoBehaviour
             case "Demon":
                 Debug.Log("Hit by demon");
                 damageReceiver.TakeDamage(20);
+                break;
+            case "Fireball":
+                fireballsCollected++;
+                // Add analytics code here
+                if (!fireProjectile.enabled)
+                {
+                    fireProjectile.enabled = true;
+                    fireProjectile.fireballUI.SetActive(true);
+                    collision.gameObject.SetActive(false);
+                }
+                else
+                {
+                    fireProjectile.collectFireballs();
+                    collision.gameObject.SetActive(false);
+                }
+                if (instructions.Contains(collision.gameObject))
+                {
+                    DisplayText("Use Space to shoot", collision.gameObject);
+                }
                 break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");

@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public float speed = 50.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
+    
     void Start()
     {
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -26,6 +27,9 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        playerMovement.fireShotsUsed++;
+        print("FireShotCount " + playerMovement.fireShotsUsed);
+        // Add analytics code here
         if (collision.gameObject.tag == "Demon")
         {
             collision.gameObject.SetActive(false);
