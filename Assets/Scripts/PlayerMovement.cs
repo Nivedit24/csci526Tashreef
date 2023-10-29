@@ -106,6 +106,15 @@ public class PlayerMovement : MonoBehaviour
                 initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
             }
 
+
+        }
+        if (allMovingPlatforms != null)
+        {
+            foreach (Transform movingPlatform in allMovingPlatforms.transform)
+            {
+                initialPositionsOfMovingPlatforms.Add(movingPlatform.position);
+            }
+
             foreach (Transform Switch in allSwitches.transform)
             {
                 initialSwitchDirection.Add(Switch.GetComponent<SwitchMovement>().direction);
