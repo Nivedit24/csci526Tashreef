@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private long sessionID;
     private long deadCounter;
     private int levelName;
+    public int fireShotsFired;
     private int goldStarsCollected = 0;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
@@ -78,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+        fireShotsFired = 0;
+
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
         shootProjectile.enabled = false;
