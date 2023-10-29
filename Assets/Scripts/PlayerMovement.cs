@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private long deadCounter;
     private int levelName;
     private int goldStarsCollected = 0;
+    private int fireballsCollected;
+    public int fireShotsUsed;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
 
@@ -75,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+        fireballsCollected = 0;
+        fireShotsUsed = 0;
 
         fireProjectile.enabled = false;
         fireProjectile.fireballUI.SetActive(false);
@@ -302,6 +306,8 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(20);
                 break;
             case "Fireball":
+                fireballsCollected++;
+                // Add analytics code here
                 if (!fireProjectile.enabled)
                 {
                     fireProjectile.enabled = true;
