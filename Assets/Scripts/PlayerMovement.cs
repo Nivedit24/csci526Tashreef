@@ -88,7 +88,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 case Power.Air:
                     elements.transform.GetChild(0).gameObject.SetActive(true);
-                    elements.transform.GetChild(8).gameObject.SetActive(true);
+                    if (activePowers.Count > 1)
+                    {
+                        elements.transform.GetChild(8).gameObject.SetActive(true);
+                    }
                     airPower = true;
                     break;
                 case Power.Fire:
@@ -281,6 +284,14 @@ public class PlayerMovement : MonoBehaviour
     {
         switch (other.gameObject.tag)
         {
+            case "Goal":
+                Debug.Log("Fire Log Triggered");
+                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                break;
             case "CheckPoint":
                 Debug.Log("Player reach the CheckPoint");
                 Debug.Log("transform is : ", transform);
@@ -326,7 +337,6 @@ public class PlayerMovement : MonoBehaviour
                 transform.SetParent(other.transform);
                 Debug.Log("moving platform");
                 break;
-
             case "AcidDrop":
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5);
@@ -381,13 +391,6 @@ public class PlayerMovement : MonoBehaviour
 
         switch (collision.gameObject.tag)
         {
-            case "Goal":
-                if (SceneManager.GetActiveScene().buildIndex <= 5)
-                {
-                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                }
-                break;
             case "EnergyBall":
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))

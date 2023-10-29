@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7522148082436436081}
   - component: {fileID: 7522148082436436083}
   - component: {fileID: 7522148082436436080}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Barrier_roof
   m_TagString: Ground
   m_Icon: {fileID: 0}
