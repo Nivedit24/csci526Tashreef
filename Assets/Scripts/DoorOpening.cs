@@ -17,18 +17,18 @@ public class DoorOpening : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("AcidBlock"))
+        if (collision.gameObject.CompareTag("AcidBlock") || collision.gameObject.CompareTag("Player"))
         {
             door.SetActive(false);
         }
 
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("AcidBlock"))
+        if (collision.gameObject.CompareTag("AcidBlock") || collision.gameObject.CompareTag("Player"))
         {
             door.SetActive(true);
         }
