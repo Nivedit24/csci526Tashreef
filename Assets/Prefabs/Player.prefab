@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 7223069435964574468}
   - component: {fileID: 7223069435964574467}
   - component: {fileID: 4602866493776184856}
+  - component: {fileID: 380593280576517843}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -533,6 +534,7 @@ MonoBehaviour:
   energyBalls: {fileID: 0}
   currPower: 1
   elements: {fileID: 0}
+  powerTimer: {fileID: 0}
 --- !u!114 &7223069435964574467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,6 +569,19 @@ MonoBehaviour:
   launchPointRight: {fileID: 8586213616985231315}
   launchPointLeft: {fileID: 1334439577954602093}
   shootTime: 0.25
+  playerMovement: {fileID: 7223069435964574468}
+--- !u!114 &380593280576517843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223069435964574466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a91e0f9e19ae7343a35ca889c94f637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   playerMovement: {fileID: 7223069435964574468}
 --- !u!1 &9155689589112615307
 GameObject:

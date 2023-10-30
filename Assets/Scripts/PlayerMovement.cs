@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public float hoverMassFactor = 0.2f;
     public float maxEnergy;
     public float energyLeft;
-    private DateTime startHoverTime;
+    public DateTime startTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
     private bool cloudDrag = false;
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject energyBalls;
     public Power currPower = Power.Air;
     public GameObject elements;
-
+    public PowerTimer powerTimer;
     private bool airPower = false;
     private bool firePower = false;
     private bool waterPower = false;
@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
         shootProjectile.enabled = false;
-
+        powerTimer.enabled = false;
         for (int i = 0; i < activePowers.Count; i++)
         {
             switch (activePowers[i])
@@ -246,23 +246,12 @@ public class PlayerMovement : MonoBehaviour
                 ResetAllDemons();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
-
                 return;
             case State.Normal:
+                powerTimer.enabled = false;
                 break;
             case State.Hover:
-                TimeSpan span = DateTime.UtcNow - startHoverTime;
-                energyBar.SetHealth((int)(energyLeft - (span.TotalSeconds * 10)));
-
-
-                Debug.Log("Energy Left : " + energyBar.slider.value);
-
-                if (energyBar.slider.value <= 0)
-                {
-                    DismountAirBall();
-                    energyBar.gameObject.SetActive(false);
-                    ResetUsedCollectables(energyBalls);
-                }
+                powerTimer.enabled = true;
                 break;
             default:
                 return;
@@ -400,7 +389,7 @@ public class PlayerMovement : MonoBehaviour
                 SetEnergyLevel(maxEnergy);
                 if (currState == State.Hover)
                 {
-                    startHoverTime = DateTime.UtcNow;
+                    startTime = DateTime.UtcNow;
                 }
                 collision.gameObject.SetActive(false);
                 break;
@@ -479,7 +468,7 @@ public class PlayerMovement : MonoBehaviour
         displayText.text = "";
     }
 
-    void HoverOnAirBall()
+   public void HoverOnAirBall()
     {
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
@@ -495,12 +484,11 @@ public class PlayerMovement : MonoBehaviour
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
-        startHoverTime = DateTime.UtcNow;
-
+        startTime = DateTime.UtcNow;
         ToggleCloudDirectionArrows(true);
     }
 
-    void DismountAirBall()
+    public void DismountAirBall()
     {
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
