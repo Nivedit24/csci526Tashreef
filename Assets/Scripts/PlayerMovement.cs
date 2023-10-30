@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CheckPoint checkPoint;
     public float dragFactor;
-    public static State currState;
+    public State currState;
     public DamageReceiver damageReceiver;
     public bool isHovering = false;
     private DateTime startGameTime, lastCheckPointTime;
@@ -288,14 +288,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.Shielded:
-                TimeSpan tspan = DateTime.UtcNow - startShieldTime;
-                energyBar.SetHealth((int)(energyLeft - (tspan.TotalSeconds * 10)));
-                if (energyBar.slider.value <= 0)
-                {
-                    RemoveEarthShield();
-                    energyBar.gameObject.SetActive(false);
-                    ResetUsedCollectables(energyBalls);
-                }
+                powerTimer.enabled = true;
 
                 break;
 
@@ -432,13 +425,9 @@ public class PlayerMovement : MonoBehaviour
                     DisplayText("Replenish your Energy", collision.gameObject);
                 }
                 SetEnergyLevel(maxEnergy);
-                if (currState == State.Hover)
+                if (currState == State.Hover || currState == State.Shielded)
                 {
                     powerStartTime = DateTime.UtcNow;
-                }
-                if (currState == State.Shielded)
-                {
-                    startShieldTime = DateTime.UtcNow;
                 }
                 collision.gameObject.SetActive(false);
                 break;
@@ -577,9 +566,9 @@ public class PlayerMovement : MonoBehaviour
         bodyPosition.y += shield.transform.localScale.y;
         currState = State.Shielded;
         shield.GetComponent<RotateShield>().startRotate = true;
-        startShieldTime = DateTime.UtcNow;
+        powerStartTime = DateTime.UtcNow;
     }
-    void RemoveEarthShield()
+    public void RemoveEarthShield()
     {
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(false);

@@ -15,13 +15,16 @@ public class PowerTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeSpan span = DateTime.UtcNow - playerMovement.startTime;
+        TimeSpan span = DateTime.UtcNow - playerMovement.powerStartTime;
         playerMovement.energyBar.SetHealth((int)(playerMovement.energyLeft - (span.TotalSeconds * 10)));
         Debug.Log("Energy Left : " + playerMovement.energyBar.slider.value);
 
         if (playerMovement.energyBar.slider.value <= 0)
         {
-            playerMovement.DismountAirBall();
+            if(playerMovement.currState == State.Hover)
+                playerMovement.DismountAirBall();
+            if (playerMovement.currState == State.Shielded)
+                playerMovement.RemoveEarthShield();
             playerMovement.energyBar.gameObject.SetActive(false);
             playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
         }
