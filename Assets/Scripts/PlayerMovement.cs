@@ -184,7 +184,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
-            Debug.Log("Earth Power");
             currPower = Power.Earth;
             shootProjectile.enabled = false;
             if (currState == State.Hover)
@@ -193,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (energyLeft > 0 && currState != State.Shielded)
             {
-                GrabEarthShield();
+                EquipEarthShield();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -226,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if (energyLeft > 0)
                         {
-                            GrabEarthShield();
+                            EquipEarthShield();
                         }
                     }
 
@@ -381,7 +380,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "AcidDrop":
                 Debug.Log("Collided with Acid drop");
-                damageReceiver.TakeDamage(5);
+                damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
         }
     }
@@ -392,11 +391,11 @@ public class PlayerMovement : MonoBehaviour
         {
             case "IceMonster":
                 Debug.Log("Collided with Ice Monster");
-                damageReceiver.TakeDamage(10);
+                damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
                 Debug.Log("I'm in the water, pls help me ooo!");
-                damageReceiver.TakeDamage(5);
+                damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
         }
     }
@@ -455,11 +454,11 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Tornado":
                 Debug.Log("Player is hit by Tornado");
-                damageReceiver.TakeDamage(10);
+                damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "lightning":
                 Debug.Log("Struck by Lightning");
-                damageReceiver.TakeDamage(25);
+                damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
@@ -469,19 +468,19 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Demon":
                 Debug.Log("Hit by demon");
-                damageReceiver.TakeDamage(20);
+                damageReceiver.TakeDamage(20, currState == State.Shielded);
                 break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                damageReceiver.TakeDamage(50);
+                damageReceiver.TakeDamage(50, currState == State.Shielded);
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
-                damageReceiver.TakeDamage(30);
+                damageReceiver.TakeDamage(30, currState == State.Shielded);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                damageReceiver.TakeDamage(30);
+                damageReceiver.TakeDamage(30, currState == State.Shielded);
                 break;
             default:
                 break;
@@ -578,7 +577,7 @@ public class PlayerMovement : MonoBehaviour
             child.gameObject.SetActive(show);
         }
     }
-    void GrabEarthShield()
+    void EquipEarthShield()
     {
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(true);

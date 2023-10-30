@@ -7,7 +7,7 @@ public class DamageReceiver : MonoBehaviour
     // Start is called before the first frame update
     public int maxHealth = 100;
     public int currHealth;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     private float invicibilityDuration = 1f;
     private float invincibilityDeltaTime = 0.1f;
     private Vector3 initScale; // Since model scale is not initScale, we use this instead
@@ -54,9 +54,9 @@ public class DamageReceiver : MonoBehaviour
         isInvincible = false;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool shielded)
     {
-        if (isInvincible) return;
+        if (isInvincible || shielded) return;
 
         currHealth -= damage;
         healthBar.SetHealth(currHealth);

@@ -549,6 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currHealth: 0
+  isInvincible: 0
   healthBar: {fileID: 0}
   model: {fileID: 7223069435458271577}
   playerMovement: {fileID: 7223069435964574468}
@@ -793,13 +794,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8035486760423875924, guid: 2dcadca1722e24c51baac351054de23f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8035486760423875924, guid: 2dcadca1722e24c51baac351054de23f, type: 3}
       propertyPath: m_TagString
       value: Shield
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4856683419452046300, guid: 2dcadca1722e24c51baac351054de23f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2dcadca1722e24c51baac351054de23f, type: 3}
 --- !u!1 &3594978340609176202 stripped
 GameObject:
