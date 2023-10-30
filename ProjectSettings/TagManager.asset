@@ -37,6 +37,7 @@ TagManager:
   - Shield
   - BreakWall
   - EarthMonster
+  - Boulder
   layers:
   - Default
   - TransparentFX

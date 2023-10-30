@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8660428449511302752}
   - component: {fileID: 8660428449511302753}
   - component: {fileID: 8660428449511302754}
+  - component: {fileID: 4006298552315558796}
   m_Layer: 0
   m_Name: Boulder
-  m_TagString: Untagged
+  m_TagString: Boulder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,3 +124,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.335
+--- !u!114 &4006298552315558796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660428449511302755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4336e04cdfd4e5886b015cb6c245c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 30
+  enemyPrefab: {fileID: 8660428449511302753}
+  speed: 40
+  enemy: {fileID: 7852299632020693929, guid: 69942aca4f07dce40a627596086020a9, type: 3}

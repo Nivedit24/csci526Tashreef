@@ -465,7 +465,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    damageReceiver.TakeDamage(50, false);
+                    damageReceiver.TakeDamage(25, false);
                 }
                 break;
             case "BreakWall":
