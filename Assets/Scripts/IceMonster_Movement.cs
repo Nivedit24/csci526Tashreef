@@ -67,6 +67,7 @@ public class IceMonster_Movement : MonoBehaviour
         if (collision.gameObject.tag == "PlayerSnowBall")
         {
             isFrozen = true;
+            monster.layer = LayerMask.NameToLayer("Ground");
             ApplyFrozenAppearance();
             StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
             Destroy(collision.gameObject);
@@ -89,6 +90,7 @@ public class IceMonster_Movement : MonoBehaviour
         monster.tag = "IceMonster";
         monster.GetComponent<Collider2D>().isTrigger = true;
         isFrozen = false;
+        monster.layer = LayerMask.NameToLayer("Default");
         spriteRenderer.sprite = originalSprite;
     }
 }

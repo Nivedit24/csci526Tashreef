@@ -594,6 +594,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void ToggleCloudDirectionArrows(bool show)
     {
+        if (clouds == null)
+        {
+            return;
+        }
         foreach (Transform cloud in clouds.transform)
         {
             Transform child = cloud.GetChild(0);
