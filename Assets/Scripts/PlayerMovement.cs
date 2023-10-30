@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public float hoverMassFactor = 0.2f;
     public float maxEnergy;
     public float energyLeft;
-    public DateTime startTime;
+    public DateTime powerStartTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
     private bool cloudDrag = false;
@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
     public GameObject energyBalls;
+    public GameObject breakwall;
     public Power currPower = Power.Air;
     public GameObject elements;
     public PowerTimer powerTimer;
@@ -134,6 +135,11 @@ public class PlayerMovement : MonoBehaviour
 
         isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
 
+        if (currState == State.Shielded)
+        {
+            isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius + 3.5f, groundLayer);
+        }
+
         player.velocity = new Vector2(direction * speed, player.velocity.y);
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
@@ -144,6 +150,10 @@ public class PlayerMovement : MonoBehaviour
         {
             currPower = Power.Air;
             shootProjectile.enabled = false;
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
             if (energyLeft > 0 && currState != State.Hover)
             {
                 HoverOnAirBall();
@@ -157,6 +167,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 DismountAirBall();
             }
+
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
         }
         else if (waterPower && Input.GetKeyDown(KeyCode.C))
         {
@@ -169,11 +184,16 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
+            Debug.Log("Earth Power");
             currPower = Power.Earth;
             shootProjectile.enabled = false;
             if (currState == State.Hover)
             {
                 DismountAirBall();
+            }
+            if (energyLeft > 0 && currState != State.Shielded)
+            {
+                GrabEarthShield();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -198,6 +218,19 @@ public class PlayerMovement : MonoBehaviour
                 case Power.Water:
                     break;
                 case Power.Earth:
+                    if (currState == State.Shielded)
+                    {
+                        RemoveEarthShield();
+                    }
+                    else
+                    {
+                        if (energyLeft > 0)
+                        {
+                            GrabEarthShield();
+                        }
+                    }
+
+
                     break;
                 default:
                     break;
@@ -253,6 +286,19 @@ public class PlayerMovement : MonoBehaviour
             case State.Hover:
                 powerTimer.enabled = true;
                 break;
+
+            case State.Shielded:
+                TimeSpan tspan = DateTime.UtcNow - startShieldTime;
+                energyBar.SetHealth((int)(energyLeft - (tspan.TotalSeconds * 10)));
+                if (energyBar.slider.value <= 0)
+                {
+                    RemoveEarthShield();
+                    energyBar.gameObject.SetActive(false);
+                    ResetUsedCollectables(energyBalls);
+                }
+
+                break;
+
             default:
                 return;
         }
@@ -268,7 +314,6 @@ public class PlayerMovement : MonoBehaviour
             launchPointDisplay(idx);
         }
     }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
@@ -389,7 +434,11 @@ public class PlayerMovement : MonoBehaviour
                 SetEnergyLevel(maxEnergy);
                 if (currState == State.Hover)
                 {
-                    startTime = DateTime.UtcNow;
+                    powerStartTime = DateTime.UtcNow;
+                }
+                if (currState == State.Shielded)
+                {
+                    startShieldTime = DateTime.UtcNow;
                 }
                 collision.gameObject.SetActive(false);
                 break;
@@ -468,7 +517,7 @@ public class PlayerMovement : MonoBehaviour
         displayText.text = "";
     }
 
-   public void HoverOnAirBall()
+    public void HoverOnAirBall()
     {
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
@@ -484,7 +533,7 @@ public class PlayerMovement : MonoBehaviour
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
-        startTime = DateTime.UtcNow;
+        powerStartTime = DateTime.UtcNow;
         ToggleCloudDirectionArrows(true);
     }
 
@@ -518,6 +567,24 @@ public class PlayerMovement : MonoBehaviour
             Transform child = cloud.GetChild(0);
             child.gameObject.SetActive(show);
         }
+    }
+    void GrabEarthShield()
+    {
+        Transform shield = transform.Find("EarthShield");
+        shield.gameObject.SetActive(true);
+        Transform playerBody = transform.Find("Body");
+        Vector3 bodyPosition = playerBody.localPosition;
+        bodyPosition.y += shield.transform.localScale.y;
+        currState = State.Shielded;
+        shield.GetComponent<RotateShield>().startRotate = true;
+        startShieldTime = DateTime.UtcNow;
+    }
+    void RemoveEarthShield()
+    {
+        Transform shield = transform.Find("EarthShield");
+        shield.gameObject.SetActive(false);
+        currState = State.Normal;
+        energyLeft = energyBar.slider.value;
     }
 
     public void ResetUsedCollectables(GameObject collectables)
@@ -669,10 +736,10 @@ internal class CheckPoint
 
 public enum State
 {
-    Normal, Hover, Dead, Gone
+    Normal, Hover, Shielded, Dead, Gone
 }
 
 public enum Power
 {
-    None, Air, Fire, Water, Earth
+    Air, Fire, Water, Earth
 }
