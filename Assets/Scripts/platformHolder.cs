@@ -27,6 +27,9 @@ public class platformHolder : MonoBehaviour
                 acidBlockParent = collision.gameObject.transform.parent;
                 collision.gameObject.transform.SetParent(transform);
                 break;
+            case "Switch":
+                collision.gameObject.transform.SetParent(transform);
+                break;
         }
     }
 

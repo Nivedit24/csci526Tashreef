@@ -30,11 +30,18 @@ public class AcidPrefab : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall")
         {
-            transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
-            transform.gameObject.tag = "AcidBlock";
-            transform.GetComponent<BoxCollider2D>().size = new Vector2(3f, 3f);
-            transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            if(transform.gameObject.tag != "AcidBlock")
+            {
+                transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
+                transform.gameObject.tag = "AcidBlock";
+                transform.GetComponent<BoxCollider2D>().size = new Vector2(3f, 3f);
+                transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else
+            {
+                Destroy(collision.gameObject);
+            }
         }
 
         else if (collision.gameObject.tag == "Ground")
