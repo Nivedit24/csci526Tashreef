@@ -11511,6 +11511,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: powerTimer
+      value: 
+      objectReference: {fileID: 2015487310}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: allSwitches
       value: 
       objectReference: {fileID: 934474347}
@@ -11632,6 +11636,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29f342889eafb4451be094323412b696, type: 3}
+--- !u!114 &2015487310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 380593280576517843, guid: 29f342889eafb4451be094323412b696, type: 3}
+  m_PrefabInstance: {fileID: 2015487309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673886437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a91e0f9e19ae7343a35ca889c94f637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2019285114
 PrefabInstance:
   m_ObjectHideFlags: 0

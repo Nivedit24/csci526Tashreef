@@ -24,8 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public float hoverMassFactor = 0.2f;
     public float maxEnergy;
     public float energyLeft;
-    private DateTime startHoverTime;
-    private DateTime startShieldTime;
+    public DateTime powerStartTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
     private bool cloudDrag = false;
@@ -39,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CheckPoint checkPoint;
     public float dragFactor;
-    public static State currState;
+    public State currState;
     public DamageReceiver damageReceiver;
     public bool isHovering = false;
     private DateTime startGameTime, lastCheckPointTime;
@@ -64,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject breakwall;
     public Power currPower = Power.Air;
     public GameObject elements;
+    public PowerTimer powerTimer;
     private bool airPower = false;
     private bool firePower = false;
     private bool waterPower = false;
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
         shootProjectile.enabled = false;
-
+        powerTimer.enabled = false;
         for (int i = 0; i < activePowers.Count; i++)
         {
             switch (activePowers[i])
@@ -278,31 +278,16 @@ public class PlayerMovement : MonoBehaviour
                 ResetAllDemons();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
-
                 return;
             case State.Normal:
+                powerTimer.enabled = false;
                 break;
             case State.Hover:
-                TimeSpan span = DateTime.UtcNow - startHoverTime;
-                energyBar.SetHealth((int)(energyLeft - (span.TotalSeconds * 10)));
-
-                if (energyBar.slider.value <= 0)
-                {
-                    DismountAirBall();
-                    energyBar.gameObject.SetActive(false);
-                    ResetUsedCollectables(energyBalls);
-                }
+                powerTimer.enabled = true;
                 break;
 
             case State.Shielded:
-                TimeSpan tspan = DateTime.UtcNow - startShieldTime;
-                energyBar.SetHealth((int)(energyLeft - (tspan.TotalSeconds * 10)));
-                if (energyBar.slider.value <= 0)
-                {
-                    RemoveEarthShield();
-                    energyBar.gameObject.SetActive(false);
-                    ResetUsedCollectables(energyBalls);
-                }
+                powerTimer.enabled = true;
 
                 break;
 
@@ -439,13 +424,9 @@ public class PlayerMovement : MonoBehaviour
                     DisplayText("Replenish your Energy", collision.gameObject);
                 }
                 SetEnergyLevel(maxEnergy);
-                if (currState == State.Hover)
+                if (currState == State.Hover || currState == State.Shielded)
                 {
-                    startHoverTime = DateTime.UtcNow;
-                }
-                if (currState == State.Shielded)
-                {
-                    startShieldTime = DateTime.UtcNow;
+                    powerStartTime = DateTime.UtcNow;
                 }
                 collision.gameObject.SetActive(false);
                 break;
@@ -524,7 +505,7 @@ public class PlayerMovement : MonoBehaviour
         displayText.text = "";
     }
 
-    void HoverOnAirBall()
+    public void HoverOnAirBall()
     {
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
@@ -540,13 +521,11 @@ public class PlayerMovement : MonoBehaviour
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
-        startHoverTime = DateTime.UtcNow;
-
-
+        powerStartTime = DateTime.UtcNow;
         ToggleCloudDirectionArrows(true);
     }
 
-    void DismountAirBall()
+    public void DismountAirBall()
     {
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
@@ -586,9 +565,9 @@ public class PlayerMovement : MonoBehaviour
         bodyPosition.y += shield.transform.localScale.y;
         currState = State.Shielded;
         shield.GetComponent<RotateShield>().startRotate = true;
-        startShieldTime = DateTime.UtcNow;
+        powerStartTime = DateTime.UtcNow;
     }
-    void RemoveEarthShield()
+    public void RemoveEarthShield()
     {
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(false);
