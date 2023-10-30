@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4296417465514655705}
   - component: {fileID: 1198550380497375800}
   - component: {fileID: 5631807572055898894}
+  - component: {fileID: 4860425872387751715}
   m_Layer: 6
   m_Name: PlatformHolder
   m_TagString: PlatformHolder
@@ -111,6 +112,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4860425872387751715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754519467381936067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6290c1ecebe7c0c4290a49ecc6afc5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1258476916308867284
 PrefabInstance:
   m_ObjectHideFlags: 0
