@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
 
     void OnEnable()
     {
-        if (gameObject.tag == "Demon")
+        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
         }

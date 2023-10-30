@@ -365,13 +365,13 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
 
-           
+
 
 
         }
     }
 
-    
+
 
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -458,14 +458,22 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(30, currState == State.Shielded);
                 break;
-             case "BreakWall":
-            Debug.Log("Wall tocuhed");
-            if (currState == State.Shielded)
-            {
-                // Check if the player is shielded.
-                Destroy(collision.gameObject); // Destroy the wall.
-            }
-            break;
+            case "EarthMonster":
+                if (currState == State.Shielded)
+                {
+                    Destroy(collision.gameObject); // Destroy the wall.
+                }
+                else
+                {
+                    damageReceiver.TakeDamage(50, false);
+                }
+                break;
+            case "BreakWall":
+                if (currState == State.Shielded)
+                {
+                    Destroy(collision.gameObject); // Destroy the wall.
+                }
+                break;
             default:
                 break;
         }

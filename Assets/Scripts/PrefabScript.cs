@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PrefabScript : MonoBehaviour
 {
-  
+
     public float life = 3;
     public Rigidbody2D fireBall;
     public float speed = 20.0f;
@@ -13,7 +13,7 @@ public class PrefabScript : MonoBehaviour
     {
         if (gameObject.CompareTag("DemonFireball"))
         {
-            enemyMovement = GameObject.FindGameObjectWithTag("Demon").GetComponent<EnemyMovement>();
+            enemyMovement = GameObject.FindGameObjectWithTag("EarthMonster").GetComponent<EnemyMovement>();
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), enemyMovement.GetComponent<Collider2D>());
             SetInitialVelocity();
         }

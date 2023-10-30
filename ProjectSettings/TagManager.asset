@@ -34,6 +34,9 @@ TagManager:
   - EnergyBall
   - PlayerSnowBall
   - AcidBlock
+  - Shield
+  - BreakWall
+  - EarthMonster
   layers:
   - Default
   - TransparentFX
