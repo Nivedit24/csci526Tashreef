@@ -37,6 +37,7 @@ TagManager:
   - Shield
   - BreakWall
   - EarthMonster
+  - Sand
   - Boulder
   layers:
   - Default

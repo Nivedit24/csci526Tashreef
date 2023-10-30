@@ -308,7 +308,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         switch (other.gameObject.tag)
         {
             case "Goal":
@@ -364,31 +363,38 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
-
-
-
-
         }
     }
-
-
 
     private void OnTriggerStay2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
             case "IceMonster":
-                Debug.Log("Collided with Ice Monster");
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
-                Debug.Log("I'm in the water, pls help me ooo!");
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
+                break;
+            case "Sand":
+                float drag = currState != State.Shielded ? 100f : 0f;
+                drag = currState == State.Hover ? 5f : drag;
+                transform.GetComponent<Rigidbody2D>().drag = drag;
                 break;
         }
     }
 
-    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "Sand":
+                transform.GetComponent<Rigidbody2D>().drag = 0f;
+                break;
+        }
+    }
+
+
     void OnCollisionEnter(Collision collision)
     {
         // Check if the player is colliding with a platform
