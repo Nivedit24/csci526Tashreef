@@ -1825,6 +1825,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
+--- !u!114 &693703064 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4525528594294091303, guid: a81b3928dc2b4114d969a6331ca84851, type: 3}
+  m_PrefabInstance: {fileID: 714656648}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88a128144b7b0c44953cac657ad0505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &714656648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3063,10 +3074,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: icePrefab
+      value: 
+      objectReference: {fileID: 5625917835844508118, guid: db4f28ebbeb3fd04983c559f0c09166f, type: 3}
+    - target: {fileID: 4602866493776184856, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: firePrefab
+      value: 
+      objectReference: {fileID: 349436567607013170, guid: 70bbc135b3ccf3c4d86443a0f51a0bf3, type: 3}
     - target: {fileID: 7223069435964574466, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574467, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 693703064}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: clouds
+      value: 
+      objectReference: {fileID: 742984314}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: elements
       value: 
@@ -3083,6 +3110,10 @@ PrefabInstance:
       propertyPath: maxEnergy
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: powerTimer
+      value: 
+      objectReference: {fileID: 1790974021}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: displayText
       value: 
@@ -4758,6 +4789,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 580d1984a7bdfd14a81448c9da8401ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1790974021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 380593280576517843, guid: 29f342889eafb4451be094323412b696, type: 3}
+  m_PrefabInstance: {fileID: 1113445828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790974018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a91e0f9e19ae7343a35ca889c94f637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1807579803
