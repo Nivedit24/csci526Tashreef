@@ -33,6 +33,7 @@ public class AcidPrefab : MonoBehaviour
             transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
             transform.gameObject.tag = "AcidBlock";
             transform.GetComponent<BoxCollider2D>().size = new Vector2(3f, 3f);
+            transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
             transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
