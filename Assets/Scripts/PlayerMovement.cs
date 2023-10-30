@@ -308,6 +308,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         switch (other.gameObject.tag)
         {
             case "Goal":
@@ -367,8 +368,14 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
+
+           
+
+
         }
     }
+
+    
 
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -463,6 +470,14 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(30, currState == State.Shielded);
                 break;
+             case "BreakWall":
+            Debug.Log("Wall tocuhed");
+            if (currState == State.Shielded)
+            {
+                // Check if the player is shielded.
+                Destroy(collision.gameObject); // Destroy the wall.
+            }
+            break;
             default:
                 break;
         }
