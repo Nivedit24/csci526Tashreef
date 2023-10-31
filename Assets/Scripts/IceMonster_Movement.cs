@@ -6,7 +6,7 @@ public class IceMonster_Movement : MonoBehaviour
 {
     // Start is called before the first frame update
     private int currIndex = 0;
-    private bool isFrozen = false;
+    public bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
     public float timeFrozen = 5f;
