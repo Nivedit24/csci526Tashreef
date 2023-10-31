@@ -181,6 +181,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 DismountAirBall();
             }
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
@@ -378,7 +382,7 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
             case "Sand":
-                float drag = currState != State.Shielded ? 100f : 0f;
+                float drag = currState != State.Shielded ? 50f : 0f;
                 drag = currState == State.Hover ? 10f : drag;
                 transform.GetComponent<Rigidbody2D>().drag = drag;
                 break;
