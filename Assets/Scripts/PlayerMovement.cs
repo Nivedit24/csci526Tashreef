@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
     public TMP_Text displayText;
+    public TextMeshProUGUI completionText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
@@ -317,10 +318,16 @@ public class PlayerMovement : MonoBehaviour
         {
             case "Goal":
                 Debug.Log("Fire Log Triggered");
-                if (SceneManager.GetActiveScene().buildIndex <= 6)
+                if (SceneManager.GetActiveScene().buildIndex <= 5)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                if (SceneManager.GetActiveScene().buildIndex == 6)
+                {
+                    completionText.gameObject.SetActive(true);
+                    speed = 0;
+                    jumpSpeed = 0;
                 }
                 break;
             case "CheckPoint":
