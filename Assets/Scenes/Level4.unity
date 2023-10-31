@@ -4982,6 +4982,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1715998724}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: allDemons
+      value: 
+      objectReference: {fileID: 110638652}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: currPower
       value: 0
       objectReference: {fileID: 0}
