@@ -11,11 +11,13 @@ public class AcidDropToBlock : MonoBehaviour
     public Sprite originalSprite;
     public float timeFrozen = 5.0f;
     private GameObject canvasIntro = null;
+    private GameObject player;
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
         spriteRenderer = GetComponent<SpriteRenderer>();
         isFrozen = false;
+        player = GameObject.Find("Player");
     }
     void Awake()
     {
@@ -53,6 +55,7 @@ public class AcidDropToBlock : MonoBehaviour
         {
             spriteRenderer.sprite = frozenSprite;
             transform.gameObject.GetComponent<Collider2D>().isTrigger = false;
+            player.GetComponent<PlayerMovement>().iceCubes.Add(transform.gameObject);
         }
     }
 

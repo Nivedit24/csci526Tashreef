@@ -5,10 +5,11 @@ using UnityEngine;
 public class DoorOpening : MonoBehaviour
 {
     public GameObject door;
+    private GameObject player;
     // Start is called before the first frame update
     void Start()
     {
-
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -21,6 +22,10 @@ public class DoorOpening : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("AcidBlock") || collision.gameObject.CompareTag("Player"))
         {
+            if (collision.gameObject.CompareTag("AcidBlock"))
+            {
+                player.GetComponent<PlayerMovement>().iceCubesOnDoorSwitches.Add(collision.gameObject);
+            }
             door.SetActive(false);
         }
 
@@ -30,6 +35,10 @@ public class DoorOpening : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("AcidBlock") || collision.gameObject.CompareTag("Player"))
         {
+            if (player.GetComponent<PlayerMovement>().iceCubesOnDoorSwitches.Contains(collision.gameObject))
+            {
+                player.GetComponent<PlayerMovement>().iceCubesOnDoorSwitches.Remove(collision.gameObject);
+            }
             door.SetActive(true);
         }
     }

@@ -41,7 +41,10 @@ public class platformHolder : MonoBehaviour
               other.gameObject.transform.SetParent(null);
             break;
             case "AcidBlock":
-                other.gameObject.transform.SetParent(acidBlockParent);
+                if (other.gameObject.activeSelf)
+                {
+                    other.gameObject.transform.SetParent(acidBlockParent);
+                }
                 break;
         }
     }
