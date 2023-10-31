@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
     public TMP_Text displayText;
+    public TextMeshProUGUI completionText;
     [SerializeField] private List<GameObject> instructions;
     [SerializeField] private GameObject allDemons;
     [SerializeField] private GameObject clouds;
@@ -182,6 +183,10 @@ public class PlayerMovement : MonoBehaviour
             if (currState == State.Hover)
             {
                 DismountAirBall();
+            }
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
             }
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
@@ -315,10 +320,16 @@ public class PlayerMovement : MonoBehaviour
         {
             case "Goal":
                 Debug.Log("Fire Log Triggered");
-                if (SceneManager.GetActiveScene().buildIndex <= 6)
+                if (SceneManager.GetActiveScene().buildIndex <= 5)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                if (SceneManager.GetActiveScene().buildIndex == 6)
+                {
+                    completionText.gameObject.SetActive(true);
+                    speed = 0;
+                    jumpSpeed = 0;
                 }
                 break;
             case "CheckPoint":
@@ -380,7 +391,7 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
             case "Sand":
-                float drag = currState != State.Shielded ? 100f : 0f;
+                float drag = currState != State.Shielded ? 50f : 0f;
                 drag = currState == State.Hover ? 10f : drag;
                 transform.GetComponent<Rigidbody2D>().drag = drag;
                 break;
