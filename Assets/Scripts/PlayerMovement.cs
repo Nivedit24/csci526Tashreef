@@ -674,7 +674,7 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on why?
+        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
@@ -685,11 +685,11 @@ public class PlayerMovement : MonoBehaviour
     {
         TimeSpan gameTime = DateTime.Now - startGameTime;
         TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
-        lastCheckPointTime = DateTime.Now;
+        lastCheckPointTime = DateTime.Now;// EnergyBallsCounter is calculated in time from the last checkPoint
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on why?
-        print("EnergyBallC Counter: " + energyBallsCounter);
+        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
+        // print("EnergyBallC Counter: " + energyBallsCounter);
 
         ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
     }
