@@ -35,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private int goldStarsCollected = 0;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
-
+    public List<GameObject> iceCubes = new List<GameObject>();
+    public List<GameObject> iceCubesOnDoorSwitches = new List<GameObject>();
     private CheckPoint checkPoint;
     public float dragFactor;
     public State currState;
@@ -275,6 +276,7 @@ public class PlayerMovement : MonoBehaviour
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
                 ResetUsedMovingPlatforms();
                 ResetAllDemons();
+                RemovePendingIceCubes();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
                 return;
@@ -409,6 +411,28 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             platformRigidbody = null;
+        }
+    }
+
+    void RemovePendingIceCubes()
+    {
+        if(iceCubes.Count > 0)
+        {
+            foreach (GameObject obj in iceCubes)
+            {
+                if (obj.activeSelf)
+                {
+                    obj.SetActive(false);
+                }
+            }
+            foreach (GameObject obj in iceCubesOnDoorSwitches)
+            {
+                if (!obj.activeSelf)
+                {
+                    obj.SetActive(true);
+                }
+            }
+            iceCubes.Clear();
         }
     }
 
