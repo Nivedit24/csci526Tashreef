@@ -10,11 +10,14 @@ public class AcidDropToBlock : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Sprite originalSprite;
     public float timeFrozen = 5.0f;
+    private GameObject canvasIntro = null;
+    private GameObject player;
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
         spriteRenderer = GetComponent<SpriteRenderer>();
         isFrozen = false;
+        player = GameObject.Find("Player");
     }
     void Awake()
     {
@@ -31,6 +34,11 @@ public class AcidDropToBlock : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall")
         {
+            canvasIntro = GameObject.Find("CanvasIntro");
+            if (canvasIntro && canvasIntro.GetComponent<canvas_2_script_level_3>())
+            {
+                canvasIntro.GetComponent<canvas_2_script_level_3>().isDropHit = true;
+            }
             if (!isFrozen)
             {
                 isFrozen = true;
@@ -47,6 +55,7 @@ public class AcidDropToBlock : MonoBehaviour
         {
             spriteRenderer.sprite = frozenSprite;
             transform.gameObject.GetComponent<Collider2D>().isTrigger = false;
+            player.GetComponent<PlayerMovement>().iceCubes.Add(transform.gameObject);
         }
     }
 
