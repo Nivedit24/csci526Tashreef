@@ -60,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
     private List<int> initialSwitchDirection = new List<int>();
     private List<bool> initialSwitchActivation = new List<bool>();
     public GameObject energyBalls;
-    public GameObject breakwall;
     public Power currPower = Power.Air;
     public GameObject elements;
     public PowerTimer powerTimer;
@@ -378,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Sand":
                 float drag = currState != State.Shielded ? 100f : 0f;
-                drag = currState == State.Hover ? 5f : drag;
+                drag = currState == State.Hover ? 10f : drag;
                 transform.GetComponent<Rigidbody2D>().drag = drag;
                 break;
         }

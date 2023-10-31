@@ -26,7 +26,7 @@ public class EnemyProjectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (gameObject.CompareTag("DemonFireball"))
+        if (gameObject.CompareTag("DemonFireball") || gameObject.CompareTag("lightning"))
             Destroy(gameObject);
     }
 

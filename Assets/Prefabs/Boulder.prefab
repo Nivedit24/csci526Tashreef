@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4336e04cdfd4e5886b015cb6c245c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 15
+  life: 5
   enemyPrefab: {fileID: 8660428449511302753}
   speed: 40
   enemy: {fileID: 7852299632020693929, guid: 69942aca4f07dce40a627596086020a9, type: 3}
