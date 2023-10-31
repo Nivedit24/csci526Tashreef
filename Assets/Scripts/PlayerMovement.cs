@@ -286,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
         {
             case "Goal":
                 Debug.Log("Fire Log Triggered");
-                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                if (SceneManager.GetActiveScene().buildIndex <= 6)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -333,10 +333,6 @@ public class PlayerMovement : MonoBehaviour
                     cloudDrag = false;
                 }
                 break;
-            case "PlatformHolder":
-                transform.SetParent(other.transform);
-                Debug.Log("moving platform");
-                break;
             case "AcidDrop":
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5);
@@ -359,15 +355,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        switch (other.gameObject.tag)
-        {
-            case "PlatformHolder":
-                transform.SetParent(null);
-                break;
-        }
-    }
+
     void OnCollisionEnter(Collision collision)
     {
         // Check if the player is colliding with a platform
