@@ -23,7 +23,7 @@ public class BlackCloud : MonoBehaviour
         if (lightningTimer >= spawnInterval)
         {
             var bullet = Instantiate(lighningPrefab, lightningSpawnPoint.position, lightningSpawnPoint.rotation);
-            if(shotSize != null)
+            if(shotSize.x != 0 || shotSize.y != 0 || shotSize.z != 0)
             {
                 bullet.transform.localScale = shotSize;
             }

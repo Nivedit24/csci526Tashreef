@@ -35,7 +35,7 @@ public class AcidPrefab : MonoBehaviour
                 transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
                 transform.gameObject.tag = "AcidBlock";
                 transform.GetComponent<BoxCollider2D>().size = new Vector2(3f, 3f);
-                transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
+                transform.GetComponent<Rigidbody2D>().gravityScale = 20f;
                 transform.localScale = new Vector3(1f, 1f, 1f);
             }
             else
@@ -44,7 +44,7 @@ public class AcidPrefab : MonoBehaviour
             }
         }
 
-        else if (collision.gameObject.tag == "Ground")
+        else if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Wall")
         {
             Destroy(gameObject);
         }
