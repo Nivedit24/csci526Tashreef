@@ -11,8 +11,11 @@ public class BlackCloud : MonoBehaviour
     public float spawnInterval;
     private bool movingRight = false;
     public float moveSpeed = 5f;
+    public Vector3 shotSize;
+    public bool isStatic = false;
 
     // Update is called once per frame
+
     void Update()
     {
         lightningTimer += Time.deltaTime;
@@ -20,21 +23,29 @@ public class BlackCloud : MonoBehaviour
         if (lightningTimer >= spawnInterval)
         {
             var bullet = Instantiate(lighningPrefab, lightningSpawnPoint.position, lightningSpawnPoint.rotation);
+            if(shotSize != null)
+            {
+                bullet.transform.localScale = shotSize;
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = (-1) * lightningSpawnPoint.up * lightningSpeed;
             lightningTimer = 0f;
         }
 
-        Vector2 currentPosition = transform.position;
+        if (!isStatic)
+        {
+            Vector2 currentPosition = transform.position;
+            if (movingRight)
+            {
+                currentPosition.x += moveSpeed * Time.deltaTime;
+            }
+            else
+            {
+                currentPosition.x -= moveSpeed * Time.deltaTime;
+            }
+            transform.position = currentPosition;
+        }
 
-        if (movingRight)
-        {
-            currentPosition.x += moveSpeed * Time.deltaTime;
-        }
-        else
-        {
-            currentPosition.x -= moveSpeed * Time.deltaTime;
-        }
-        transform.position = currentPosition;
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
