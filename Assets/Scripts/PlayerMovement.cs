@@ -286,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
         {
             case "Goal":
                 Debug.Log("Fire Log Triggered");
-                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                if (SceneManager.GetActiveScene().buildIndex <= 6)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -355,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
     void OnCollisionEnter(Collision collision)
     {
         // Check if the player is colliding with a platform
