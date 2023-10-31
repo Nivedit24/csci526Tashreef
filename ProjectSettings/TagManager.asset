@@ -34,6 +34,9 @@ TagManager:
   - EnergyBall
   - PlayerSnowBall
   - AcidBlock
+  - BreakWall
+  - Shield
+  - Switch
   layers:
   - Default
   - TransparentFX
