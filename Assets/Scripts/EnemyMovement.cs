@@ -7,7 +7,6 @@ public class EnemyMovement : MonoBehaviour
     public float speed = 10f;
     public GameObject projectilePrefab;
     public Transform[] LaunchPoints;
-
     // Update is called once per frame
     void Update()
     {
@@ -17,7 +16,7 @@ public class EnemyMovement : MonoBehaviour
     void OnDisable()
     {
         // Cancel the InvokeRepeating when the GameObject is deactivated
-        if (gameObject.tag == "Demon")
+        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             CancelInvoke("LaunchProjectiles");
         }
@@ -25,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
 
     void OnEnable()
     {
-        if (gameObject.tag == "Demon")
+        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
         }
@@ -33,7 +32,8 @@ public class EnemyMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Edge"))
+        Debug.Log("Earth Collision detected");
+        if (collision.gameObject.CompareTag("Edge") || collision.gameObject.CompareTag("Wall"))
         {
             speed = -speed;
         }
@@ -48,6 +48,8 @@ public class EnemyMovement : MonoBehaviour
     void LaunchProjectiles()
     {
         var dirIndex = speed >= 0 ? 0 : 1;
-        Instantiate(projectilePrefab, LaunchPoints[dirIndex].position, LaunchPoints[dirIndex].rotation);
+        Quaternion rotation = gameObject.tag == "EarthMonster" ? Quaternion.identity : LaunchPoints[dirIndex].rotation;
+        GameObject instantiatedPrefab = Instantiate(projectilePrefab, LaunchPoints[dirIndex].position, rotation);
+        instantiatedPrefab.GetComponent<EnemyProjectile>().enemy = this.gameObject;
     }
 }

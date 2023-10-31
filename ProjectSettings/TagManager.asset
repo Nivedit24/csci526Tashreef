@@ -34,8 +34,12 @@ TagManager:
   - EnergyBall
   - PlayerSnowBall
   - AcidBlock
-  - BreakWall
   - Shield
+  - BreakWall
+  - EarthMonster
+  - Sand
+  - Boulder
+  - Wall
   - Switch
   layers:
   - Default
