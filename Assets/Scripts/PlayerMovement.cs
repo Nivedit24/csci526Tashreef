@@ -507,7 +507,7 @@ public class PlayerMovement : MonoBehaviour
             case "EarthMonster":
                 if (currState == State.Shielded)
                 {
-                    Destroy(collision.gameObject); // Destroy the wall.
+                    collision.gameObject.SetActive(false);
                 }
                 else
                 {
