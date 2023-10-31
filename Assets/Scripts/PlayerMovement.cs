@@ -317,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Fire Log Triggered");
                 if (SceneManager.GetActiveScene().buildIndex <= 6)
                 {
-                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on why?
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
                 break;
@@ -702,6 +702,7 @@ public class PlayerMovement : MonoBehaviour
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
+        print("CheckPointName: " + checkPointNumber);
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
     }
 
