@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private long sessionID;
     private long deadCounter;
     private int levelName;
+    public int energyBallsCounter;
     private int goldStarsCollected = 0;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
@@ -79,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         sessionID = DateTime.Now.Ticks;
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
+        energyBallsCounter = 0;
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
         shootProjectile.enabled = false;
@@ -315,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Fire Log Triggered");
                 if (SceneManager.GetActiveScene().buildIndex <= 6)
                 {
-                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex);
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
                 break;
@@ -442,6 +444,10 @@ public class PlayerMovement : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "EnergyBall":
+                // Analytics for energy ball
+                energyBallsCounter++;
+                callEnergyBallCounterAnalytics(energyBallsCounter);
+                
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
                 {
@@ -692,11 +698,25 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        levelName = SceneManager.GetActiveScene().buildIndex;
+        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
+        print("CheckPointName: " + checkPointNumber);
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+    }
+
+    public void callEnergyBallCounterAnalytics(int energyBallsCounter)
+    {
+        TimeSpan gameTime = DateTime.Now - startGameTime;
+        TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
+        lastCheckPointTime = DateTime.Now;// EnergyBallsCounter is calculated in time from the last checkPoint
+
+        Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
+        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
+        // print("EnergyBallC Counter: " + energyBallsCounter);
+
+        ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
     }
 
     private void logoChange(int curLogo)

@@ -28,13 +28,7 @@ public class Analytics02CheckPointTime : MonoBehaviour
             return;
         }
 
-        // Debug.Log(checkpointName);
-        // Debug.Log(timeTaken);
         sessionIdGlobal = sessionId;
-
-        // if (timeTaken==0){
-        //     return;
-        // }
 
         checkpointNameGlobal = checkpointName;
         testInt = UnityEngine.Random.Range(0, 101);
