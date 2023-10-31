@@ -18,7 +18,7 @@ public class Analytics03PowerUpsUsage : MonoBehaviour
     private void Awake()
     {
         sessionIdGlobal = DateTime.Now.Ticks;
-        URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSf52CGJmwp3H7iw9Cef0rCYPyyP5X946Uk5F0FPwhptj5OTcQ/formResponse";
+        URL = "";
     }
 
     public void Send(long sessionId, string checkpointName, string levelName, double timeTakenCheckPoint, double timeTakenTotal, long totalAttempts)
@@ -28,13 +28,9 @@ public class Analytics03PowerUpsUsage : MonoBehaviour
             return;
         }
 
-        // Debug.Log(checkpointName);
-        // Debug.Log(timeTaken);
+
         sessionIdGlobal = sessionId;
 
-        // if (timeTaken==0){
-        //     return;
-        // }
 
         checkpointNameGlobal = checkpointName;
         testInt = UnityEngine.Random.Range(0, 101);
