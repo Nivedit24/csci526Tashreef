@@ -5084,6 +5084,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: allEnemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: goldStarsCollectedText
       value: 
       objectReference: {fileID: 912442466}
@@ -5091,6 +5095,10 @@ PrefabInstance:
       propertyPath: activePowers.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
+      propertyPath: allEnemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 110638652}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: activePowers.Array.data[1]
       value: 1

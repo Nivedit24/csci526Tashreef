@@ -56,7 +56,7 @@ public class Projectile : MonoBehaviour
         string collisionTag = collision.gameObject.tag;
         if(collisionTag == "Demon" || collisionTag == "EarthMonster")
         {
-            collision.gameObject.GetComponent<EnemyMovement>().speed /= 2;
+
         }
         else if (collisionTag != "AcidDrop" && collisionTag != "IceMonster")
         {

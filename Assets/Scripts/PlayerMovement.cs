@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text displayText;
     public TextMeshProUGUI completionText;
     [SerializeField] private List<GameObject> instructions;
-    [SerializeField] private GameObject allDemons;
+    [SerializeField] private List<GameObject> allEnemies;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
     [SerializeField] private GameObject allMovingPlatforms;
@@ -282,7 +282,7 @@ public class PlayerMovement : MonoBehaviour
                 levelName = SceneManager.GetActiveScene().buildIndex;
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
                 ResetUsedMovingPlatforms();
-                ResetAllDemons();
+                ResetAllEnemies();
                 RemovePendingIceCubes();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
@@ -637,15 +637,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void ResetAllDemons()
+    public void ResetAllEnemies()
     {
-        if (allDemons != null)
+        if (allEnemies != null)
         {
-            foreach (Transform demon in allDemons.transform)
+            for (int i = 0; i < allEnemies.Count; i++)
             {
-                demon.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(100);
-                demon.gameObject.GetComponent<EnemyDamage>().currHealth = 100;
-                demon.gameObject.SetActive(true);
+                foreach (Transform demon in allEnemies[i].transform)
+                {
+                    demon.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(demon.gameObject.GetComponent<EnemyDamage>().maxHealth);
+                    demon.gameObject.GetComponent<EnemyDamage>().currHealth = demon.gameObject.GetComponent<EnemyDamage>().maxHealth;
+                    demon.gameObject.SetActive(true);
+                }
             }
         }
     }
