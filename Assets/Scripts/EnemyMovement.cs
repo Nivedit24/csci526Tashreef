@@ -7,6 +7,8 @@ public class EnemyMovement : MonoBehaviour
     public float speed = 10f;
     public GameObject projectilePrefab;
     public Transform[] LaunchPoints;
+
+    private bool isFrozen = false;
     // Update is called once per frame
     void Update()
     {
@@ -43,6 +45,24 @@ public class EnemyMovement : MonoBehaviour
         {
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
+
+        if( transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
+        {
+            Debug.Log("Demon got hit by snowball");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
+        {
+            Debug.Log("Demon got hit by snowball");
+            isFrozen = true;
+            StartCoroutine(FreezeAndUnfreeze());
+            OnDisable();
+            Destroy(collision.gameObject);
+        }
+
     }
 
     void LaunchProjectiles()
@@ -51,5 +71,17 @@ public class EnemyMovement : MonoBehaviour
         Quaternion rotation = gameObject.tag == "EarthMonster" ? Quaternion.identity : LaunchPoints[dirIndex].rotation;
         GameObject instantiatedPrefab = Instantiate(projectilePrefab, LaunchPoints[dirIndex].position, rotation);
         instantiatedPrefab.GetComponent<EnemyProjectile>().enemy = this.gameObject;
+    }
+
+    IEnumerator FreezeAndUnfreeze()
+    {
+        // Freeze the demon for 5 seconds
+        speed = 0f;
+        yield return new WaitForSeconds(5f);
+
+        // Unfreeze the demon and start moving again
+        isFrozen = false;
+        speed = 10f; // Set speed to its absolute value
+        OnEnable();
     }
 }

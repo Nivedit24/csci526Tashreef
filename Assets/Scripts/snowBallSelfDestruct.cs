@@ -19,7 +19,7 @@ public class snowBallSelfDestruct : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         string collisionTag = collision.gameObject.tag;
-        if(collisionTag != "AcidDrop" && collisionTag != "IceMonster")
+        if(collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag!="Demon")
         {
             Destroy(transform.gameObject);
         }
