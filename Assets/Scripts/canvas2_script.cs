@@ -8,11 +8,17 @@ public class canvas2_script : MonoBehaviour
     public GameObject textObject1;
     public GameObject textObject2;
     public GameObject textObject3;
+
     public GameObject energyBall;
+    public GameObject enegyBallNearCloud;
     public GameObject checkpointFirst;
     public GameObject checkpointLast;
     public GameObject Hoverball;
     public GameObject barrier;
+    public GameObject background_1;
+    public GameObject background_2;
+    public GameObject background_3;
+
     private TextMeshProUGUI text1;
     private TextMeshProUGUI text2;
     private TextMeshProUGUI text3;
@@ -34,42 +40,42 @@ public class canvas2_script : MonoBehaviour
 
         if (energyBall.activeSelf)
         {
-            text1.text = "Energy is your fuel";
+            text1.text = "Collect Energy";
+            background_1.SetActive(true);
         }
         else if (energyBall.activeSelf == false && Hoverball.activeSelf == false && checkpointFirst.activeSelf == true)
         {
-            text1.text = "Press Space \n Activate/Deactivate Wind";
+            text1.text = "SPACEBAR \n Activate Wind";
+            background_1.SetActive(true);
         }
         else if (energyBall.activeSelf == false && Hoverball.activeSelf == true && checkpointFirst.activeSelf == true)
         {
             text1.text = "Try Jumping";
+            background_1.SetActive(true);
         }
         else
         {
             text1.text = "";
+            background_1.SetActive(false);
         }
 
 
-        if (energyBall.activeSelf && checkpointFirst.activeSelf != true)
+        if (enegyBallNearCloud.activeSelf == false)
         {
-            text2.text = "Energy Exhausted. Go Back to collect.";
+            text3.text = "SPACEBAR \n Activate Wind";
         }
-        else if (Hoverball.activeSelf == false && checkpointFirst.activeSelf != true)
+
+
+        if (Hoverball.activeSelf == true && checkpointFirst.activeSelf != true)
         {
-            text2.text = "Activate Wind";
+            text2.text = "SPACEBAR \n Deactivate Wind \n Save Energy";
+            background_2.SetActive(true);
         }
         else
         {
             text2.text = "";
+            background_2.SetActive(false);
         }
 
-        if (checkpointLast.activeSelf == false && barrier.activeSelf)
-        {
-            text3.text = "You Missed Some Stars!";
-        }
-        else
-        {
-            text3.text = "";
-        }
     }
 }

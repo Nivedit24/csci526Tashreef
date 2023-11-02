@@ -282,6 +282,7 @@ public class PlayerMovement : MonoBehaviour
                 levelName = SceneManager.GetActiveScene().buildIndex;
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
                 ResetUsedMovingPlatforms();
+                ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
                 RemovePendingIceCubes();
                 player.transform.position = checkPoint.position;

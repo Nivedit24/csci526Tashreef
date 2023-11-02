@@ -7,6 +7,7 @@ public class PowerTimer : MonoBehaviour
 {
     // Start is called before the first frame update
     public PlayerMovement playerMovement;
+    public float energyDepletionFactor = 10f;
     void Start()
     {
         
@@ -16,7 +17,7 @@ public class PowerTimer : MonoBehaviour
     void Update()
     {
         TimeSpan span = DateTime.UtcNow - playerMovement.powerStartTime;
-        playerMovement.energyBar.SetHealth((int)(playerMovement.energyLeft - (span.TotalSeconds * 10)));
+        playerMovement.energyBar.SetHealth((int)(playerMovement.energyLeft - (span.TotalSeconds * energyDepletionFactor)));
         Debug.Log("Energy Left : " + playerMovement.energyBar.slider.value);
 
         if (playerMovement.energyBar.slider.value <= 0)
