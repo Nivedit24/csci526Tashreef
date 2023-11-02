@@ -102,6 +102,7 @@ MonoBehaviour:
   projectileBody: {fileID: 3425581951715454790}
   speed: 50
   projectileCount: 5
+  enemyDamage: {fileID: 3461874616176127032, guid: a30969ebdd2cf6a408d4d7b7d0942be8, type: 3}
 --- !u!50 &3425581951715454790
 Rigidbody2D:
   serializedVersion: 4
