@@ -19,12 +19,16 @@ public class IceMonster_Movement : MonoBehaviour
     public GameObject monster;
     private Sprite originalSprite;
 
+    private FreezeUnfreezeObject freeze;
+
     void Start()
     {
         originalSprite = spriteRenderer.sprite;
         setPoints[0] = new Vector2(monster.transform.position.x, monster.transform.position.y);
         generatePoints();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        freeze = GetComponent<FreezeUnfreezeObject>();
     }
     void Awake()
     {
@@ -68,29 +72,20 @@ public class IceMonster_Movement : MonoBehaviour
         {
             isFrozen = true;
             monster.layer = LayerMask.NameToLayer("Ground");
-            ApplyFrozenAppearance();
-            StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
+            freeze.ApplyFrozenAppearanceIceMonster();
+           // StartCoroutine(freeze.UnfreezeAfterDelay(timeFrozen)); // Unfreeze
             Destroy(collision.gameObject);
         }
-    }
-
-    void ApplyFrozenAppearance()
-    {
-        if (frozenSprite != null)
+        if (collision.gameObject.tag == "PlayerFireball" && isFrozen)
         {
-            spriteRenderer.sprite = frozenSprite;
-            monster.tag = "Untagged";
-            monster.GetComponent<Collider2D>().isTrigger = false;
+            Debug.Log("Hit with fireball after frozen");
+            //monster.layer = LayerMask.NameToLayer("Default");
+            StartCoroutine(freeze.UnfreezeAfterDelay(0f));
+            Destroy(collision.gameObject);
         }
+
+
     }
 
-    IEnumerator UnfreezeAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        monster.tag = "IceMonster";
-        monster.GetComponent<Collider2D>().isTrigger = true;
-        isFrozen = false;
-        monster.layer = LayerMask.NameToLayer("Default");
-        spriteRenderer.sprite = originalSprite;
-    }
+   
 }

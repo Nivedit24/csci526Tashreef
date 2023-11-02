@@ -44,9 +44,20 @@ public class AcidPrefab : MonoBehaviour
             }
         }
 
-        else if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Wall")
+        else if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Wall" || collision.gameObject.tag == "PlayerFireball")
         {
             Destroy(gameObject);
         }
+
+        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerFireball" && transform.gameObject.tag == "AcidBlock")
+        {
+            Debug.Log("Hit with fireball after becoming AcidBlock");
+            Destroy(gameObject);
+        }
+
     }
 }

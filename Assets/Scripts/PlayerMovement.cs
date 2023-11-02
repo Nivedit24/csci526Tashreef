@@ -430,7 +430,7 @@ public class PlayerMovement : MonoBehaviour
 
     void RemovePendingIceCubes()
     {
-        if(iceCubes.Count > 0)
+        if (iceCubes != null)
         {
             foreach (GameObject obj in iceCubes)
             {
