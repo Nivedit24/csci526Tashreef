@@ -72,6 +72,20 @@ public class IceMonster_Movement : MonoBehaviour
             StartCoroutine(UnfreezeAfterDelay(timeFrozen)); // Unfreeze
             Destroy(collision.gameObject);
         }
+
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerFireball" && isFrozen)
+        {
+            Debug.Log("Hit with fireball after frozen");
+            //monster.layer = LayerMask.NameToLayer("Default");
+            StartCoroutine(UnfreezeAfterDelay(0f));
+            Destroy(collision.gameObject);
+        }
+
     }
 
     void ApplyFrozenAppearance()
