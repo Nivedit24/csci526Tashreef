@@ -498,21 +498,14 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
-                damageReceiver.TakeDamage(30, currState == State.Shielded);
+                damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "DeathFloor":
                 Debug.Log("Player is hit by Death Floor");
-                damageReceiver.TakeDamage(30, currState == State.Shielded);
+                damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "EarthMonster":
-                if (currState == State.Shielded)
-                {
-                    collision.gameObject.SetActive(false);
-                }
-                else
-                {
-                    damageReceiver.TakeDamage(25, false);
-                }
+                damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "BreakWall":
                 if (currState == State.Shielded)
@@ -650,6 +643,8 @@ public class PlayerMovement : MonoBehaviour
         {
             foreach (Transform demon in allDemons.transform)
             {
+                demon.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(100);
+                demon.gameObject.GetComponent<EnemyDamage>().currHealth = 100;
                 demon.gameObject.SetActive(true);
             }
         }
