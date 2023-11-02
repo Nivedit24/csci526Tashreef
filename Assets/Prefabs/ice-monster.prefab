@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6032264991559078597}
   - component: {fileID: 2572363206077892713}
   m_Layer: 0
-  m_Name: ice-monster (2)
+  m_Name: ice-monster
   m_TagString: IceMonster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
