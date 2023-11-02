@@ -8,17 +8,19 @@ public class EnemyMovement : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform[] LaunchPoints;
 
-    private bool isFrozen = false;
+    public bool isFrozen = false;
     public Sprite frozenSprite;
     private Sprite initialSprite;
 
     private SpriteRenderer spriteRenderer;
+    private FreezeUnfreezeObject freeze;
     // Update is called once per frame
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialSprite = spriteRenderer.sprite;
+        freeze = GetComponent<FreezeUnfreezeObject>();
 
     }
     void Update()
@@ -26,7 +28,7 @@ public class EnemyMovement : MonoBehaviour
         transform.Translate(Vector3.left * speed * Time.deltaTime);
     }
 
-    void OnDisable()
+    public void OnDisable()
     {
         // Cancel the InvokeRepeating when the GameObject is deactivated
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
@@ -35,7 +37,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
@@ -65,13 +67,16 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall" && !isFrozen)
+        if (collision.gameObject.tag == "PlayerSnowBall" && !isFrozen)
         {
             Debug.Log("Demon got hit by snowball");
             isFrozen = true;
-            spriteRenderer.sprite = frozenSprite;
-            StartCoroutine(FreezeAndUnfreeze());
+            spriteRenderer.sprite = freeze.frozenSprite;
+            speed = 0;
+            gameObject.GetComponent<Collider2D>().isTrigger = true;
+            StartCoroutine(freeze.UnfreezeAfterDelay(5f));
             OnDisable();
+
             Destroy(collision.gameObject);
         }
 
@@ -85,16 +90,4 @@ public class EnemyMovement : MonoBehaviour
         instantiatedPrefab.GetComponent<EnemyProjectile>().enemy = this.gameObject;
     }
 
-    IEnumerator FreezeAndUnfreeze()
-    {
-        // Freeze the demon for 5 seconds
-        speed = 0f;
-        yield return new WaitForSeconds(5f);
-
-        // Unfreeze the demon and start moving again
-        isFrozen = false;
-        speed = 10f; // Set speed to its absolute value
-        spriteRenderer.sprite = initialSprite;
-        OnEnable();
-    }
 }

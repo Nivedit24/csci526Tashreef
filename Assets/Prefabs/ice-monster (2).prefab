@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6032264991559078599}
   - component: {fileID: 6032264991559078598}
   - component: {fileID: 6032264991559078597}
+  - component: {fileID: 2572363206077892713}
   m_Layer: 0
   m_Name: ice-monster (2)
   m_TagString: IceMonster
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386542c35450c61448b622b628df4d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFrozen: 0
   moveRangeX: 0
   moveRangeY: 0
   timeFrozen: 5
@@ -133,3 +135,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.6, y: 3.6}
   m_EdgeRadius: 0
+--- !u!114 &2572363206077892713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032264991559078596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1a8ee5a32040a14fb2da30a328fe317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeFrozen: 5
+  frozenSprite: {fileID: 21300000, guid: 2da337bb80e0af84e810f2f86df69a8b, type: 3}

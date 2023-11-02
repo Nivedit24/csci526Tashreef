@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 7852299632020693924}
   - component: {fileID: 7852299632020693931}
   - component: {fileID: 5282971073145823902}
+  - component: {fileID: -6816129500587052575}
   m_Layer: 0
   m_Name: EarthMonster
   m_TagString: EarthMonster
@@ -169,6 +170,8 @@ MonoBehaviour:
   LaunchPoints:
   - {fileID: 7852299630976209771}
   - {fileID: 7852299631568800930}
+  isFrozen: 0
+  frozenSprite: {fileID: 0}
 --- !u!61 &7852299632020693931
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,6 +213,20 @@ MonoBehaviour:
   HealthBar: {fileID: 0}
   maxHealth: 250
   currHealth: 0
+--- !u!114 &-6816129500587052575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7852299632020693929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1a8ee5a32040a14fb2da30a328fe317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeFrozen: 5
+  frozenSprite: {fileID: 21300000, guid: 6f5e2b14acf3f3246a212d883650d9d6, type: 3}
 --- !u!1001 &1747063997051382824
 PrefabInstance:
   m_ObjectHideFlags: 0
