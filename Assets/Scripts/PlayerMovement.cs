@@ -283,6 +283,7 @@ public class PlayerMovement : MonoBehaviour
                 ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
                 ResetUsedMovingPlatforms();
                 ResetAllDemons();
+                ResetUsedCollectables(energyBalls);
                 RemovePendingIceCubes();
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
