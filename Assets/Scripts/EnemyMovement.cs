@@ -9,7 +9,18 @@ public class EnemyMovement : MonoBehaviour
     public Transform[] LaunchPoints;
 
     private bool isFrozen = false;
+    public Sprite frozenSprite;
+    private Sprite initialSprite;
+
+    private SpriteRenderer spriteRenderer;
     // Update is called once per frame
+
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        initialSprite = spriteRenderer.sprite;
+
+    }
     void Update()
     {
         transform.Translate(Vector3.left * speed * Time.deltaTime);
@@ -54,10 +65,11 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
+        if (transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall" && !isFrozen)
         {
             Debug.Log("Demon got hit by snowball");
             isFrozen = true;
+            spriteRenderer.sprite = frozenSprite;
             StartCoroutine(FreezeAndUnfreeze());
             OnDisable();
             Destroy(collision.gameObject);
@@ -82,6 +94,7 @@ public class EnemyMovement : MonoBehaviour
         // Unfreeze the demon and start moving again
         isFrozen = false;
         speed = 10f; // Set speed to its absolute value
+        spriteRenderer.sprite = initialSprite;
         OnEnable();
     }
 }
