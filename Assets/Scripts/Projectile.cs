@@ -26,19 +26,64 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Demon")
+        /*switch (gameObject.tag)
         {
-            collision.gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
-        else if (collision.gameObject.CompareTag("Player"))
+            case "PlayerFireball":
+                if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
+                {
+                    collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
+                    if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
+                    {
+                        collision.gameObject.SetActive(false);
+                    }
+                    Destroy(gameObject);
+                }
+                else if (collision.gameObject.CompareTag("Player"))
+                {
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+                break;
+        }*/
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (gameObject.tag)
         {
-            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            case "PlayerFireball":
+                if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
+                {
+                    collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
+                    if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
+                    {
+                        collision.gameObject.SetActive(false);
+                    }
+                    Destroy(gameObject);
+                }
+                else if (collision.gameObject.CompareTag("Player"))
+                {
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+                break;
+            case "PlayerSnowBall":
+                string collisionTag = collision.gameObject.tag;
+                if (collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag != "Demon" && collisionTag != "Untagged")
+                {
+                    Destroy(transform.gameObject);
+                }
+                break;
+
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
     }
     void SetInitialVelocity()
     {

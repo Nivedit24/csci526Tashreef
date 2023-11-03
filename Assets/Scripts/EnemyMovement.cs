@@ -7,13 +7,28 @@ public class EnemyMovement : MonoBehaviour
     public float speed = 10f;
     public GameObject projectilePrefab;
     public Transform[] LaunchPoints;
+
+    public bool isFrozen = false;
+    public Sprite frozenSprite;
+    private Sprite initialSprite;
+
+    private SpriteRenderer spriteRenderer;
+    private FreezeUnfreezeObject freeze;
     // Update is called once per frame
+
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        initialSprite = spriteRenderer.sprite;
+        freeze = GetComponent<FreezeUnfreezeObject>();
+
+    }
     void Update()
     {
         transform.Translate(Vector3.left * speed * Time.deltaTime);
     }
 
-    void OnDisable()
+    public void OnDisable()
     {
         // Cancel the InvokeRepeating when the GameObject is deactivated
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
@@ -22,7 +37,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
@@ -43,6 +58,28 @@ public class EnemyMovement : MonoBehaviour
         {
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
+
+        if( transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
+        {
+            Debug.Log("Demon got hit by snowball");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerSnowBall" && !isFrozen)
+        {
+            Debug.Log("Demon got hit by snowball");
+            isFrozen = true;
+            spriteRenderer.sprite = freeze.frozenSprite;
+            speed = 0;
+            gameObject.GetComponent<Collider2D>().isTrigger = true;
+            StartCoroutine(freeze.UnfreezeAfterDelay(5f));
+            OnDisable();
+
+            Destroy(collision.gameObject);
+        }
+
     }
 
     void LaunchProjectiles()
@@ -52,4 +89,5 @@ public class EnemyMovement : MonoBehaviour
         GameObject instantiatedPrefab = Instantiate(projectilePrefab, LaunchPoints[dirIndex].position, rotation);
         instantiatedPrefab.GetComponent<EnemyProjectile>().enemy = this.gameObject;
     }
+
 }
