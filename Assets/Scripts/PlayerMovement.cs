@@ -740,7 +740,7 @@ public class PlayerMovement : MonoBehaviour
                 elements.transform.GetChild(i).localScale = new Vector3(1.5f, 1.5f, 1.0f);
             }
             else
-                elements.transform.GetChild(i).localScale = new Vector3(1f, 1f, 1f);
+                elements.transform.GetChild(i).localScale = new Vector3(0.9f, 0.9f, 1f);
         }
     }
 
@@ -749,7 +749,7 @@ public class PlayerMovement : MonoBehaviour
         if (childOne == 0)
             transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.red;
         else
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.blue;
+            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.cyan;
         if (faceRight)
         {
             transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);

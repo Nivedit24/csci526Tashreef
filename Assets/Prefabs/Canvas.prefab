@@ -103,7 +103,7 @@ RectTransform:
   m_GameObject: {fileID: 1065389657877261120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7842342912016664222}
@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -73.7009, y: 183}
+  m_AnchoredPosition: {x: -73.7009, y: 185}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5000004, y: 0.49999925}
 --- !u!222 &2302160409353174564
@@ -263,7 +263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175.9, y: 155.3}
+  m_AnchoredPosition: {x: -175.9, y: 153}
   m_SizeDelta: {x: 27.0781, y: 34.1284}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3725189408196432089
@@ -390,7 +390,7 @@ RectTransform:
   m_GameObject: {fileID: 1772997525689660297}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7842342912016664222}
@@ -398,7 +398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175.40097, y: 183.7}
+  m_AnchoredPosition: {x: -175.40097, y: 185}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.50000024, y: 0.49999923}
 --- !u!222 &717861585809775939
@@ -645,7 +645,7 @@ RectTransform:
   m_GameObject: {fileID: 2296455606094874534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7842342912016664222}
@@ -653,7 +653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -24.300934, y: 183}
+  m_AnchoredPosition: {x: -24.300934, y: 185}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.50000054, y: 0.49999925}
 --- !u!222 &1109841704991528219
@@ -902,7 +902,7 @@ RectTransform:
   m_GameObject: {fileID: 4181224165312558153}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7842342912016664222}
@@ -910,7 +910,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -126.00097, y: 183}
+  m_AnchoredPosition: {x: -126.00097, y: 185}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5000004, y: 0.49999925}
 --- !u!222 &817886174725280698
@@ -1665,7 +1665,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -73.4, y: 155.3}
+  m_AnchoredPosition: {x: -73.4, y: 153}
   m_SizeDelta: {x: 27.0781, y: 34.1284}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2158751561121667536
@@ -2176,7 +2176,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125.9, y: 155.3}
+  m_AnchoredPosition: {x: -125.9, y: 153}
   m_SizeDelta: {x: 27.0781, y: 34.1284}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2429539049675854137
@@ -2311,7 +2311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -24.4, y: 155.3}
+  m_AnchoredPosition: {x: -24.4, y: 153}
   m_SizeDelta: {x: 27.0781, y: 34.1284}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5310398017636678571
