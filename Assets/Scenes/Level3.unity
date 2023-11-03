@@ -1373,6 +1373,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (8)
@@ -1910,20 +1914,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
   m_PrefabInstance: {fileID: 1485232680}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &379556118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379556117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a8ee5a32040a14fb2da30a328fe317, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeFrozen: 5
-  frozenSprite: {fileID: 21300000, guid: 2da337bb80e0af84e810f2f86df69a8b, type: 3}
 --- !u!1001 &380218484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3242,6 +3232,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (6)
@@ -3701,6 +3695,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (12)
@@ -5873,6 +5871,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (9)
@@ -6083,6 +6085,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (10)
@@ -6650,6 +6656,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (14)
@@ -7514,6 +7524,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (7)
@@ -7636,6 +7650,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (4)
@@ -7643,7 +7661,7 @@ PrefabInstance:
     - target: {fileID: 6032264991559078598, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: freeze
       value: 
-      objectReference: {fileID: 379556118}
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078598, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: moveRangeX
       value: 2
@@ -7878,6 +7896,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (13)
@@ -9450,6 +9472,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 508087454}
     m_Modifications:
+    - target: {fileID: 2572363206077892713, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
+      propertyPath: timeFrozen
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6032264991559078596, guid: b030af6e6e29bd345a9ff9463191cde0, type: 3}
       propertyPath: m_Name
       value: ice-monster (5)
