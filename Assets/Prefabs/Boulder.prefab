@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8660428449511302753}
   - component: {fileID: 8660428449511302754}
   - component: {fileID: 4006298552315558796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Boulder
   m_TagString: Boulder
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 50
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4336e04cdfd4e5886b015cb6c245c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 5
+  life: 15
   enemyPrefab: {fileID: 8660428449511302753}
-  speed: 40
+  speed: 50
   enemy: {fileID: 7852299632020693929, guid: 69942aca4f07dce40a627596086020a9, type: 3}

@@ -23,7 +23,7 @@ public class BlackCloud : MonoBehaviour
         if (lightningTimer >= spawnInterval)
         {
             var bullet = Instantiate(lighningPrefab, lightningSpawnPoint.position, lightningSpawnPoint.rotation);
-            if(shotSize.x != 0 || shotSize.y != 0 || shotSize.z != 0)
+            if (shotSize.x != 0 || shotSize.y != 0 || shotSize.z != 0)
             {
                 bullet.transform.localScale = shotSize;
             }
@@ -45,12 +45,12 @@ public class BlackCloud : MonoBehaviour
             transform.position = currentPosition;
         }
 
-        
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "cloudDirectionChanger")
+        if (collision.gameObject.tag == "cloudDirectionChanger")
         {
             movingRight = !movingRight;
         }

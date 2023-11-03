@@ -334,9 +334,6 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "CheckPoint":
-                Debug.Log("Player reach the CheckPoint");
-                Debug.Log("transform is : ", transform);
-                Debug.Log("Checkpoint is " + checkPoint.position);
 
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
@@ -389,7 +386,6 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
-                damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
             case "Sand":
                 float drag = currState != State.Shielded ? 50f : 0f;
@@ -459,7 +455,7 @@ public class PlayerMovement : MonoBehaviour
                 // Analytics for energy ball
                 energyBallsCounter++;
                 callEnergyBallCounterAnalytics(energyBallsCounter);
-                
+
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
                 {
@@ -625,7 +621,6 @@ public class PlayerMovement : MonoBehaviour
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
     }
-
     public void ResetUsedCollectables(GameObject collectables)
     {
         if (collectables == null)
@@ -644,11 +639,11 @@ public class PlayerMovement : MonoBehaviour
         {
             for (int i = 0; i < allEnemies.Count; i++)
             {
-                foreach (Transform demon in allEnemies[i].transform)
+                foreach (Transform enemy in allEnemies[i].transform)
                 {
-                    demon.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(demon.gameObject.GetComponent<EnemyDamage>().maxHealth);
-                    demon.gameObject.GetComponent<EnemyDamage>().currHealth = demon.gameObject.GetComponent<EnemyDamage>().maxHealth;
-                    demon.gameObject.SetActive(true);
+                    enemy.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(enemy.gameObject.GetComponent<EnemyDamage>().maxHealth);
+                    enemy.gameObject.GetComponent<EnemyDamage>().currHealth = enemy.gameObject.GetComponent<EnemyDamage>().maxHealth;
+                    enemy.gameObject.SetActive(true);
                 }
             }
         }
