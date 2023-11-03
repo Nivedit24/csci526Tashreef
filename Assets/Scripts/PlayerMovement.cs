@@ -497,7 +497,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "VolcanoBall":
                 Debug.Log("Hit by volcanoBall");
-                damageReceiver.TakeDamage(50, currState == State.Shielded);
+                damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "DemonFireball":
                 Debug.Log("Hit by DemonFireBall");
