@@ -70,11 +70,13 @@ public class PlayerMovement : MonoBehaviour
     private bool firePower = false;
     private bool waterPower = false;
     private bool earthPower = false;
+    private Color playerColor;
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
+        playerColor = transform.Find("Body").GetComponent<SpriteRenderer>().color;
         currState = State.Normal;
         // For analytics
         deadCounter = 0;
@@ -94,23 +96,23 @@ public class PlayerMovement : MonoBehaviour
                     elements.transform.GetChild(0).gameObject.SetActive(true);
                     if (activePowers.Count > 1)
                     {
-                        elements.transform.GetChild(8).gameObject.SetActive(true);
+                        elements.transform.GetChild(4).gameObject.SetActive(true);
                     }
                     airPower = true;
                     break;
                 case Power.Fire:
+                    elements.transform.GetChild(1).gameObject.SetActive(true);
                     elements.transform.GetChild(5).gameObject.SetActive(true);
-                    elements.transform.GetChild(9).gameObject.SetActive(true);
                     firePower = true;
                     break;
                 case Power.Water:
+                    elements.transform.GetChild(2).gameObject.SetActive(true);
                     elements.transform.GetChild(6).gameObject.SetActive(true);
-                    elements.transform.GetChild(10).gameObject.SetActive(true);
                     waterPower = true;
                     break;
                 case Power.Earth:
+                    elements.transform.GetChild(3).gameObject.SetActive(true);
                     elements.transform.GetChild(7).gameObject.SetActive(true);
-                    elements.transform.GetChild(11).gameObject.SetActive(true);
                     earthPower = true;
                     break;
             }
@@ -245,19 +247,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z) && activePowers.Contains(Power.Air))
         {
-            logoChange(4);
+            logoChange(0);
         }
         if (Input.GetKeyDown(KeyCode.X) && activePowers.Contains(Power.Fire))
         {
-            logoChange(5);
+            logoChange(1);
         }
         if (Input.GetKeyDown(KeyCode.C) && activePowers.Contains(Power.Water))
         {
-            logoChange(6);
+            logoChange(2);
         }
         if (Input.GetKeyDown(KeyCode.V) && activePowers.Contains(Power.Earth))
         {
-            logoChange(7);
+            logoChange(3);
         }
         updateStarsUI();
         if (direction > 0)
@@ -733,27 +735,21 @@ public class PlayerMovement : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (curLogo - 4 == i)
+            if (curLogo == i)
             {
-                if (elements.transform.GetChild(curLogo).gameObject.activeSelf)
-                {
-                    elements.transform.GetChild(curLogo - 4).gameObject.SetActive(true);
-                    elements.transform.GetChild(curLogo).gameObject.SetActive(false);
-                }
+                elements.transform.GetChild(i).localScale = new Vector3(1.5f, 1.5f, 1.0f);
             }
             else
-            {
-                if (elements.transform.GetChild(i).gameObject.activeSelf)
-                {
-                    elements.transform.GetChild(i).gameObject.SetActive(false);
-                    elements.transform.GetChild(i + 4).gameObject.SetActive(true);
-                }
-            }
+                elements.transform.GetChild(i).localScale = new Vector3(0.9f, 0.9f, 1f);
         }
     }
 
     private void launchPointDisplay(int childOne)
     {
+        if (childOne == 0)
+            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.red;
+        else
+            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.cyan;
         if (faceRight)
         {
             transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
@@ -768,6 +764,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void removeLaunchPointDisplays()
     {
+        transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
         transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
