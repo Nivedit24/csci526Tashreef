@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxEnergy;
     public float energyLeft;
     public DateTime powerStartTime;
+    public DateTime powerEndTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
     private bool cloudDrag = false;
@@ -181,6 +182,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 RemoveEarthShield();
             }
+            currState = State.Normal;
+            launchPointDisplay(0);
         }
         else if (waterPower && Input.GetKeyDown(KeyCode.C))
         {
@@ -194,6 +197,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 RemoveEarthShield();
             }
+            currState = State.Normal;
+            launchPointDisplay(1);
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
@@ -210,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
+            energyLeft = energyBar.slider.value;
             switch (currPower)
             {
                 case Power.Air:
@@ -217,12 +223,9 @@ public class PlayerMovement : MonoBehaviour
                     {
                         DismountAirBall();
                     }
-                    else
+                    else if (energyLeft > 0)
                     {
-                        if (energyLeft > 0)
-                        {
-                            HoverOnAirBall();
-                        }
+                        HoverOnAirBall();
                     }
                     break;
                 case Power.Fire:
@@ -234,15 +237,10 @@ public class PlayerMovement : MonoBehaviour
                     {
                         RemoveEarthShield();
                     }
-                    else
+                    else if (energyLeft > 0)
                     {
-                        if (energyLeft > 0)
-                        {
-                            EquipEarthShield();
-                        }
+                        EquipEarthShield();
                     }
-
-
                     break;
                 default:
                     break;
@@ -295,22 +293,19 @@ public class PlayerMovement : MonoBehaviour
                 currState = State.Normal;
                 return;
             case State.Normal:
-                powerTimer.enabled = false;
+                powerTimer.enabled = true;
                 break;
             case State.Hover:
                 powerTimer.enabled = true;
                 break;
-
             case State.Shielded:
                 powerTimer.enabled = true;
-
                 break;
-
             default:
                 return;
         }
 
-        if (currPower == Power.Air || currPower == Power.Earth || energyLeft <= 0)
+        if (currPower == Power.Air || currPower == Power.Earth)
         {
             removeLaunchPointDisplays();
         }
@@ -532,11 +527,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (energy == 0)
         {
-            energyBar.gameObject.SetActive(false);
-        }
-        else
-        {
-            energyBar.gameObject.SetActive(true);
+            powerEndTime = DateTime.UtcNow;
         }
     }
 
@@ -597,6 +588,7 @@ public class PlayerMovement : MonoBehaviour
         isHovering = false;
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
+        powerEndTime = DateTime.UtcNow;
         ToggleCloudDirectionArrows(false);
     }
 
@@ -629,6 +621,7 @@ public class PlayerMovement : MonoBehaviour
         shield.gameObject.SetActive(false);
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
+        powerEndTime = DateTime.UtcNow;
     }
     public void ResetUsedCollectables(GameObject collectables)
     {
@@ -766,7 +759,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void removeLaunchPointDisplays()
     {
-        transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
+        if (currPower == Power.Air || currPower == Power.Earth)
+            transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
         transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
