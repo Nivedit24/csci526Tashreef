@@ -13,7 +13,7 @@ public class canvas2_script : MonoBehaviour
     public GameObject enegyBallNearCloud;
     public GameObject checkpointFirst;
     public GameObject checkpointLast;
-    public GameObject Hoverball;
+    public GameObject player;
     public GameObject barrier;
     public GameObject background_1;
     public GameObject background_2;
@@ -43,12 +43,12 @@ public class canvas2_script : MonoBehaviour
             text1.text = "Collect Energy";
             background_1.SetActive(true);
         }
-        else if (energyBall.activeSelf == false && Hoverball.activeSelf == false && checkpointFirst.activeSelf == true)
+        else if (energyBall.activeSelf == false && player.GetComponent<PlayerMovement>().isHovering == false && checkpointFirst.activeSelf == true)
         {
             text1.text = "SPACEBAR \n Activate Wind";
             background_1.SetActive(true);
         }
-        else if (energyBall.activeSelf == false && Hoverball.activeSelf == true && checkpointFirst.activeSelf == true)
+        else if (energyBall.activeSelf == false && player.GetComponent<PlayerMovement>().isHovering == true && checkpointFirst.activeSelf == true)
         {
             text1.text = "Try Jumping";
             background_1.SetActive(true);
@@ -63,10 +63,16 @@ public class canvas2_script : MonoBehaviour
         if (enegyBallNearCloud.activeSelf == false)
         {
             text3.text = "SPACEBAR \n Activate Wind";
+            background_3.SetActive(true);
+        }
+        else
+        {
+            text3.text = "";
+            background_3.SetActive(false);
         }
 
 
-        if (Hoverball.activeSelf == true && checkpointFirst.activeSelf != true)
+        if (player.GetComponent<PlayerMovement>().isHovering == true && checkpointFirst.activeSelf != true)
         {
             text2.text = "SPACEBAR \n Deactivate Wind \n Save Energy";
             background_2.SetActive(true);
