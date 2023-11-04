@@ -151,6 +151,10 @@ public class PlayerMovement : MonoBehaviour
         {
             player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
+        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && (currState == State.Hover || currState == State.Shielded) && !isTouchingGround)
+        {
+            player.AddForce(new Vector2(player.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
+        }
         else if (airPower && Input.GetKeyDown(KeyCode.Z))
         {
             currPower = Power.Air;
@@ -390,7 +394,7 @@ public class PlayerMovement : MonoBehaviour
             case "WaterBody":
                 break;
             case "Sand":
-                float drag = currState != State.Shielded ? 50f : 0f;
+                float drag = currState != State.Shielded ? 30f : 0f;
                 drag = currState == State.Hover ? 10f : drag;
                 transform.GetComponent<Rigidbody2D>().drag = drag;
                 break;
@@ -511,6 +515,9 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Destroy(collision.gameObject); // Destroy the wall.
                 }
+                break;
+            case "Boulder":
+                damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             default:
                 break;

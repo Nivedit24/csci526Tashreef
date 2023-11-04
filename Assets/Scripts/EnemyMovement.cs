@@ -54,12 +54,12 @@ public class EnemyMovement : MonoBehaviour
         }
 
         //Ignore collision with other enemies and spikes
-        if (collision.gameObject.CompareTag("Airball") || collision.gameObject.CompareTag("DeathFloor"))
+        if (collision.gameObject.CompareTag("Airball") || collision.gameObject.CompareTag("DeathFloor") || collision.gameObject.CompareTag("BreakWall"))
         {
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
 
-        if( transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
+        if (transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
         {
             Debug.Log("Demon got hit by snowball");
         }

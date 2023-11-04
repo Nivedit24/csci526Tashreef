@@ -23,4 +23,16 @@ public class RotateShield : MonoBehaviour
             transform.Rotate(Vector3.forward * speed * Time.deltaTime * direction);
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("EarthMonster") || collision.gameObject.CompareTag("Demon"))
+        {
+            collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(5);
+            if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
+            {
+                collision.gameObject.SetActive(false);
+            }
+        }
+    }
 }
