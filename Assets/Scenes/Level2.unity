@@ -7087,6 +7087,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7401183115954568396, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 8295908819280757973, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
       propertyPath: m_Name
       value: Wall (7)
@@ -10928,7 +10932,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -11991,6 +11995,7 @@ MonoBehaviour:
   textObject1: {fileID: 1494654113}
   textObject2: {fileID: 1794610852}
   energyBall: {fileID: 1036465571}
+  player: {fileID: 1673886437}
   fireLogo: {fileID: 622768710}
   airLogo: {fileID: 1080971664}
   enemyDemon: {fileID: 1478443278}
