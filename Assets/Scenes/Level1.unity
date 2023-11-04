@@ -1976,7 +1976,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4346566584955049410, guid: 155716bef68354797b3d6dc0bb62c7c4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.7
+      value: 27.3
       objectReference: {fileID: 0}
     - target: {fileID: 4346566584955049410, guid: 155716bef68354797b3d6dc0bb62c7c4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3928,11 +3928,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2748788412423200993, guid: e836e4e6957b8485abd64971f126cd8b, type: 3}
   m_PrefabInstance: {fileID: 2748788411485199749}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1223939170 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8013722277059492541, guid: 29f342889eafb4451be094323412b696, type: 3}
-  m_PrefabInstance: {fileID: 1491901810}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1224698078 stripped
 Transform:
@@ -6869,7 +6864,7 @@ MonoBehaviour:
   enegyBallNearCloud: {fileID: 316250978}
   checkpointFirst: {fileID: 1863971422}
   checkpointLast: {fileID: 897463243}
-  Hoverball: {fileID: 1223939170}
+  player: {fileID: 1423674811}
   barrier: {fileID: 1894944747}
   background_1: {fileID: 1483858801}
   background_2: {fileID: 665433648}
