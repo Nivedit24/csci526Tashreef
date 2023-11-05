@@ -6,16 +6,34 @@ public class DoorOpening : MonoBehaviour
 {
     public GameObject door;
     private GameObject player;
+    private bool initialDoorState;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
+        if(door != null)
+        {
+            initialDoorState = door.activeSelf;
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    private void flipDoorState()
+    {
+        if (door.activeSelf)
+        {
+            door.SetActive(false);
+        }
+        else
+        {
+            door.SetActive(true);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -26,7 +44,7 @@ public class DoorOpening : MonoBehaviour
             {
                 player.GetComponent<PlayerMovement>().iceCubesOnDoorSwitches.Add(collision.gameObject);
             }
-            door.SetActive(false);
+            door.SetActive(!initialDoorState);
         }
 
     }
@@ -39,7 +57,7 @@ public class DoorOpening : MonoBehaviour
             {
                 player.GetComponent<PlayerMovement>().iceCubesOnDoorSwitches.Remove(collision.gameObject);
             }
-            door.SetActive(true);
+            door.SetActive(initialDoorState);
         }
     }
 }
