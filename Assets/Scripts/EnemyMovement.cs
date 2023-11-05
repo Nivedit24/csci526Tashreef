@@ -47,21 +47,16 @@ public class EnemyMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Earth Collision detected");
+
         if (collision.gameObject.CompareTag("Edge") || collision.gameObject.CompareTag("Wall"))
         {
             speed = -speed;
         }
 
         //Ignore collision with other enemies and spikes
-        if (collision.gameObject.CompareTag("Airball") || collision.gameObject.CompareTag("DeathFloor"))
+        if (collision.gameObject.CompareTag("Airball") || collision.gameObject.CompareTag("DeathFloor") || collision.gameObject.CompareTag("BreakWall"))
         {
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        }
-
-        if( transform.gameObject.tag == "Demon" && collision.gameObject.tag == "PlayerSnowBall")
-        {
-            Debug.Log("Demon got hit by snowball");
         }
     }
 
@@ -69,14 +64,11 @@ public class EnemyMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall" && !isFrozen)
         {
-            Debug.Log("Demon got hit by snowball");
             isFrozen = true;
             spriteRenderer.sprite = freeze.frozenSprite;
             speed = 0;
-            gameObject.GetComponent<Collider2D>().isTrigger = true;
             StartCoroutine(freeze.UnfreezeAfterDelay(5f));
             OnDisable();
-
             Destroy(collision.gameObject);
         }
 
