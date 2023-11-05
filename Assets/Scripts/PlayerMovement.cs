@@ -450,14 +450,14 @@ public class PlayerMovement : MonoBehaviour
         {
             foreach (GameObject obj in iceCubes)
             {
-                if (obj.activeSelf)
+                if (obj != null && obj.activeSelf)
                 {
                     obj.SetActive(false);
                 }
             }
             foreach (GameObject obj in iceCubesOnDoorSwitches)
             {
-                if (!obj.activeSelf)
+                if (obj != null && !obj.activeSelf)
                 {
                     obj.SetActive(true);
                 }
