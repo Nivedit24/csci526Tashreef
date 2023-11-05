@@ -104,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
 
         shootProjectile.enabled = false;
         powerTimer.enabled = false;
+        powerEndTime = DateTime.UtcNow;
         for (int i = 0; i < activePowers.Count; i++)
         {
             switch (activePowers[i])
