@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private string beforeTransitionLayer;
     private long sessionID;
     private long deadCounter;
+    private long deadSinceLastCheckPoint = 0;
     private int levelName;
     public int energyBallsCounter;
     private int goldStarsCollected = 0;
@@ -51,8 +52,11 @@ public class PlayerMovement : MonoBehaviour
 
     public int fireShotCount = 0;
     public int iceShotCount = 0;
-    public int airballCount = 0;
+    private int mountStartLevel;
+    public int airballTime = 0;
+    public int earthShieldTime = 0;
 
+    private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
     public string gameOverSceneName = "GameOverScene";
@@ -581,6 +585,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void HoverOnAirBall()
     {
+        mountStartLevel = (int)energyBar.slider.value;
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
         hiddenHoverball.gameObject.SetActive(true);
@@ -601,6 +606,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void DismountAirBall()
     {
+        int temp = mountStartLevel - (int)energyBar.slider.value;
+        airballTime += temp;
+        //print(" Airball Time: " + temp);
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
@@ -633,6 +641,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void EquipEarthShield()
     {
+        shieldStartLevel = (int)energyBar.slider.value;
+
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(true);
         Transform playerBody = transform.Find("Body");
@@ -644,6 +654,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RemoveEarthShield()
     {
+        int temp = shieldStartLevel - (int)energyBar.slider.value;
+        earthShieldTime += temp;
+        print(" EarthShield Time: " + temp);
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(false);
         currState = State.Normal;
@@ -716,7 +729,6 @@ public class PlayerMovement : MonoBehaviour
     {
         TimeSpan gameTime = DateTime.Now - startGameTime;
 
-
         TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
         lastCheckPointTime = DateTime.Now;
 
@@ -731,13 +743,15 @@ public class PlayerMovement : MonoBehaviour
         TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
         lastCheckPointTime = DateTime.Now;
 
+        deadSinceLastCheckPoint = deadCounter - deadSinceLastCheckPoint;
+
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
         levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
         print("CheckPointName: " + checkPointNumber);
-        ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+        ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
     public void callEnergyBallCounterAnalytics(int energyBallsCounter)
@@ -748,7 +762,6 @@ public class PlayerMovement : MonoBehaviour
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
         levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
-        // print("EnergyBallC Counter: " + energyBallsCounter);
 
         ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
     }
