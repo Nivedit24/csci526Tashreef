@@ -34,13 +34,13 @@ public class ShootProjectile : MonoBehaviour
             shootTime = 0.25f;
             playerMovement.energyBar.slider.value -= 10;
             playerMovement.energyLeft = playerMovement.energyBar.slider.value;
+            playerMovement.powerEndTime = System.DateTime.UtcNow;
+            if (playerMovement.energyBar.slider.value <= 0)
+            {
+                playerMovement.SetEnergyLevel(0);
+                playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
+            }
         }
         shootTime -= Time.deltaTime;
-
-        if (playerMovement.energyBar.slider.value <= 0)
-        {
-            playerMovement.SetEnergyLevel(0);
-            playerMovement.ResetUsedCollectables(playerMovement.energyBalls);
-        }
     }
 }

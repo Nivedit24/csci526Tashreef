@@ -171,7 +171,7 @@ MonoBehaviour:
   - {fileID: 7852299630976209771}
   - {fileID: 7852299631568800930}
   isFrozen: 0
-  frozenSprite: {fileID: 0}
+  frozenSprite: {fileID: 21300000, guid: 6f5e2b14acf3f3246a212d883650d9d6, type: 3}
 --- !u!61 &7852299632020693931
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b5bdf5f2006a946a1e96015a3824c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBar: {fileID: 0}
+  HealthBar: {fileID: 7044117927204589361}
   maxHealth: 250
   currHealth: 0
 --- !u!114 &-6816129500587052575
@@ -361,3 +361,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5700964745192884769, guid: cacbf713f4173484686c92073bb29bae, type: 3}
   m_PrefabInstance: {fileID: 1747063997051382824}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7044117927204589361 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8790862216013456153, guid: cacbf713f4173484686c92073bb29bae, type: 3}
+  m_PrefabInstance: {fileID: 1747063997051382824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88a128144b7b0c44953cac657ad0505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
