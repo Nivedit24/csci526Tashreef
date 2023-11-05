@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update
     public Rigidbody2D projectileBody;
-    public float speed = 50.0f;
+    public float speed = 75.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
 
@@ -52,13 +52,14 @@ public class Projectile : MonoBehaviour
                     }
                     Destroy(gameObject);
                 }
-                else if (collision.gameObject.CompareTag("Player"))
+                else if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("BreakWall"))
                 {
-                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+                    Destroy(gameObject);
+                    
                 }
                 else
                 {
-                    Destroy(gameObject);
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 }
                 break;
             case "PlayerSnowBall":

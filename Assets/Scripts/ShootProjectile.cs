@@ -30,7 +30,7 @@ public class ShootProjectile : MonoBehaviour
             else
                 Instantiate(projectile, launchPointLeft.position, launchPointLeft.rotation);
             shootTime = 0.25f;
-            playerMovement.energyBar.slider.value -= 10;
+            playerMovement.energyBar.slider.value -= 20;
             playerMovement.energyLeft = playerMovement.energyBar.slider.value;
             playerMovement.powerEndTime = System.DateTime.UtcNow;
             if (playerMovement.energyBar.slider.value <= 0)
