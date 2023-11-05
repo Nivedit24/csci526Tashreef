@@ -52,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
     public int fireShotCount = 0;
     public int iceShotCount = 0;
     public int AirballCount = 0;
+
+    public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
+
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
@@ -89,6 +92,14 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
         energyBallsCounter = 0;
+
+        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster","Volcano" };
+
+        foreach (string enemyName in enemyNames)
+        {
+            enemyHits[enemyName] = 0;
+        }
+
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
         shootProjectile.enabled = false;
@@ -377,6 +388,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "AcidDrop":
+                enemyHits["AcidRain"]++;
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
@@ -388,9 +400,11 @@ public class PlayerMovement : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "IceMonster":
+                enemyHits["IceMonster"]++;
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
+                //enemyHits["Water"]++;
                 break;
             case "Sand":
                 float drag = currState != State.Shielded ? 30f : 0f;
@@ -477,10 +491,12 @@ public class PlayerMovement : MonoBehaviour
                 KillPlayer();
                 break;
             case "Tornado":
+                enemyHits["Tornado"]++;
                 Debug.Log("Player is hit by Tornado");
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "lightning":
+                enemyHits["ThunderOrCloud"]++;
                 Debug.Log("Struck by Lightning");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
@@ -488,25 +504,31 @@ public class PlayerMovement : MonoBehaviour
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
             case "LightningCloud":
+                enemyHits["ThunderOrCloud"]++;
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
             case "Demon":
+                enemyHits["FireDemonOrBall"]++;
                 Debug.Log("Hit by demon");
                 damageReceiver.TakeDamage(20, currState == State.Shielded);
                 break;
             case "VolcanoBall":
+                enemyHits["Volcano"]++;
                 Debug.Log("Hit by volcanoBall");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "DemonFireball":
+                enemyHits["FireDemonOrBall"]++;
                 Debug.Log("Hit by DemonFireBall");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "DeathFloor":
+                enemyHits["Spikes"]++;
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "EarthMonster":
+                enemyHits["EarthMonster"]++;
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "BreakWall":
