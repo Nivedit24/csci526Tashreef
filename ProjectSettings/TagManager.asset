@@ -41,7 +41,6 @@ TagManager:
   - Boulder
   - Wall
   - Switch
-  - GreenFloor
   layers:
   - Default
   - TransparentFX

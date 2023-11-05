@@ -10,15 +10,10 @@ public class StarUpdate : MonoBehaviour
     private bool active = true;
     public int requiredActivations;
     public GameObject[] earthMonsterArray = null;
-    [SerializeField] public List<GameObject> boulderPlatforms;
+
     void Start()
     {
-        if (boulderPlatforms == null)
-            requiredActivations = 0;
-        else
-        {
-            requiredActivations = boulderPlatforms.Count;
-        }
+        requiredActivations = earthMonsterArray == null ? 0 : earthMonsterArray.Length;
     }
 
     // Update is called once per frame
