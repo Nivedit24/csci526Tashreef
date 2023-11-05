@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     public float maxEnergy;
     public float energyLeft;
     public DateTime powerStartTime;
-    public DateTime powerEndTime;
     private string transitionLayer = "Transition";
     private string defaultLayer = "Default";
     private bool cloudDrag = false;
@@ -48,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     public ShootProjectile shootProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
+    public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
     public TMP_Text displayText;
@@ -151,10 +151,6 @@ public class PlayerMovement : MonoBehaviour
         {
             player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
-        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && (currState == State.Hover || currState == State.Shielded) && !isTouchingGround)
-        {
-            player.AddForce(new Vector2(player.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
-        }
         else if (airPower && Input.GetKeyDown(KeyCode.Z))
         {
             currPower = Power.Air;
@@ -181,8 +177,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 RemoveEarthShield();
             }
-            currState = State.Normal;
-            launchPointDisplay(0);
         }
         else if (waterPower && Input.GetKeyDown(KeyCode.C))
         {
@@ -196,8 +190,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 RemoveEarthShield();
             }
-            currState = State.Normal;
-            launchPointDisplay(1);
         }
         else if (earthPower && Input.GetKeyDown(KeyCode.V))
         {
@@ -214,7 +206,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            energyLeft = energyBar.slider.value;
             switch (currPower)
             {
                 case Power.Air:
@@ -222,9 +213,12 @@ public class PlayerMovement : MonoBehaviour
                     {
                         DismountAirBall();
                     }
-                    else if (energyLeft > 0)
+                    else
                     {
-                        HoverOnAirBall();
+                        if (energyLeft > 0)
+                        {
+                            HoverOnAirBall();
+                        }
                     }
                     break;
                 case Power.Fire:
@@ -236,10 +230,15 @@ public class PlayerMovement : MonoBehaviour
                     {
                         RemoveEarthShield();
                     }
-                    else if (energyLeft > 0)
+                    else
                     {
-                        EquipEarthShield();
+                        if (energyLeft > 0)
+                        {
+                            EquipEarthShield();
+                        }
                     }
+
+
                     break;
                 default:
                     break;
@@ -292,19 +291,22 @@ public class PlayerMovement : MonoBehaviour
                 currState = State.Normal;
                 return;
             case State.Normal:
-                powerTimer.enabled = true;
+                powerTimer.enabled = false;
                 break;
             case State.Hover:
                 powerTimer.enabled = true;
                 break;
+
             case State.Shielded:
                 powerTimer.enabled = true;
+
                 break;
+
             default:
                 return;
         }
 
-        if (currPower == Power.Air || currPower == Power.Earth)
+        if (currPower == Power.Air || currPower == Power.Earth || energyLeft <= 0)
         {
             removeLaunchPointDisplays();
         }
@@ -334,6 +336,9 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "CheckPoint":
+                Debug.Log("Player reach the CheckPoint");
+                Debug.Log("transform is : ", transform);
+                Debug.Log("Checkpoint is " + checkPoint.position);
 
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
@@ -386,9 +391,10 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
+                damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
             case "Sand":
-                float drag = currState != State.Shielded ? 30f : 0f;
+                float drag = currState != State.Shielded ? 50f : 0f;
                 drag = currState == State.Hover ? 10f : drag;
                 transform.GetComponent<Rigidbody2D>().drag = drag;
                 break;
@@ -455,7 +461,7 @@ public class PlayerMovement : MonoBehaviour
                 // Analytics for energy ball
                 energyBallsCounter++;
                 callEnergyBallCounterAnalytics(energyBallsCounter);
-
+                
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
                 {
@@ -510,9 +516,6 @@ public class PlayerMovement : MonoBehaviour
                     Destroy(collision.gameObject); // Destroy the wall.
                 }
                 break;
-            case "Boulder":
-                damageReceiver.TakeDamage(10, currState == State.Shielded);
-                break;
             default:
                 break;
         }
@@ -526,7 +529,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (energy == 0)
         {
-            powerEndTime = DateTime.UtcNow;
+            energyBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            energyBar.gameObject.SetActive(true);
         }
     }
 
@@ -587,7 +594,6 @@ public class PlayerMovement : MonoBehaviour
         isHovering = false;
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
-        powerEndTime = DateTime.UtcNow;
         ToggleCloudDirectionArrows(false);
     }
 
@@ -620,8 +626,8 @@ public class PlayerMovement : MonoBehaviour
         shield.gameObject.SetActive(false);
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
-        powerEndTime = DateTime.UtcNow;
     }
+
     public void ResetUsedCollectables(GameObject collectables)
     {
         if (collectables == null)
@@ -640,11 +646,11 @@ public class PlayerMovement : MonoBehaviour
         {
             for (int i = 0; i < allEnemies.Count; i++)
             {
-                foreach (Transform enemy in allEnemies[i].transform)
+                foreach (Transform demon in allEnemies[i].transform)
                 {
-                    enemy.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(enemy.gameObject.GetComponent<EnemyDamage>().maxHealth);
-                    enemy.gameObject.GetComponent<EnemyDamage>().currHealth = enemy.gameObject.GetComponent<EnemyDamage>().maxHealth;
-                    enemy.gameObject.SetActive(true);
+                    demon.gameObject.GetComponentInChildren<HealthModifier>().SetMaxHealth(demon.gameObject.GetComponent<EnemyDamage>().maxHealth);
+                    demon.gameObject.GetComponent<EnemyDamage>().currHealth = demon.gameObject.GetComponent<EnemyDamage>().maxHealth;
+                    demon.gameObject.SetActive(true);
                 }
             }
         }
@@ -758,8 +764,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void removeLaunchPointDisplays()
     {
-        if (currPower == Power.Air || currPower == Power.Earth)
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
+        transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
         transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(0).gameObject.SetActive(false);

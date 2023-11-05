@@ -29,7 +29,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void ApplyFrozenAppearanceIceMonster()
@@ -48,15 +48,16 @@ public class FreezeUnfreezeObject : MonoBehaviour
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
+        if( gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             enemyMovement.isFrozen = false;
             enemyMovement.speed = 10f; // Set speed to its absolute value
             spriteRenderer.sprite = initialSprite;
+            gameObject.GetComponent<Collider2D>().isTrigger = false ;
             enemyMovement.OnEnable();
         }
-        else
-        {
+        else 
+        { 
             gameObject.tag = "IceMonster";
             gameObject.GetComponent<Collider2D>().isTrigger = true;
             icemonster_mov.isFrozen = false;
@@ -67,12 +68,12 @@ public class FreezeUnfreezeObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerSnowBall")
+        if(collision.gameObject.tag == "PlayerSnowBall")
         {
-            switch (gameObject.tag)
+            switch(gameObject.tag)
             {
                 case "EarthMonster":
-
+                 
                     break;
 
                 case "IceMonster":

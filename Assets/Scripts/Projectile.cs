@@ -54,8 +54,9 @@ public class Projectile : MonoBehaviour
                     Destroy(transform.gameObject);
                 }
                 break;
-        }
 
+        }
+        
     }
     void SetInitialVelocity()
     {
