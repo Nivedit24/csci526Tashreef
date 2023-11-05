@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AcidDropToBlock : MonoBehaviour
 {
-    // Start is called before the first frame update
     private bool isFrozen = false;
     public Sprite frozenSprite;
     private SpriteRenderer spriteRenderer;
