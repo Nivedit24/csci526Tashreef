@@ -48,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
     public ShootProjectile shootProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
-    public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
     public TMP_Text displayText;
