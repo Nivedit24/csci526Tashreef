@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     public int fireShotCount = 0;
     public int iceShotCount = 0;
-    public int AirballCount = 0;
+    public int airballCount = 0;
 
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
