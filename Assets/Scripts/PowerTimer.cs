@@ -23,7 +23,7 @@ public class PowerTimer : MonoBehaviour
         }
         else
         {
-            ReplenishPower();
+            // ReplenishPower();
         }
     }
 
