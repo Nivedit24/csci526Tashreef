@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 7348178159349720404}
   - component: {fileID: 7348178159349720407}
   - component: {fileID: 7348178159349720406}
+  - component: {fileID: 4382390023943241241}
   m_Layer: 0
   m_Name: Volcano
   m_TagString: Untagged
@@ -202,7 +203,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 6fbffa86aee90b54da73969e294d60c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -235,6 +236,33 @@ MonoBehaviour:
   - {fileID: 6083790039501861073}
   launchInterval: 3
   projectileSpeed: 6
+  frozenSprite: {fileID: 21300000, guid: 1232b46016b0c524c877eda08337cb5a, type: 3}
+--- !u!61 &4382390023943241241
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348178159349720401}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6, y: 2.35}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6, y: 2.35}
+  m_EdgeRadius: 0
 --- !u!1 &7899306320787942096
 GameObject:
   m_ObjectHideFlags: 0
