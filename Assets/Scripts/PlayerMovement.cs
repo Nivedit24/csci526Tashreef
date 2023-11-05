@@ -52,10 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
     public int fireShotCount = 0;
     public int iceShotCount = 0;
-    private int mountStartLevel;
     public int airballTime = 0;
     public int earthShieldTime = 0;
-
+    private int mountStartLevel;
     private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
@@ -358,6 +357,24 @@ public class PlayerMovement : MonoBehaviour
 
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
+
+                //Send other analytics 
+                foreach (var enemyHit in enemyHits)
+                {
+                    string obstacleName = enemyHit.Key;
+                    long hitCounter = enemyHit.Value;
+                    
+                    callObstacleCountAnalytics(other, obstacleName, hitCounter);
+                }
+
+                // Send other analytics too
+                callPowerUsageAnalytics(other, "Power Airball", airballTime);
+                callPowerUsageAnalytics(other, "Power FireShot", fireShotCount);
+                callPowerUsageAnalytics(other, "Power IceShot", iceShotCount);
+                callPowerUsageAnalytics(other, "Power EarthShield", earthShieldTime);
+
+
+
                 goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
@@ -750,7 +767,7 @@ public class PlayerMovement : MonoBehaviour
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
-        print("CheckPointName: " + checkPointNumber);
+        //print("CheckPointName: " + checkPointNumber);
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
@@ -764,6 +781,28 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
 
         ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
+    }
+
+    public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+        string checkpointName = other.gameObject.name;
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
+
+        Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
+
+        ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
+    }
+
+    public void callPowerUsageAnalytics(Collider2D other, string obstacleName, long hitCounter)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+        string checkpointName = other.gameObject.name;
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
+
+        Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
+
+        ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
     }
 
     private void logoChange(int curLogo)
