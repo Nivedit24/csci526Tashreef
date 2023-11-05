@@ -1462,7 +1462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288961290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 344.2, y: 75.8, z: -10}
+  m_LocalPosition: {x: 224, y: 138, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6846,6 +6846,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8916178003844823032, guid: dd28766fa6e45704882cedf1dc17bb83, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916178003844823032, guid: dd28766fa6e45704882cedf1dc17bb83, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnMouseExit
+      objectReference: {fileID: 0}
     - target: {fileID: 8916178003844823033, guid: dd28766fa6e45704882cedf1dc17bb83, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
