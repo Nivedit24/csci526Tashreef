@@ -9,6 +9,7 @@ public class StarUpdate : MonoBehaviour
     private bool check = true;
     private bool active = true;
     public int requiredActivations;
+    public GameObject[] earthMonsterArray = null;
     [SerializeField] public List<GameObject> boulderPlatforms;
     void Start()
     {
@@ -28,29 +29,23 @@ public class StarUpdate : MonoBehaviour
             check = !check;
 
         transform.localScale = new Vector3(curScale, curScale, 1.0f);
-
-        int currActivations = GetActiveBoulderPlatforms();
-        Debug.Log("currActivations: " + currActivations);
-        active = requiredActivations <= currActivations;
+        active = IsChallengeCompleted();
         transform.gameObject.GetComponent<Renderer>().material.color = active ? Color.white : Color.black;
         transform.gameObject.GetComponent<Collider2D>().enabled = active;
     }
 
-    private int GetActiveBoulderPlatforms()
+    private bool IsChallengeCompleted()
     {
-        if (boulderPlatforms == null)
-            return 0;
-
-        int currentActivations = 0;
-
-        for (int i = 0; i < boulderPlatforms.Count; i++)
+        if (earthMonsterArray != null)
         {
-            GameObject platform = boulderPlatforms[i].transform.gameObject;
-            if (platform.GetComponent<BoulderPlatform>().activated == true)
+            foreach (GameObject earthMonster in earthMonsterArray)
             {
-                currentActivations += 1;
+                if (earthMonster.activeSelf)
+                {
+                    return false;
+                }
             }
         }
-        return currentActivations;
+        return true;
     }
 }
