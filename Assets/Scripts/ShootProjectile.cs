@@ -22,6 +22,8 @@ public class ShootProjectile : MonoBehaviour
     void Update()
     {
         GameObject projectile = playerMovement.currPower == Power.Fire ? firePrefab : icePrefab;
+        
+        
 
         if (playerMovement.energyLeft > 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
         {
