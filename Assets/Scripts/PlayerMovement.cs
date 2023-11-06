@@ -280,6 +280,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DismountAirBall();
                 }
+                else if (currPower == Power.Earth)
+                {
+                    RemoveEarthShield();
+                }
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
                 Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
