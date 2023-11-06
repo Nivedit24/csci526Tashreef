@@ -31,6 +31,12 @@ public class Projectile : MonoBehaviour
         {
             case "PlayerFireball":
                 playerMovement.fireShotCount++;
+                if( playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Fire")
+                {
+                    playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, "Fire");
+                }
+                playerMovement.lastPowerUsed = "Fire";
+                
                 if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
                 {
                     collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
@@ -52,6 +58,12 @@ public class Projectile : MonoBehaviour
                 break;
             case "PlayerSnowBall":
                 playerMovement.iceShotCount++;
+                if( playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Water")
+                {
+                    playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, "Water");
+                }
+                playerMovement.lastPowerUsed = "Water";
+
                 string collisionTag = collision.gameObject.tag;
                 if (collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag != "Demon" && collisionTag != "Untagged")
                 {
