@@ -2213,7 +2213,6 @@ Transform:
   - {fileID: 1104377025}
   - {fileID: 1048364779}
   - {fileID: 317272185}
-  - {fileID: 1097559716}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5822,11 +5821,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
   m_PrefabInstance: {fileID: 1185384731}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1097559716 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-  m_PrefabInstance: {fileID: 1152241162}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1099103955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
@@ -5979,63 +5973,6 @@ PrefabInstance:
       objectReference: {fileID: 922293035}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0083a2d39996f480eb03d69f0a9d3a81, type: 3}
---- !u!1001 &1152241162
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 455891371}
-    m_Modifications:
-    - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_Name
-      value: Checkpoint05
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 234.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 102.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.6535542
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
 --- !u!4 &1154096007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
@@ -10119,7 +10056,7 @@ PrefabInstance:
       objectReference: {fileID: 474491153}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: goldStarsRequired
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7223069435964574468, guid: 29f342889eafb4451be094323412b696, type: 3}
       propertyPath: allMovingPlatforms

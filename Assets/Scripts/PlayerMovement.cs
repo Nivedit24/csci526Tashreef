@@ -280,6 +280,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     DismountAirBall();
                 }
+                else if (currPower == Power.Earth)
+                {
+                    RemoveEarthShield();
+                }
                 deadCounter++;
                 TimeSpan gameTime = DateTime.Now - startGameTime;
                 Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
@@ -387,6 +391,7 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
+                damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
             case "Sand":
                 float drag = currState != State.Shielded ? 30f : 0f;
