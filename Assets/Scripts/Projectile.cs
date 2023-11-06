@@ -27,18 +27,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(gameObject.tag == "PlayerFireball")
-        {
-            
-            print(" Energy used : " + "FireBall : " + playerMovement.fireShotCount);
-        }
-
-        else if( gameObject.tag == "PlayerSnowBall" )
-        {
-            playerMovement.iceShotCount++;
-            print(" Energy used : " + "IceBall : " + playerMovement.iceShotCount);
-        }
-
         switch (gameObject.tag)
         {
             case "PlayerFireball":

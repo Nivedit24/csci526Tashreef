@@ -58,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
     private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
+    public string lastPowerUsed = "";
+
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
