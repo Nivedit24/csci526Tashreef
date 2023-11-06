@@ -58,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
     private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
+    public string lastPowerUsed = "";
+
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
@@ -499,7 +501,7 @@ public class PlayerMovement : MonoBehaviour
             case "EnergyBall":
                 // Analytics for energy ball
                 energyBallsCounter++;
-                callEnergyBallCounterAnalytics(energyBallsCounter);
+                //callEnergyBallCounterAnalytics(energyBallsCounter);
 
                 Debug.Log("Collision with energy ball");
                 if (instructions.Contains(collision.gameObject))
@@ -607,6 +609,12 @@ public class PlayerMovement : MonoBehaviour
     public void HoverOnAirBall()
     {
         mountStartLevel = (int)energyBar.slider.value;
+        if( lastPowerUsed != "" && lastPowerUsed != "Air")
+        {
+            callPowerPairAnalytics(lastPowerUsed, "Air");
+        }
+        lastPowerUsed = "Air";
+
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
         hiddenHoverball.gameObject.SetActive(true);
@@ -663,6 +671,11 @@ public class PlayerMovement : MonoBehaviour
     void EquipEarthShield()
     {
         shieldStartLevel = (int)energyBar.slider.value;
+        if( lastPowerUsed != "" && lastPowerUsed != "Earth")
+        {
+            callPowerPairAnalytics(lastPowerUsed, "Earth");
+        }
+        lastPowerUsed = "Earth";
 
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(true);
@@ -807,6 +820,15 @@ public class PlayerMovement : MonoBehaviour
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
 
         ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
+    }
+
+    public void callPowerPairAnalytics(string power1, string power2)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+
+        Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
+
+        ob3.Send(sessionID, power1, levelName.ToString(), power2, 1);
     }
 
     private void logoChange(int curLogo)
