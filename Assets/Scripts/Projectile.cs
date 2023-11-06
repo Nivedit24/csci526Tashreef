@@ -31,12 +31,12 @@ public class Projectile : MonoBehaviour
         {
             case "PlayerFireball":
                 playerMovement.fireShotCount++;
-                if( playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Fire")
+                if (playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Fire")
                 {
                     playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, "Fire");
                 }
                 playerMovement.lastPowerUsed = "Fire";
-                
+
                 if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
                 {
                     collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
@@ -46,10 +46,10 @@ public class Projectile : MonoBehaviour
                     }
                     Destroy(gameObject);
                 }
-                else if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("BreakWall"))
+                else if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("BreakWall"))
                 {
                     Destroy(gameObject);
-                    
+
                 }
                 else
                 {
@@ -58,7 +58,7 @@ public class Projectile : MonoBehaviour
                 break;
             case "PlayerSnowBall":
                 playerMovement.iceShotCount++;
-                if( playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Water")
+                if (playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Water")
                 {
                     playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, "Water");
                 }

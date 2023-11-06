@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
         energyBallsCounter = 0;
 
-        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster","Volcano" };
+        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster", "Volcano" };
 
         foreach (string enemyName in enemyNames)
         {
@@ -314,6 +314,7 @@ public class PlayerMovement : MonoBehaviour
                 ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
                 RemovePendingIceCubes();
+                callDeathCoordinatesAnalytics(player.transform.position);
                 player.transform.position = checkPoint.position;
                 currState = State.Normal;
                 return;
@@ -346,7 +347,7 @@ public class PlayerMovement : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Goal":
-                Debug.Log("Fire Log Triggered");
+
                 if (SceneManager.GetActiveScene().buildIndex <= 5)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
@@ -360,7 +361,6 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "CheckPoint":
-
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
 
@@ -369,7 +369,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     string obstacleName = enemyHit.Key;
                     long hitCounter = enemyHit.Value;
-                    
+
                     callObstacleCountAnalytics(other, obstacleName, hitCounter);
                 }
 
@@ -609,7 +609,7 @@ public class PlayerMovement : MonoBehaviour
     public void HoverOnAirBall()
     {
         mountStartLevel = (int)energyBar.slider.value;
-        if( lastPowerUsed != "" && lastPowerUsed != "Air")
+        if (lastPowerUsed != "" && lastPowerUsed != "Air")
         {
             callPowerPairAnalytics(lastPowerUsed, "Air");
         }
@@ -671,7 +671,7 @@ public class PlayerMovement : MonoBehaviour
     void EquipEarthShield()
     {
         shieldStartLevel = (int)energyBar.slider.value;
-        if( lastPowerUsed != "" && lastPowerUsed != "Earth")
+        if (lastPowerUsed != "" && lastPowerUsed != "Earth")
         {
             callPowerPairAnalytics(lastPowerUsed, "Earth");
         }
@@ -829,6 +829,15 @@ public class PlayerMovement : MonoBehaviour
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
 
         ob3.Send(sessionID, power1, levelName.ToString(), power2, 1);
+    }
+
+    private void callDeathCoordinatesAnalytics(Transform.position position)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+
+        Analytics04DeathCoordinates ob4 = gameObject.AddComponent<Analytics04DeathCoordinates>();
+
+        ob4.Send(sessionID, levelName.ToString(), position);
     }
 
     private void logoChange(int curLogo)
