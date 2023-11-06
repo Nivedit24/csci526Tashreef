@@ -4,8 +4,9 @@
 ### Our game is a 2D platformer where the player must strategically engage with in-game elements of air, water, fire and earth to choose their ability and forge their way to the goal.
 
 # Game Links
-## [Alpha](https://nivedit24.github.io/csci526Tashreef/alpha/)
-## [Beta](https://nivedit24.github.io/csci526Tashreef/beta/)
+
+- ## [Alpha](https://nivedit24.github.io/csci526Tashreef/alpha/)
+- ## [Beta](https://nivedit24.github.io/csci526Tashreef/beta/)
 
 In this 2D platformer, players find themselves in a world infused with elemental magic. As the protagonist, you possess a unique ability to harness and control the forces of air, water, earth and fire. Each element grants you specific powers, enabling you to manipulate your environment and overcome formidable obstacles.
 
