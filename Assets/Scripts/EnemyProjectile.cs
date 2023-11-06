@@ -28,6 +28,10 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (gameObject.CompareTag("DemonFireball") || gameObject.CompareTag("lightning"))
             Destroy(gameObject);
+        else if (gameObject.CompareTag("AcidBlock"))
+        {
+            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
     }
 
     void SetInitialVelocity()
