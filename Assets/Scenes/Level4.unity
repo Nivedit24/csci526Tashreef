@@ -1912,7 +1912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (10)
+      value: Checkpoint11
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -2460,7 +2460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (5)
+      value: Checkpoint06
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -2837,7 +2837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (7)
+      value: Checkpoint08
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -3873,7 +3873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint
+      value: Checkpoint01
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -5713,7 +5713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (1)
+      value: Checkpoint02
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -8170,7 +8170,7 @@ PrefabInstance:
       objectReference: {fileID: 1083989458}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (9)
+      value: Checkpoint10
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -8972,7 +8972,7 @@ PrefabInstance:
       objectReference: {fileID: 1425924530}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (6)
+      value: Checkpoint07
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -10970,7 +10970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (8)
+      value: Checkpoint09
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -11379,7 +11379,7 @@ PrefabInstance:
       objectReference: {fileID: 740031653}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (4)
+      value: Checkpoint05
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -13831,7 +13831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (3)
+      value: Checkpoint04
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -14481,7 +14481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint (2)
+      value: Checkpoint03
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
