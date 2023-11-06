@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public float speed = 75.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
+
     void Start()
     {
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -26,9 +27,22 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(gameObject.tag == "PlayerFireball")
+        {
+            
+            print(" Energy used : " + "FireBall : " + playerMovement.fireShotCount);
+        }
+
+        else if( gameObject.tag == "PlayerSnowBall" )
+        {
+            playerMovement.iceShotCount++;
+            print(" Energy used : " + "IceBall : " + playerMovement.iceShotCount);
+        }
+
         switch (gameObject.tag)
         {
             case "PlayerFireball":
+                playerMovement.fireShotCount++;
                 if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
                 {
                     collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
@@ -49,6 +63,7 @@ public class Projectile : MonoBehaviour
                 }
                 break;
             case "PlayerSnowBall":
+                playerMovement.iceShotCount++;
                 string collisionTag = collision.gameObject.tag;
                 if (collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag != "Demon" && collisionTag != "Untagged")
                 {

@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private string beforeTransitionLayer;
     private long sessionID;
     private long deadCounter;
+    private long deadSinceLastCheckPoint = 0;
     private int levelName;
     public int energyBallsCounter;
     private int goldStarsCollected = 0;
@@ -48,6 +49,16 @@ public class PlayerMovement : MonoBehaviour
     public ShootProjectile shootProjectile;
     public static bool analytics01Enabled = false;
     public static bool analytics02Enabled = true;
+
+    public int fireShotCount = 0;
+    public int iceShotCount = 0;
+    public int airballTime = 0;
+    public int earthShieldTime = 0;
+    private int mountStartLevel;
+    private int shieldStartLevel;
+    public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
+
+    public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
     public TMP_Text displayText;
@@ -84,6 +95,14 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
         energyBallsCounter = 0;
+
+        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster","Volcano" };
+
+        foreach (string enemyName in enemyNames)
+        {
+            enemyHits[enemyName] = 0;
+        }
+
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
         shootProjectile.enabled = false;
@@ -342,6 +361,24 @@ public class PlayerMovement : MonoBehaviour
 
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
+
+                //Send other analytics 
+                foreach (var enemyHit in enemyHits)
+                {
+                    string obstacleName = enemyHit.Key;
+                    long hitCounter = enemyHit.Value;
+                    
+                    callObstacleCountAnalytics(other, obstacleName, hitCounter);
+                }
+
+                // Send other analytics too
+                callPowerUsageAnalytics(other, "Power Airball", airballTime);
+                callPowerUsageAnalytics(other, "Power FireShot", fireShotCount);
+                callPowerUsageAnalytics(other, "Power IceShot", iceShotCount);
+                callPowerUsageAnalytics(other, "Power EarthShield", earthShieldTime);
+
+
+
                 goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
@@ -377,6 +414,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "AcidDrop":
+                enemyHits["AcidRain"]++;
                 Debug.Log("Collided with Acid drop");
                 damageReceiver.TakeDamage(5, currState == State.Shielded);
                 break;
@@ -388,6 +426,7 @@ public class PlayerMovement : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "IceMonster":
+                enemyHits["IceMonster"]++;
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "WaterBody":
@@ -478,10 +517,12 @@ public class PlayerMovement : MonoBehaviour
                 KillPlayer();
                 break;
             case "Tornado":
+                enemyHits["Tornado"]++;
                 Debug.Log("Player is hit by Tornado");
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
             case "lightning":
+                enemyHits["ThunderOrCloud"]++;
                 Debug.Log("Struck by Lightning");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
@@ -489,25 +530,31 @@ public class PlayerMovement : MonoBehaviour
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
             case "LightningCloud":
+                enemyHits["ThunderOrCloud"]++;
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 break;
             case "Demon":
+                enemyHits["FireDemonOrBall"]++;
                 Debug.Log("Hit by demon");
                 damageReceiver.TakeDamage(20, currState == State.Shielded);
                 break;
             case "VolcanoBall":
+                enemyHits["Volcano"]++;
                 Debug.Log("Hit by volcanoBall");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "DemonFireball":
+                enemyHits["FireDemonOrBall"]++;
                 Debug.Log("Hit by DemonFireBall");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "DeathFloor":
+                enemyHits["Spikes"]++;
                 Debug.Log("Player is hit by Death Floor");
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "EarthMonster":
+                enemyHits["EarthMonster"]++;
                 damageReceiver.TakeDamage(25, currState == State.Shielded);
                 break;
             case "BreakWall":
@@ -559,6 +606,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void HoverOnAirBall()
     {
+        mountStartLevel = (int)energyBar.slider.value;
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
         hiddenHoverball.gameObject.SetActive(true);
@@ -579,6 +627,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void DismountAirBall()
     {
+        int temp = mountStartLevel - (int)energyBar.slider.value;
+        airballTime += temp;
+        //print(" Airball Time: " + temp);
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
@@ -611,6 +662,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void EquipEarthShield()
     {
+        shieldStartLevel = (int)energyBar.slider.value;
+
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(true);
         Transform playerBody = transform.Find("Body");
@@ -622,6 +675,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RemoveEarthShield()
     {
+        int temp = shieldStartLevel - (int)energyBar.slider.value;
+        earthShieldTime += temp;
+        print(" EarthShield Time: " + temp);
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(false);
         currState = State.Normal;
@@ -694,7 +750,6 @@ public class PlayerMovement : MonoBehaviour
     {
         TimeSpan gameTime = DateTime.Now - startGameTime;
 
-
         TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
         lastCheckPointTime = DateTime.Now;
 
@@ -709,13 +764,15 @@ public class PlayerMovement : MonoBehaviour
         TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
         lastCheckPointTime = DateTime.Now;
 
+        deadSinceLastCheckPoint = deadCounter - deadSinceLastCheckPoint;
+
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
         levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
-        print("CheckPointName: " + checkPointNumber);
-        ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadCounter);
+        //print("CheckPointName: " + checkPointNumber);
+        ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
     public void callEnergyBallCounterAnalytics(int energyBallsCounter)
@@ -726,9 +783,30 @@ public class PlayerMovement : MonoBehaviour
 
         Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
         levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
-        // print("EnergyBallC Counter: " + energyBallsCounter);
 
         ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
+    }
+
+    public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+        string checkpointName = other.gameObject.name;
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
+
+        Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
+
+        ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
+    }
+
+    public void callPowerUsageAnalytics(Collider2D other, string obstacleName, long hitCounter)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+        string checkpointName = other.gameObject.name;
+        string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
+
+        Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
+
+        ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
     }
 
     private void logoChange(int curLogo)
