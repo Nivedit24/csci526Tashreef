@@ -6,10 +6,20 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject completionText;
+    private bool isGameCompleted = false;
 
     public void Pause()
     {
         pauseMenu.SetActive(true);
+        if (completionText)
+        {
+            if (completionText.activeSelf)
+            {
+                isGameCompleted = true;
+            }
+            completionText.SetActive(false);
+        }
         Time.timeScale = 0;
     }
     public void Home()
@@ -20,6 +30,10 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenu.SetActive(false);
+        if (completionText && isGameCompleted)
+        {
+            completionText.SetActive(true);
+        }
         Time.timeScale = 1;
     }
     public void Restart()
