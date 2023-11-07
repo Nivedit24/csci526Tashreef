@@ -352,6 +352,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (SceneManager.GetActiveScene().buildIndex == 6)
                 {
+                    callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2);
                     completionText.gameObject.SetActive(true);
                     speed = 0;
                     jumpSpeed = 0;
