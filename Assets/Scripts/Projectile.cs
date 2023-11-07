@@ -31,11 +31,16 @@ public class Projectile : MonoBehaviour
         {
             case "PlayerFireball":
                 playerMovement.fireShotCount++;
-                if (playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Fire")
+                if (playerMovement.lastPowerUsed != Power.Fire.ToString())
                 {
-                    playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, "Fire");
+                    string temp = playerMovement.lastPowerUsed;
+                    if( temp == "")
+                    {
+                        temp = "Start";
+                    }
+                    playerMovement.callPowerPairAnalytics(temp, Power.Fire.ToString());
                 }
-                playerMovement.lastPowerUsed = "Fire";
+                playerMovement.lastPowerUsed = Power.Fire.ToString();
 
                 if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
                 {
@@ -58,11 +63,16 @@ public class Projectile : MonoBehaviour
                 break;
             case "PlayerSnowBall":
                 playerMovement.iceShotCount++;
-                if (playerMovement.lastPowerUsed != "" && playerMovement.lastPowerUsed != "Water")
+                if (playerMovement.lastPowerUsed != Power.Water.ToString())
                 {
-                    playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, "Water");
+                    string temp = playerMovement.lastPowerUsed;
+                    if( temp == "")
+                    {
+                        temp = "Start";
+                    }
+                    playerMovement.callPowerPairAnalytics(temp, Power.Water.ToString());
                 }
-                playerMovement.lastPowerUsed = "Water";
+                playerMovement.lastPowerUsed = Power.Water.ToString();
 
                 string collisionTag = collision.gameObject.tag;
                 if (collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag != "Demon" && collisionTag != "Untagged")
