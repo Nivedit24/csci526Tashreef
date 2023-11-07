@@ -20,9 +20,9 @@ public class Analytics01DeadTime : MonoBehaviour
         URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScRQv83I1oLYwYwnpucIUAv5anjT6hIB-HTqILrXkoFefMnrw/formResponse";
     }
 
-    public void Send(string checkpointName, double timeTaken,string levelName,long sessionId)
+    public void Send(long sessionId, string xCord, string yCord, string levelName)
     {
-        // Debug.Log("SEND is called");
+        //Debug.Log("SEND is called");
         if (PlayerMovement.analytics01Enabled==false){
             return;
         }
@@ -34,27 +34,20 @@ public class Analytics01DeadTime : MonoBehaviour
         // if (timeTaken==0){
         //     return;
         // }
-
-        checkpointNameGlobal = checkpointName;
-        testInt = UnityEngine.Random.Range(0, 101);
-        
-        
-        levelNameGlobal=levelName;// Here level name is number of times player became dead
-        
         //Debug.Log("SEND CO-routine is called");
-        StartCoroutine(Post(sessionId.ToString(), checkpointName, timeTaken.ToString(), checkpointName, levelName));
+        StartCoroutine(Post(sessionId.ToString(), xCord, yCord, "death co-ordinates", levelName));
     }
 
-    private IEnumerator Post(string sessionID, string testInt, string checkpointName, string timeTaken, string levelName)
+    private IEnumerator Post(string sessionID, string xCord, string yCord, string timeTaken, string levelName)
     {
         // Create the form and enter responses
         //Debug.Log("FORMS is being is called");
         WWWForm form = new WWWForm();
         form.AddField("entry.1383666950", sessionID);
-        form.AddField("entry.360401964", testInt);
+        form.AddField("entry.360401964", xCord);
         
         
-        form.AddField("entry.1650855500", checkpointName);
+        form.AddField("entry.1650855500", yCord);
         form.AddField("entry.953686723", timeTaken);
         form.AddField("entry.1294741655", levelName);
         
@@ -71,7 +64,7 @@ public class Analytics01DeadTime : MonoBehaviour
         }
         else
         {
-            Debug.Log("Forms upload complete!");
+            //Debug.Log("Forms upload complete!");
         }
 
         www.Dispose();

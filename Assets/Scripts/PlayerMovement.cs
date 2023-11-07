@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isHovering = false;
     private DateTime startGameTime, lastCheckPointTime;
     public ShootProjectile shootProjectile;
-    public static bool analytics01Enabled = false;
+    public static bool analytics01Enabled = true;
     public static bool analytics02Enabled = true;
 
     public int fireShotCount = 0;
@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         lastCheckPointTime = DateTime.Now;
         energyBallsCounter = 0;
 
-        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster","Volcano" };
+        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster", "Volcano" };
 
         foreach (string enemyName in enemyNames)
         {
@@ -306,10 +306,8 @@ public class PlayerMovement : MonoBehaviour
                     RemoveEarthShield();
                 }
                 deadCounter++;
-                TimeSpan gameTime = DateTime.Now - startGameTime;
-                Analytics01DeadTime ob = gameObject.AddComponent<Analytics01DeadTime>();
-                levelName = SceneManager.GetActiveScene().buildIndex;
-                ob.Send(levelName.ToString(), gameTime.TotalSeconds, deadCounter.ToString(), sessionID);
+                callDeathCoordinatesAnalytics(player.transform.position);
+
                 ResetUsedMovingPlatforms();
                 ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
@@ -346,7 +344,7 @@ public class PlayerMovement : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Goal":
-                Debug.Log("Fire Log Triggered");
+
                 if (SceneManager.GetActiveScene().buildIndex <= 5)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
@@ -360,7 +358,6 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "CheckPoint":
-
                 //Add Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
 
@@ -369,7 +366,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     string obstacleName = enemyHit.Key;
                     long hitCounter = enemyHit.Value;
-                    
+
                     callObstacleCountAnalytics(other, obstacleName, hitCounter);
                 }
 
@@ -378,8 +375,6 @@ public class PlayerMovement : MonoBehaviour
                 callPowerUsageAnalytics(other, "Power FireShot", fireShotCount);
                 callPowerUsageAnalytics(other, "Power IceShot", iceShotCount);
                 callPowerUsageAnalytics(other, "Power EarthShield", earthShieldTime);
-
-
 
                 goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
@@ -609,11 +604,16 @@ public class PlayerMovement : MonoBehaviour
     public void HoverOnAirBall()
     {
         mountStartLevel = (int)energyBar.slider.value;
-        if( lastPowerUsed != "" && lastPowerUsed != "Air")
+        if (lastPowerUsed != Power.Air.ToString())
         {
-            callPowerPairAnalytics(lastPowerUsed, "Air");
+            string temp = lastPowerUsed;
+            if( temp == "")
+            {
+                temp = "Start";
+            }
+            callPowerPairAnalytics(temp, Power.Air.ToString());
         }
-        lastPowerUsed = "Air";
+        lastPowerUsed = Power.Air.ToString();
 
         Transform playerBody = transform.Find("Body");
         Transform hiddenHoverball = transform.Find("HoverBall");
@@ -671,11 +671,16 @@ public class PlayerMovement : MonoBehaviour
     void EquipEarthShield()
     {
         shieldStartLevel = (int)energyBar.slider.value;
-        if( lastPowerUsed != "" && lastPowerUsed != "Earth")
+        if (lastPowerUsed != Power.Earth.ToString())
         {
-            callPowerPairAnalytics(lastPowerUsed, "Earth");
+            string temp = lastPowerUsed;
+            if( temp == "")
+            {
+                temp = "Start";
+            }
+            callPowerPairAnalytics(temp, Power.Earth.ToString());
         }
-        lastPowerUsed = "Earth";
+        lastPowerUsed = Power.Earth.ToString();
 
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(true);
@@ -829,6 +834,17 @@ public class PlayerMovement : MonoBehaviour
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
 
         ob3.Send(sessionID, power1, levelName.ToString(), power2, 1);
+    }
+
+    private void callDeathCoordinatesAnalytics(Vector3 position)
+    {
+        levelName = SceneManager.GetActiveScene().buildIndex - 2;
+
+        Analytics01DeadTime ob1 = gameObject.AddComponent<Analytics01DeadTime>();
+        // print("Player X : " + position.x.ToString());
+        // print("Player Y : " + position.y.ToString());
+
+        ob1.Send(sessionID, position.x.ToString(), position.y.ToString(), levelName.ToString());
     }
 
     private void logoChange(int curLogo)
