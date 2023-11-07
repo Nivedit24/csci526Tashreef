@@ -46,7 +46,7 @@ public class Projectile : MonoBehaviour
                     }
                     Destroy(gameObject);
                 }
-                else if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("BreakWall"))
+                else if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("BreakWall"))
                 {
                     Destroy(gameObject);
                     
