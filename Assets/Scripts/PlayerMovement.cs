@@ -376,8 +376,6 @@ public class PlayerMovement : MonoBehaviour
                 callPowerUsageAnalytics(other, "Power IceShot", iceShotCount);
                 callPowerUsageAnalytics(other, "Power EarthShield", earthShieldTime);
 
-
-
                 goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
