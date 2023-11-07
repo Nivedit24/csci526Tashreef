@@ -24,18 +24,11 @@ public class Analytics02CheckPointTime : MonoBehaviour
     public void Send(long sessionId, string checkpointName, string levelName, double timeTakenCheckPoint, double timeTakenTotal, long totalAttempts)
     {
         // Debug.Log("SEND is called");
-        if (PlayerMovement.analytics02Enabled==false){
+        if (PlayerMovement.analytics02Enabled==false)
+        {
             return;
         }
-
-        sessionIdGlobal = sessionId;
-
-        checkpointNameGlobal = checkpointName;
-        testInt = UnityEngine.Random.Range(0, 101);
-        
-        
-        levelNameGlobal = levelName;
-        
+   
         //Debug.Log("SEND CO-routine is called");
         StartCoroutine(Post(sessionId.ToString(), checkpointName, levelName, timeTakenCheckPoint.ToString(), timeTakenTotal.ToString(), totalAttempts.ToString()));
     }
@@ -65,7 +58,7 @@ public class Analytics02CheckPointTime : MonoBehaviour
         }
         else
         {
-            Debug.Log("Forms2 upload complete!");
+            //Debug.Log("Forms2 upload complete!");
         }
 
         www.Dispose();
