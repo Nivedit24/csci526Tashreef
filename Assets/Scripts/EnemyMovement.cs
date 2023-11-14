@@ -39,6 +39,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void OnEnable()
     {
+        // Starts the InvokeRepeating when the GameObject is activated
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
