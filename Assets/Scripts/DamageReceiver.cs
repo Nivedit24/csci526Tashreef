@@ -36,12 +36,10 @@ public class DamageReceiver : MonoBehaviour
         model.transform.localScale = scale;
     }
 
-    // I-Frame calculation on taking damage
     private IEnumerator InvincibilityFrame()
     {
         isInvincible = true;
 
-        // Generating multiple I-frames
         for (float i = 0; i < invicibilityDuration; i += invincibilityDeltaTime)
         {
             if (model.transform.localScale == initScale) ScaleModelTo(Vector3.zero); // Hiding player
