@@ -33,12 +33,7 @@ public class Projectile : MonoBehaviour
                 playerMovement.fireShotCount++;
                 if (playerMovement.lastPowerUsed != Power.Fire.ToString())
                 {
-                    string temp = playerMovement.lastPowerUsed;
-                    if( temp == "")
-                    {
-                        temp = "Start";
-                    }
-                    playerMovement.callPowerPairAnalytics(temp, Power.Fire.ToString());
+                    playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, Power.Fire.ToString());
                 }
                 playerMovement.lastPowerUsed = Power.Fire.ToString();
 
@@ -54,7 +49,6 @@ public class Projectile : MonoBehaviour
                 else if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("BreakWall"))
                 {
                     Destroy(gameObject);
-
                 }
                 else
                 {
@@ -65,23 +59,21 @@ public class Projectile : MonoBehaviour
                 playerMovement.iceShotCount++;
                 if (playerMovement.lastPowerUsed != Power.Water.ToString())
                 {
-                    string temp = playerMovement.lastPowerUsed;
-                    if( temp == "")
-                    {
-                        temp = "Start";
-                    }
-                    playerMovement.callPowerPairAnalytics(temp, Power.Water.ToString());
+                    playerMovement.callPowerPairAnalytics(playerMovement.lastPowerUsed, Power.Water.ToString());
                 }
                 playerMovement.lastPowerUsed = Power.Water.ToString();
 
                 string collisionTag = collision.gameObject.tag;
-                if (collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag != "Demon" && collisionTag != "Untagged")
+                if (collisionTag == "Cloud" || collisionTag == "LayerRestorer")
+                {
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+                }
+                else if (collisionTag != "AcidDrop" && collisionTag != "IceMonster" && collisionTag != "Demon" && collisionTag != "Untagged")
                 {
                     Destroy(transform.gameObject);
                 }
                 break;
         }
-
     }
     void SetInitialVelocity()
     {

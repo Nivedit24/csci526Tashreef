@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
-    public string lastPowerUsed = "";
+    public string lastPowerUsed = "Start";
 
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
@@ -607,12 +607,7 @@ public class PlayerMovement : MonoBehaviour
         mountStartLevel = (int)energyBar.slider.value;
         if (lastPowerUsed != Power.Air.ToString())
         {
-            string temp = lastPowerUsed;
-            if( temp == "")
-            {
-                temp = "Start";
-            }
-            callPowerPairAnalytics(temp, Power.Air.ToString());
+            callPowerPairAnalytics(lastPowerUsed, Power.Air.ToString());
         }
         lastPowerUsed = Power.Air.ToString();
 
@@ -674,12 +669,7 @@ public class PlayerMovement : MonoBehaviour
         shieldStartLevel = (int)energyBar.slider.value;
         if (lastPowerUsed != Power.Earth.ToString())
         {
-            string temp = lastPowerUsed;
-            if( temp == "")
-            {
-                temp = "Start";
-            }
-            callPowerPairAnalytics(temp, Power.Earth.ToString());
+            callPowerPairAnalytics(lastPowerUsed, Power.Earth.ToString());
         }
         lastPowerUsed = Power.Earth.ToString();
 
