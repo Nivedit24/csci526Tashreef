@@ -53,6 +53,7 @@ public class AcidPrefab : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Hitting fireball to acid block should melt it.
         if (collision.gameObject.tag == "PlayerFireball" && transform.gameObject.tag == "AcidBlock")
         {
             Debug.Log("Hit with fireball after becoming AcidBlock");
