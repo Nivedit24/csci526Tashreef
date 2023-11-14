@@ -753,9 +753,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1320452954}
     m_Modifications:
+    - target: {fileID: 229577161549677254, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5180059918490477400, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5551180194573618648, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
       propertyPath: m_Name
       value: Floor (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5551180194573618648, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6983516637029602529, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
       propertyPath: m_RootOrder
@@ -7136,7 +7152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048278660293952272, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
       propertyPath: rangeYDown
-      value: 35
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3048278660293952275, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
       propertyPath: m_Name
