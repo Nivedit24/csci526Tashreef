@@ -31,7 +31,6 @@ public class PowerTimer : MonoBehaviour
     {
         TimeSpan span = DateTime.UtcNow - playerMovement.powerStartTime;
         playerMovement.energyBar.SetHealth((int)(playerMovement.energyLeft - (span.TotalSeconds * energyDepletionFactor)));
-        Debug.Log("Energy Left : " + playerMovement.energyBar.slider.value);
 
         if (playerMovement.energyBar.slider.value <= 0)
         {
