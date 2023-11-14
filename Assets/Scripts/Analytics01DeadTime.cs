@@ -27,13 +27,6 @@ public class Analytics01DeadTime : MonoBehaviour
             return;
         }
 
-        // Debug.Log(checkpointName);
-        // Debug.Log(timeTaken);
-        sessionIdGlobal=sessionId;
-
-        // if (timeTaken==0){
-        //     return;
-        // }
         //Debug.Log("SEND CO-routine is called");
         StartCoroutine(Post(sessionId.ToString(), xCord, yCord, "death co-ordinates", levelName));
     }
@@ -41,7 +34,6 @@ public class Analytics01DeadTime : MonoBehaviour
     private IEnumerator Post(string sessionID, string xCord, string yCord, string timeTaken, string levelName)
     {
         // Create the form and enter responses
-        //Debug.Log("FORMS is being is called");
         WWWForm form = new WWWForm();
         form.AddField("entry.1383666950", sessionID);
         form.AddField("entry.360401964", xCord);

@@ -359,10 +359,10 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "CheckPoint":
-                //Add Checkpoint Analytics Code
+                // Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
 
-                //Send other analytics 
+                //Send obstacles analytics 
                 foreach (var enemyHit in enemyHits)
                 {
                     string obstacleName = enemyHit.Key;
@@ -371,7 +371,7 @@ public class PlayerMovement : MonoBehaviour
                     callObstacleCountAnalytics(other, obstacleName, hitCounter);
                 }
 
-                // Send other analytics too
+                // Send Power analytics too
                 callPowerUsageAnalytics(other, "Power Airball", airballTime);
                 callPowerUsageAnalytics(other, "Power FireShot", fireShotCount);
                 callPowerUsageAnalytics(other, "Power IceShot", iceShotCount);
@@ -814,7 +814,6 @@ public class PlayerMovement : MonoBehaviour
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
 
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
-
         ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
     }
 
@@ -823,7 +822,6 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
 
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
-
         ob3.Send(sessionID, power1, levelName.ToString(), power2, 1);
     }
 
@@ -832,9 +830,6 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
 
         Analytics01DeadTime ob1 = gameObject.AddComponent<Analytics01DeadTime>();
-        // print("Player X : " + position.x.ToString());
-        // print("Player Y : " + position.y.ToString());
-
         ob1.Send(sessionID, position.x.ToString(), position.y.ToString(), levelName.ToString());
     }
 

@@ -36,7 +36,6 @@ public class Analytics02CheckPointTime : MonoBehaviour
     private IEnumerator Post(string sessionID, string checkpointName, string levelName, string timeTakenCheckPoint, string timeTakenTotal, string totalAttempts)
     {
         // Create the form and enter responses
-        //Debug.Log("FORMS is being is called");
         WWWForm form = new WWWForm();
         form.AddField("entry.145303953", sessionID);
         form.AddField("entry.215474747", checkpointName);
