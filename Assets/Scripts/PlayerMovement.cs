@@ -890,7 +890,7 @@ public class PlayerMovement : MonoBehaviour
     {
         speed = 0;
         jumpSpeed = 0;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         speed = speedDuplicate;
         jumpSpeed = jumpSpeedDuplicate;
     }
