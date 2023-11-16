@@ -15,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeedDuplicate = 8f;
     private float direction = 0f;
     public bool faceRight = true;
-    private Rigidbody2D player;
-    public float groundCheckRadius = 2.5f;
+    public Rigidbody2D playerRB;
+    public float groundCheckRadius = 5f;
     public LayerMask groundLayer;
     private bool isTouchingGround;
     private bool isInsideCloud;
@@ -85,13 +85,13 @@ public class PlayerMovement : MonoBehaviour
     private bool firePower = false;
     private bool waterPower = false;
     private bool earthPower = false;
-    private Color playerColor;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Rigidbody2D>();
+        playerRB = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
-        playerColor = transform.Find("Body").GetComponent<SpriteRenderer>().color;
+
         currState = State.Normal;
         // For analytics
         deadCounter = 0;
@@ -162,23 +162,22 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         direction = Input.GetAxis("Horizontal");
-
-        isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
+        isTouchingGround = Physics2D.OverlapCircle(playerRB.position, groundCheckRadius, groundLayer);
 
         if (currState == State.Shielded)
         {
-            isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius + 3.5f, groundLayer);
+            isTouchingGround = Physics2D.OverlapCircle(playerRB.position, groundCheckRadius + 3.5f, groundLayer);
         }
 
-        player.velocity = new Vector2(direction * speed, player.velocity.y);
+        playerRB.velocity = new Vector2(direction * speed, playerRB.velocity.y);
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
         {
-            player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
+            playerRB.AddForce(new Vector2(playerRB.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
         else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && (currState == State.Hover || currState == State.Shielded) && !isTouchingGround)
         {
-            player.AddForce(new Vector2(player.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
+            playerRB.AddForce(new Vector2(playerRB.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
         }
         else if (airPower && Input.GetKeyDown(KeyCode.Z))
         {
@@ -309,13 +308,13 @@ public class PlayerMovement : MonoBehaviour
                     RemoveEarthShield();
                 }
                 deadCounter++;
-                callDeathCoordinatesAnalytics(player.transform.position);
+                callDeathCoordinatesAnalytics(playerRB.transform.position);
 
                 ResetUsedMovingPlatforms();
                 ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
                 RemovePendingIceCubes();
-                player.transform.position = checkPoint.position;
+                playerRB.transform.position = checkPoint.position;
                 currState = State.Normal;
                 return;
             case State.Normal:
@@ -401,7 +400,7 @@ public class PlayerMovement : MonoBehaviour
                     transform.gameObject.layer = LayerMask.NameToLayer(transitionLayer);
                     if (isHovering)
                     {
-                        player.drag = dragFactor;
+                        playerRB.drag = dragFactor;
                     }
                 }
                 break;
@@ -410,7 +409,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     transform.gameObject.layer = LayerMask.NameToLayer(beforeTransitionLayer);
                     Debug.Log("beforeTransitionLayer : " + beforeTransitionLayer);
-                    player.drag = 0.0f;
+                    playerRB.drag = 0.0f;
                     cloudDrag = false;
                 }
                 break;
@@ -632,8 +631,8 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed *= hoverSpeedFactor;
         jumpSpeed *= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
-        transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
+        playerRB.gravityScale *= hoverGravityFactor;
+        playerRB.mass *= hoverMassFactor;
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
@@ -645,7 +644,7 @@ public class PlayerMovement : MonoBehaviour
     {
         int temp = mountStartLevel - (int)energyBar.slider.value;
         airballTime += temp;
-        //print(" Airball Time: " + temp);
+
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
@@ -655,8 +654,8 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
-        transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
+        playerRB.gravityScale /= hoverGravityFactor;
+        playerRB.mass /= hoverMassFactor;
         isHovering = false;
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
@@ -860,10 +859,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void launchPointDisplay(int childOne)
     {
-        if (childOne == 0)
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.red;
-        else
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.cyan;
+
         if (faceRight)
         {
             transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
@@ -878,8 +874,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void removeLaunchPointDisplays()
     {
-        if (currPower == Power.Air || currPower == Power.Earth)
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
         transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
@@ -903,13 +897,11 @@ internal class CheckPoint
     public CheckPoint(Transform transform)
     {
         position = transform.position;
-        Debug.LogFormat("Initial CheckPoint Position: ", position);
     }
 
     public void SetCheckPoint(Transform transform)
     {
         position = transform.position;
-        Debug.LogFormat("Current CheckPoint Position: ", position);
     }
 }
 
