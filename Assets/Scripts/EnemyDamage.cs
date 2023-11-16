@@ -8,10 +8,12 @@ public class EnemyDamage : MonoBehaviour
     public HealthModifier HealthBar;
     public int maxHealth = 100;
     public int currHealth;
+    public bool giveHeart;
     void Start()
     {
         HealthBar.SetMaxHealth(maxHealth);
         currHealth = maxHealth;
+        giveHeart = Random.Range(0, 2) == 0 ? true : false; 
     }
 
     // Update is called once per frame

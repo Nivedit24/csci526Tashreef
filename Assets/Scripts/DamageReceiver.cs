@@ -58,4 +58,10 @@ public class DamageReceiver : MonoBehaviour
         }
         StartCoroutine(InvincibilityFrame());
     }
+
+    public void giveHealth()
+    {
+        healthBar.SetMaxHealth(maxHealth);
+        currHealth = maxHealth;
+    }
 }
