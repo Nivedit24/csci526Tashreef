@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 20f;
     public float jumpSpeed = 8f;
+    public float speedDuplicate = 20f;
+    public float jumpSpeedDuplicate = 8f;
     private float direction = 0f;
     public bool faceRight = true;
     private Rigidbody2D player;
@@ -97,7 +99,8 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
         energyBallsCounter = 0;
-
+        speedDuplicate = speed;
+        jumpSpeedDuplicate = jumpSpeed;
         List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster", "Volcano" };
 
         foreach (string enemyName in enemyNames)
@@ -564,6 +567,15 @@ public class PlayerMovement : MonoBehaviour
             case "Boulder":
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
+            case "BossFireball":
+                damageReceiver.TakeDamage(50, currState == State.Shielded);
+                break;
+            case "BossBoulder":
+                damageReceiver.TakeDamage(20, currState == State.Shielded);
+                break;
+            case "BossSnowball":
+                StartCoroutine(FreezePlayer());
+                break;
             default:
                 break;
         }
@@ -872,6 +884,15 @@ public class PlayerMovement : MonoBehaviour
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
+    }
+
+    public IEnumerator FreezePlayer()
+    {
+        speed = 0;
+        jumpSpeed = 0;
+        yield return new WaitForSeconds(5f);
+        speed = speedDuplicate;
+        jumpSpeed = jumpSpeedDuplicate;
     }
 }
 
