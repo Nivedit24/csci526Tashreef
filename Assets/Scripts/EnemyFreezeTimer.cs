@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFreeze : MonoBehaviour
+public class EnemyFreezeTimer : MonoBehaviour
 {
     // Start is called before the first frame update
     public HealthModifier HealthBar;

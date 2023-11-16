@@ -15,7 +15,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
 
     private IceMonster_Movement icemonster_mov;
     private EnemyMovement enemyMovement;
-    private EnemyFreeze enemyfreeze;
+    private EnemyFreezeTimer enemyfreeze;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +24,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
         if (gameObject.tag == "IceMonster")
         {
             icemonster_mov = GetComponent<IceMonster_Movement>();
-            enemyfreeze = GetComponent<EnemyFreeze>();
+            enemyfreeze = GetComponent<EnemyFreezeTimer>();
             enemyfreeze.enabled = false;
         }
         else
