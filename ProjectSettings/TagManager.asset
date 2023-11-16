@@ -41,6 +41,10 @@ TagManager:
   - Boulder
   - Wall
   - Switch
+  - BossFireball
+  - BossSnowball
+  - BossMonster
+  - BossBoulder
   layers:
   - Default
   - TransparentFX
