@@ -5,6 +5,7 @@ using UnityEngine;
 public class RotateShield : MonoBehaviour
 {
     // Start is called before the first frame update
+    public GameObject heartEnergy;
     void Start()
     {
 
@@ -31,6 +32,8 @@ public class RotateShield : MonoBehaviour
             collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(5);
             if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
             {
+                if (collision.gameObject.GetComponent<EnemyDamage>().giveHeart)
+                    Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                 collision.gameObject.SetActive(false);
             }
         }
@@ -43,6 +46,8 @@ public class RotateShield : MonoBehaviour
             collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(5);
             if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
             {
+                if (collision.gameObject.GetComponent<EnemyDamage>().giveHeart)
+                    Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                 collision.gameObject.SetActive(false);
             }
         }
