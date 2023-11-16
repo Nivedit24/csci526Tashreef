@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 45
-  jumpSpeed: 75
+  jumpSpeed: 120
   speedDuplicate: 20
   jumpSpeedDuplicate: 8
   faceRight: 1
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currHealth: 0
-  isInvincible: 0
+  isBlinking: 0
   healthBar: {fileID: 0}
   model: {fileID: 7103223003799653939}
   playerMovement: {fileID: 7103223003799653950}
@@ -382,7 +382,7 @@ Rigidbody2D:
   m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: fbc81756d23f9f541938446a2084459c, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1

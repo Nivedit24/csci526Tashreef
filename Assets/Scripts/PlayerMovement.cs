@@ -162,7 +162,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         direction = Input.GetAxis("Horizontal");
-
         isTouchingGround = Physics2D.OverlapCircle(playerRB.position, groundCheckRadius, groundLayer);
 
         if (currState == State.Shielded)
