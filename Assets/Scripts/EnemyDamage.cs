@@ -13,13 +13,13 @@ public class EnemyDamage : MonoBehaviour
     {
         HealthBar.SetMaxHealth(maxHealth);
         currHealth = maxHealth;
-        giveHeart = Random.Range(0, 2) == 0 ? true : false; 
+        giveHeart = Random.Range(0, 2) == 0 ? false : true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void TakeDamage(int damage)
