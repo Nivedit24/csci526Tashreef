@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 public class EnemyMovement : MonoBehaviour
 {
     public float speed = 10f;
     public GameObject projectilePrefab;
     public Transform[] LaunchPoints;
+
+    public GameObject[] bossPrefabs;
+    public Transform[] bossLaunchPoints;
 
     public bool isFrozen = false;
     public Sprite frozenSprite;
@@ -35,13 +38,22 @@ public class EnemyMovement : MonoBehaviour
         {
             CancelInvoke("LaunchProjectiles");
         }
+        if (gameObject.tag == "BossMonster")
+        {
+            CancelInvoke("LaunchProjectilesBoss");
+        }
     }
 
     public void OnEnable()
     {
+        // Starts the InvokeRepeating when the GameObject is activated
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             InvokeRepeating("LaunchProjectiles", 0f, 3.0f);
+        }
+        if (gameObject.tag == "BossMonster")
+        {
+            InvokeRepeating("LaunchProjectilesBoss", 0f, 3.0f);
         }
     }
 
@@ -80,6 +92,17 @@ public class EnemyMovement : MonoBehaviour
         Quaternion rotation = gameObject.tag == "EarthMonster" ? Quaternion.identity : LaunchPoints[dirIndex].rotation;
         GameObject instantiatedPrefab = Instantiate(projectilePrefab, LaunchPoints[dirIndex].position, rotation);
         instantiatedPrefab.GetComponent<EnemyProjectile>().enemy = this.gameObject;
+    }
+
+    void LaunchProjectilesBoss()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            int number = Random.Range(0, bossPrefabs.Length);
+            //Quaternion rotation = bossPrefabs[number].tag == "BossBoulder" ? Quaternion.identity : bossLaunchPoints[i].rotation;
+            GameObject instantiatedPrefab = Instantiate(bossPrefabs[number], bossLaunchPoints[i].position, bossLaunchPoints[i].rotation);
+            instantiatedPrefab.GetComponent<EnemyProjectile>().boss = this.gameObject;
+        }
     }
 
 }

@@ -11,10 +11,12 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 20f;
     public float jumpSpeed = 8f;
+    public float speedDuplicate = 20f;
+    public float jumpSpeedDuplicate = 8f;
     private float direction = 0f;
     public bool faceRight = true;
-    private Rigidbody2D player;
-    public float groundCheckRadius = 2.5f;
+    public Rigidbody2D playerRB;
+    public float groundCheckRadius = 5f;
     public LayerMask groundLayer;
     private bool isTouchingGround;
     private bool isInsideCloud;
@@ -58,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
 
-    public string lastPowerUsed = "";
+    public string lastPowerUsed = "Start";
 
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
@@ -83,13 +85,13 @@ public class PlayerMovement : MonoBehaviour
     private bool firePower = false;
     private bool waterPower = false;
     private bool earthPower = false;
-    private Color playerColor;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Rigidbody2D>();
+        playerRB = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
-        playerColor = transform.Find("Body").GetComponent<SpriteRenderer>().color;
+
         currState = State.Normal;
         // For analytics
         deadCounter = 0;
@@ -97,7 +99,8 @@ public class PlayerMovement : MonoBehaviour
         startGameTime = DateTime.Now;
         lastCheckPointTime = DateTime.Now;
         energyBallsCounter = 0;
-
+        speedDuplicate = speed;
+        jumpSpeedDuplicate = jumpSpeed;
         List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster", "Volcano" };
 
         foreach (string enemyName in enemyNames)
@@ -159,23 +162,22 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         direction = Input.GetAxis("Horizontal");
-
-        isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius, groundLayer);
+        isTouchingGround = Physics2D.OverlapCircle(playerRB.position, groundCheckRadius, groundLayer);
 
         if (currState == State.Shielded)
         {
-            isTouchingGround = Physics2D.OverlapCircle(player.position, groundCheckRadius + 3.5f, groundLayer);
+            isTouchingGround = Physics2D.OverlapCircle(playerRB.position, groundCheckRadius + 3.5f, groundLayer);
         }
 
-        player.velocity = new Vector2(direction * speed, player.velocity.y);
+        playerRB.velocity = new Vector2(direction * speed, playerRB.velocity.y);
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
         {
-            player.AddForce(new Vector2(player.velocity.x, jumpSpeed), ForceMode2D.Impulse);
+            playerRB.AddForce(new Vector2(playerRB.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
         else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && (currState == State.Hover || currState == State.Shielded) && !isTouchingGround)
         {
-            player.AddForce(new Vector2(player.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
+            playerRB.AddForce(new Vector2(playerRB.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
         }
         else if (airPower && Input.GetKeyDown(KeyCode.Z))
         {
@@ -306,13 +308,13 @@ public class PlayerMovement : MonoBehaviour
                     RemoveEarthShield();
                 }
                 deadCounter++;
-                callDeathCoordinatesAnalytics(player.transform.position);
+                callDeathCoordinatesAnalytics(playerRB.transform.position);
 
                 ResetUsedMovingPlatforms();
                 ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
                 RemovePendingIceCubes();
-                player.transform.position = checkPoint.position;
+                playerRB.transform.position = checkPoint.position;
                 currState = State.Normal;
                 return;
             case State.Normal:
@@ -359,10 +361,10 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "CheckPoint":
-                //Add Checkpoint Analytics Code
+                // Checkpoint Analytics Code
                 callCheckPointTimeAnalytics(other);
 
-                //Send other analytics 
+                //Send obstacles analytics 
                 foreach (var enemyHit in enemyHits)
                 {
                     string obstacleName = enemyHit.Key;
@@ -371,7 +373,7 @@ public class PlayerMovement : MonoBehaviour
                     callObstacleCountAnalytics(other, obstacleName, hitCounter);
                 }
 
-                // Send other analytics too
+                // Send Power analytics too
                 callPowerUsageAnalytics(other, "Power Airball", airballTime);
                 callPowerUsageAnalytics(other, "Power FireShot", fireShotCount);
                 callPowerUsageAnalytics(other, "Power IceShot", iceShotCount);
@@ -398,7 +400,7 @@ public class PlayerMovement : MonoBehaviour
                     transform.gameObject.layer = LayerMask.NameToLayer(transitionLayer);
                     if (isHovering)
                     {
-                        player.drag = dragFactor;
+                        playerRB.drag = dragFactor;
                     }
                 }
                 break;
@@ -407,7 +409,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     transform.gameObject.layer = LayerMask.NameToLayer(beforeTransitionLayer);
                     Debug.Log("beforeTransitionLayer : " + beforeTransitionLayer);
-                    player.drag = 0.0f;
+                    playerRB.drag = 0.0f;
                     cloudDrag = false;
                 }
                 break;
@@ -564,6 +566,15 @@ public class PlayerMovement : MonoBehaviour
             case "Boulder":
                 damageReceiver.TakeDamage(10, currState == State.Shielded);
                 break;
+            case "BossFireball":
+                damageReceiver.TakeDamage(50, currState == State.Shielded);
+                break;
+            case "BossBoulder":
+                damageReceiver.TakeDamage(20, currState == State.Shielded);
+                break;
+            case "BossSnowball":
+                StartCoroutine(FreezePlayer());
+                break;
             default:
                 break;
         }
@@ -607,12 +618,7 @@ public class PlayerMovement : MonoBehaviour
         mountStartLevel = (int)energyBar.slider.value;
         if (lastPowerUsed != Power.Air.ToString())
         {
-            string temp = lastPowerUsed;
-            if( temp == "")
-            {
-                temp = "Start";
-            }
-            callPowerPairAnalytics(temp, Power.Air.ToString());
+            callPowerPairAnalytics(lastPowerUsed, Power.Air.ToString());
         }
         lastPowerUsed = Power.Air.ToString();
 
@@ -625,8 +631,8 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed *= hoverSpeedFactor;
         jumpSpeed *= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().gravityScale *= hoverGravityFactor;
-        transform.GetComponent<Rigidbody2D>().mass *= hoverMassFactor;
+        playerRB.gravityScale *= hoverGravityFactor;
+        playerRB.mass *= hoverMassFactor;
         transform.gameObject.layer = LayerMask.NameToLayer("Cloud");
         currState = State.Hover;
         isHovering = true;
@@ -638,7 +644,7 @@ public class PlayerMovement : MonoBehaviour
     {
         int temp = mountStartLevel - (int)energyBar.slider.value;
         airballTime += temp;
-        //print(" Airball Time: " + temp);
+
         Transform hoverBall = transform.Find("HoverBall");
         Transform playerBody = transform.Find("Body");
         Vector3 bodyPosition = playerBody.localPosition;
@@ -648,8 +654,8 @@ public class PlayerMovement : MonoBehaviour
         playerBody.localPosition = bodyPosition;
         speed /= hoverSpeedFactor;
         jumpSpeed /= hoverJumpFactor;
-        transform.GetComponent<Rigidbody2D>().gravityScale /= hoverGravityFactor;
-        transform.GetComponent<Rigidbody2D>().mass /= hoverMassFactor;
+        playerRB.gravityScale /= hoverGravityFactor;
+        playerRB.mass /= hoverMassFactor;
         isHovering = false;
         currState = State.Normal;
         energyLeft = energyBar.slider.value;
@@ -674,12 +680,7 @@ public class PlayerMovement : MonoBehaviour
         shieldStartLevel = (int)energyBar.slider.value;
         if (lastPowerUsed != Power.Earth.ToString())
         {
-            string temp = lastPowerUsed;
-            if( temp == "")
-            {
-                temp = "Start";
-            }
-            callPowerPairAnalytics(temp, Power.Earth.ToString());
+            callPowerPairAnalytics(lastPowerUsed, Power.Earth.ToString());
         }
         lastPowerUsed = Power.Earth.ToString();
 
@@ -824,7 +825,6 @@ public class PlayerMovement : MonoBehaviour
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
 
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
-
         ob3.Send(sessionID, checkPointNumber, levelName.ToString(), obstacleName, hitCounter);
     }
 
@@ -833,7 +833,6 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
 
         Analytics03ObstaclesPowers ob3 = gameObject.AddComponent<Analytics03ObstaclesPowers>();
-
         ob3.Send(sessionID, power1, levelName.ToString(), power2, 1);
     }
 
@@ -842,9 +841,6 @@ public class PlayerMovement : MonoBehaviour
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
 
         Analytics01DeadTime ob1 = gameObject.AddComponent<Analytics01DeadTime>();
-        // print("Player X : " + position.x.ToString());
-        // print("Player Y : " + position.y.ToString());
-
         ob1.Send(sessionID, position.x.ToString(), position.y.ToString(), levelName.ToString());
     }
 
@@ -863,10 +859,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void launchPointDisplay(int childOne)
     {
-        if (childOne == 0)
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.red;
-        else
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.cyan;
+
         if (faceRight)
         {
             transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
@@ -881,12 +874,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void removeLaunchPointDisplays()
     {
-        if (currPower == Power.Air || currPower == Power.Earth)
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = playerColor;
         transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
         transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
+    }
+
+    public IEnumerator FreezePlayer()
+    {
+        speed = 0;
+        jumpSpeed = 0;
+        yield return new WaitForSeconds(5f);
+        speed = speedDuplicate;
+        jumpSpeed = jumpSpeedDuplicate;
     }
 }
 
@@ -897,13 +897,11 @@ internal class CheckPoint
     public CheckPoint(Transform transform)
     {
         position = transform.position;
-        Debug.LogFormat("Initial CheckPoint Position: ", position);
     }
 
     public void SetCheckPoint(Transform transform)
     {
         position = transform.position;
-        Debug.LogFormat("Current CheckPoint Position: ", position);
     }
 }
 

@@ -14,6 +14,8 @@ public class ShootProjectile : MonoBehaviour
     public float shootTime = 0.25f;
     public PlayerMovement playerMovement;
 
+    public float shootEnergy = 20f;
+
     void Start()
     {
     }
@@ -23,14 +25,14 @@ public class ShootProjectile : MonoBehaviour
     {
         GameObject projectile = playerMovement.currPower == Power.Fire ? firePrefab : icePrefab;
 
-        if (playerMovement.energyLeft > 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
+        if (playerMovement.energyLeft >= shootEnergy && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
         {
             if (playerMovement.faceRight)
                 Instantiate(projectile, launchPointRight.position, launchPointRight.rotation);
             else
                 Instantiate(projectile, launchPointLeft.position, launchPointLeft.rotation);
             shootTime = 0.25f;
-            playerMovement.energyBar.slider.value -= 20;
+            playerMovement.energyBar.slider.value -= shootEnergy;
             playerMovement.energyLeft = playerMovement.energyBar.slider.value;
             playerMovement.powerEndTime = System.DateTime.UtcNow;
             if (playerMovement.energyBar.slider.value <= 0)

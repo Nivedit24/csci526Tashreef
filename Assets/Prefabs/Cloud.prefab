@@ -328,7 +328,7 @@ AreaEffector2D:
     m_Bits: 128
   m_UseGlobalAngle: 0
   m_ForceAngle: 90
-  m_ForceMagnitude: 110
+  m_ForceMagnitude: 140
   m_ForceVariation: 0
   m_ForceTarget: 0
   m_Drag: 0
@@ -457,7 +457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  yRange: 1
+  Range: 1
 --- !u!1 &5649547295521703840
 GameObject:
   m_ObjectHideFlags: 0
