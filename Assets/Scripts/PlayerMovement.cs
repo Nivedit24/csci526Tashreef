@@ -675,10 +675,9 @@ public class PlayerMovement : MonoBehaviour
 
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(true);
-
-        Vector3 bodyPosition = playerRB.position;
+        Transform playerBody = transform.Find("Body");
+        Vector3 bodyPosition = playerBody.localPosition;
         bodyPosition.y += shield.transform.localScale.y;
-        playerRB.position = bodyPosition;
         currState = State.Shielded;
         shield.GetComponent<RotateShield>().startRotate = true;
         powerStartTime = DateTime.UtcNow;
