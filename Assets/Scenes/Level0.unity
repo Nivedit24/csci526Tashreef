@@ -2309,7 +2309,7 @@ PrefabInstance:
       objectReference: {fileID: 990823020}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: jumpSpeed
-      value: 75
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: goldStarsRequired
