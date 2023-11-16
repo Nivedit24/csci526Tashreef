@@ -506,6 +506,7 @@ MonoBehaviour:
   speed: 30
   jumpSpeed: 90
   faceRight: 1
+  playerRB: {fileID: 0}
   groundCheckRadius: 2.5
   groundLayer:
     serializedVersion: 2
@@ -516,25 +517,33 @@ MonoBehaviour:
   hoverMassFactor: 0.5
   maxEnergy: 0
   energyLeft: 0
+  energyBallsCounter: 0
   goldStarsRequired: 5
+  iceCubes: []
+  iceCubesOnDoorSwitches: []
   dragFactor: 0
   currState: 0
   damageReceiver: {fileID: 0}
   isHovering: 0
   shootProjectile: {fileID: 0}
+  fireShotCount: 0
+  iceShotCount: 0
+  airballTime: 0
+  earthShieldTime: 0
+  lastPowerUsed: Start
   gameOverSceneName: GameOverScene
   goldStarsCollectedText: {fileID: 0}
   energyBar: {fileID: 0}
   displayText: {fileID: 0}
+  completionText: {fileID: 0}
   instructions: []
-  allDemons: {fileID: 0}
+  allEnemies: []
   clouds: {fileID: 0}
   barrier: {fileID: 0}
   allMovingPlatforms: {fileID: 0}
   allSwitches: {fileID: 0}
   activePowers: 
   energyBalls: {fileID: 0}
-  breakwall: {fileID: 0}
   currPower: 1
   elements: {fileID: 0}
   powerTimer: {fileID: 0}
@@ -574,6 +583,7 @@ MonoBehaviour:
   launchPointLeft: {fileID: 1334439577954602093}
   shootTime: 0.25
   playerMovement: {fileID: 7223069435964574468}
+  shootEnergy: 20
 --- !u!114 &380593280576517843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 7223069435964574468}
+  energyDepletionFactor: 10
+  energyReplenishFactor: 5
 --- !u!1 &9155689589112615307
 GameObject:
   m_ObjectHideFlags: 0

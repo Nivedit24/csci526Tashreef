@@ -2767,6 +2767,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7103223003799653947, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
+      propertyPath: speed
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: clouds
       value: 
@@ -2785,7 +2793,7 @@ PrefabInstance:
       objectReference: {fileID: 1341631405}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: jumpSpeed
-      value: 12
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: energyBalls

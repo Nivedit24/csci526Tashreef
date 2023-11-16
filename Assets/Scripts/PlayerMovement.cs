@@ -849,10 +849,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void launchPointDisplay(int childOne)
     {
-        if (childOne == 0)
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.red;
-        else
-            transform.Find("Body").GetComponent<SpriteRenderer>().color = Color.cyan;
         if (faceRight)
         {
             transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
@@ -867,11 +863,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void removeLaunchPointDisplays()
     {
-        // if (currPower == Power.Air || currPower == Power.Earth)
-        // transform.GetChild(0).gameObject.SetActive(false);
-        // transform.GetChild(1).gameObject.SetActive(false);
-        // transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
-        // transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
     }
 }
 
