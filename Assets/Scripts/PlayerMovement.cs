@@ -860,6 +860,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void launchPointDisplay(int childOne)
     {
+
         if (faceRight)
         {
             transform.GetChild(2).GetChild(childOne).gameObject.SetActive(true);
