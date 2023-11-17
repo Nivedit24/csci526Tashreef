@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = new Vector2(direction * speed, playerRB.velocity.y);
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, jumpSpeed), ForceMode2D.Impulse);
         }
@@ -179,11 +179,18 @@ public class PlayerMovement : MonoBehaviour
         {
             currPower = Power.Air;
             shootProjectile.enabled = false;
+            logoChange(0);
             if (currState == State.Shielded)
             {
                 RemoveEarthShield();
             }
-            if (energyLeft > 0 && currState != State.Hover)
+            energyLeft = energyBar.slider.value;
+
+            if (currState == State.Hover)
+            {
+                DismountAirBall();
+            }
+            else if (energyLeft > 0)
             {
                 HoverOnAirBall();
             }
@@ -192,6 +199,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currPower = Power.Fire;
             shootProjectile.enabled = true;
+            logoChange(1);
             if (currState == State.Hover)
             {
                 DismountAirBall();
@@ -208,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currPower = Power.Water;
             shootProjectile.enabled = true;
+            logoChange(2);
             if (currState == State.Hover)
             {
                 DismountAirBall();
@@ -223,65 +232,22 @@ public class PlayerMovement : MonoBehaviour
         {
             currPower = Power.Earth;
             shootProjectile.enabled = false;
+            logoChange(3);
             if (currState == State.Hover)
             {
                 DismountAirBall();
             }
-            if (energyLeft > 0 && currState != State.Shielded)
+            energyLeft = energyBar.slider.value;
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
+            else if (energyLeft > 0)
             {
                 EquipEarthShield();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            energyLeft = energyBar.slider.value;
-            switch (currPower)
-            {
-                case Power.Air:
-                    if (currState == State.Hover)
-                    {
-                        DismountAirBall();
-                    }
-                    else if (energyLeft > 0)
-                    {
-                        HoverOnAirBall();
-                    }
-                    break;
-                case Power.Fire:
-                    break;
-                case Power.Water:
-                    break;
-                case Power.Earth:
-                    if (currState == State.Shielded)
-                    {
-                        RemoveEarthShield();
-                    }
-                    else if (energyLeft > 0)
-                    {
-                        EquipEarthShield();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Z) && activePowers.Contains(Power.Air))
-        {
-            logoChange(0);
-        }
-        if (Input.GetKeyDown(KeyCode.X) && activePowers.Contains(Power.Fire))
-        {
-            logoChange(1);
-        }
-        if (Input.GetKeyDown(KeyCode.C) && activePowers.Contains(Power.Water))
-        {
-            logoChange(2);
-        }
-        if (Input.GetKeyDown(KeyCode.V) && activePowers.Contains(Power.Earth))
-        {
-            logoChange(3);
-        }
         updateStarsUI();
         if (direction > 0)
         {
