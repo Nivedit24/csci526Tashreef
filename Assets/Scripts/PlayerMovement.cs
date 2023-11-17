@@ -575,6 +575,10 @@ public class PlayerMovement : MonoBehaviour
             case "BossSnowball":
                 StartCoroutine(FreezePlayer());
                 break;
+            case "HeartEnergy":
+                damageReceiver.giveHealth();
+                Destroy(collision.gameObject);
+                break;
             default:
                 break;
         }

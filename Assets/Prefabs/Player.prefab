@@ -821,6 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e739568421d847fe91c92568d22d09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heartEnergy: {fileID: 4042173386672749232, guid: 7bfa4a8021df6d444b864119b73f517b, type: 3}
   speed: 2000
   startRotate: 0
 --- !u!1001 &4956626757434380663

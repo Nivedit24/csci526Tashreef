@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     public float speed = 75.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
-
+    public GameObject heartEnergy;
     void Start()
     {
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -42,6 +42,8 @@ public class Projectile : MonoBehaviour
                     collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
                     if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
                     {
+                        if (collision.gameObject.GetComponent<EnemyDamage>().giveHeart)
+                            Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                         collision.gameObject.SetActive(false);
                     }
                     Destroy(gameObject);
