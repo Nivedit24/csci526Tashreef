@@ -347,12 +347,12 @@ public class PlayerMovement : MonoBehaviour
         {
             case "Goal":
 
-                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                if (SceneManager.GetActiveScene().buildIndex <= 6)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
-                if (SceneManager.GetActiveScene().buildIndex == 6)
+                if (SceneManager.GetActiveScene().buildIndex == 7)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2);
                     completionText.gameObject.SetActive(true);
