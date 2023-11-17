@@ -81,19 +81,14 @@ public class IceMonster_Movement : MonoBehaviour
             }
             else
             {
-                // Ice Monster is already frozen, hit with snowball again to replenish freeze bar
-                //if (freeze.isUnfreezingCoroutineRunning)
-                //{
-                    enemyfreezeTimer.CancelInvoke();
-                StopCoroutine(freeze.unfreezeAfterDelay);
+                enemyfreezeTimer.CancelInvoke();
+                freeze.StopCoroutine(freeze.unfreezeAfterDelay);
                 
-                    Debug.Log("Cancelling invoke after being frozen");
-                    //yield break; // Exit the coroutine if it's already running
-                //}
+                Debug.Log("Cancelling invoke after being frozen");
+                    
                 freeze.enemyfreeze.currHealth = (int)freeze.timeFrozen;
                 freeze.ApplyFrozenAppearanceIceMonster();// Assuming currHealth represents the freeze bar
             }
-            // StartCoroutine(freeze.UnfreezeAfterDelay(timeFrozen)); // Unfreeze
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "PlayerFireball" && isFrozen)

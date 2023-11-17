@@ -98,6 +98,7 @@ public class EnemyMovement : MonoBehaviour
         {
             enemyfreezeTimer.CancelInvoke();
             StopCoroutine(unFreezeEnemy);
+            isFrozen = true;
             speed = 0;
             OnDisable();
             Destroy(collision.gameObject);
@@ -106,8 +107,7 @@ public class EnemyMovement : MonoBehaviour
             enemyfreezeTimer.HealthBar.SetMaxHealth((int)5f);
             enemyfreezeTimer.currHealth = (int)5f;
             enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
-            StartCoroutine(freeze.UnfreezeAfterDelay(5f));
-            
+            unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
         }
     }
 
