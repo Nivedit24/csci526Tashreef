@@ -27,7 +27,7 @@ public class RotateShield : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EarthMonster") || collision.gameObject.CompareTag("Demon"))
+        if (collision.gameObject.CompareTag("EarthMonster") || collision.gameObject.CompareTag("Demon") || collision.gameObject.CompareTag("BossMonster"))
         {
             collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(5);
             if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)
@@ -41,7 +41,7 @@ public class RotateShield : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EarthMonster") || collision.gameObject.CompareTag("Demon"))
+        if (collision.gameObject.CompareTag("EarthMonster") || collision.gameObject.CompareTag("Demon") || collision.gameObject.CompareTag("BossMonster"))
         {
             collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(5);
             if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)

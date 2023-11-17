@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour
                 }
                 playerMovement.lastPowerUsed = Power.Fire.ToString();
 
-                if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
+                if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster" || collision.gameObject.tag == "BossMonster")
                 {
                     collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
                     if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)

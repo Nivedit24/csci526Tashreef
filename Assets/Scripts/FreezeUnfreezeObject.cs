@@ -23,7 +23,6 @@ public class FreezeUnfreezeObject : MonoBehaviour
             icemonster_mov = GetComponent<IceMonster_Movement>();
         else
             enemyMovement = GetComponent<EnemyMovement>();
-
     }
 
     // Update is called once per frame
@@ -42,13 +41,12 @@ public class FreezeUnfreezeObject : MonoBehaviour
         }
 
         StartCoroutine(UnfreezeAfterDelay(timeFrozen));
-
     }
 
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
+        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster" || gameObject.tag == "BossMonster")
         {
             enemyMovement.isFrozen = false;
             enemyMovement.speed = 10f; // Set speed to its absolute value
@@ -72,11 +70,8 @@ public class FreezeUnfreezeObject : MonoBehaviour
             switch (gameObject.tag)
             {
                 case "EarthMonster":
-
                     break;
-
                 case "IceMonster":
-
                     break;
             }
         }
