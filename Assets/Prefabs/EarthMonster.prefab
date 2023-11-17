@@ -172,9 +172,10 @@ MonoBehaviour:
   LaunchPoints:
   - {fileID: 7852299630976209771}
   - {fileID: 7852299631568800930}
+  bossPrefabs: []
+  bossLaunchPoints: []
   isFrozen: 0
   frozenSprite: {fileID: 21300000, guid: 6f5e2b14acf3f3246a212d883650d9d6, type: 3}
-  freezebarCanvas: {fileID: 0}
 --- !u!61 &7852299632020693931
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -216,6 +217,7 @@ MonoBehaviour:
   HealthBar: {fileID: 7044117927204589361}
   maxHealth: 250
   currHealth: 0
+  giveHeart: 0
 --- !u!114 &-6816129500587052575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeFrozen: 5
   frozenSprite: {fileID: 21300000, guid: 6f5e2b14acf3f3246a212d883650d9d6, type: 3}
-  freezebarCanvas: {fileID: 4417408544653998185}
+  enemyfreeze: {fileID: 0}
 --- !u!114 &4249287772392841701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,10 +245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 770e7e8ddfee97a47854d681989406ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBar: {fileID: 7965124214031733736}
   currHealth: 0
   frozenTime: 10
-  freezeCanvas: {fileID: 4417408544653998185}
+  freezeBar: {fileID: 7965124214031733736}
   CHILD_INDEX: 1
 --- !u!1001 &1690719964452614385
 PrefabInstance:
@@ -267,13 +268,21 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.074509814
       objectReference: {fileID: 0}
-    - target: {fileID: 1174413302214169049, guid: cacbf713f4173484686c92073bb29bae, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 999906286318897002, guid: cacbf713f4173484686c92073bb29bae, type: 3}
+      propertyPath: m_Name
+      value: FreezeBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 999906286318897002, guid: cacbf713f4173484686c92073bb29bae, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1174413302214169049, guid: cacbf713f4173484686c92073bb29bae, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174413302214169049, guid: cacbf713f4173484686c92073bb29bae, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2014368027892280914, guid: cacbf713f4173484686c92073bb29bae, type: 3}
       propertyPath: m_Name
@@ -389,11 +398,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cacbf713f4173484686c92073bb29bae, type: 3}
---- !u!223 &4417408544653998185 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 3043146314783885464, guid: cacbf713f4173484686c92073bb29bae, type: 3}
-  m_PrefabInstance: {fileID: 1690719964452614385}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6371258539413125840 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5700964745192884769, guid: cacbf713f4173484686c92073bb29bae, type: 3}

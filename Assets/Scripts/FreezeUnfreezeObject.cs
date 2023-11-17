@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 public class FreezeUnfreezeObject : MonoBehaviour
@@ -16,9 +15,6 @@ public class FreezeUnfreezeObject : MonoBehaviour
     private IceMonster_Movement icemonster_mov;
     private EnemyMovement enemyMovement;
     public EnemyFreezeTimer enemyfreeze;
-    public Canvas freezebarCanvas;
-    public bool isUnfreezingCoroutineRunning = false;
-
     public Coroutine unfreezeAfterDelay;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +25,6 @@ public class FreezeUnfreezeObject : MonoBehaviour
         {
             icemonster_mov = GetComponent<IceMonster_Movement>();
             enemyfreeze = GetComponent<EnemyFreezeTimer>();
-            freezebarCanvas = enemyfreeze.freezeCanvas;
             enemyfreeze.enabled = false;
         }
 
@@ -37,9 +32,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
             
             enemyMovement = GetComponent<EnemyMovement>();
             enemyfreeze = GetComponent<EnemyFreezeTimer>();
-            freezebarCanvas = enemyfreeze.freezeCanvas;
             enemyfreeze.enabled = false;
-            Debug.Log("demon freeze canvas:" + enemyfreeze.enabled);
         }
 
     }
@@ -53,22 +46,15 @@ public class FreezeUnfreezeObject : MonoBehaviour
 
     public void ApplyFrozenAppearanceIceMonster()
     {
-        //if (frozenSprite != null)
-        //{
-        
             enemyfreeze.enabled = true;
-            freezebarCanvas.enabled = true;
-            enemyfreeze.HealthBar.SetMaxHealth((int)timeFrozen);
+            enemyfreeze.freezeBar.gameObject.SetActive(true);
+            enemyfreeze.freezeBar.SetMaxHealth((int)timeFrozen);
             enemyfreeze.currHealth = (int)timeFrozen;
             enemyfreeze.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
-            //gameObject.GetComponentInChildren<Canvas>().enabled = true;
             spriteRenderer.sprite = frozenSprite;
             
             transform.gameObject.tag = "Untagged";
             gameObject.GetComponent<Collider2D>().isTrigger = false;
-
-            
-        //}
 
         unfreezeAfterDelay =   StartCoroutine(UnfreezeAfterDelay(timeFrozen));
 
@@ -77,8 +63,6 @@ public class FreezeUnfreezeObject : MonoBehaviour
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
         
-
-        isUnfreezingCoroutineRunning = true;
         yield return new WaitForSeconds(delay);
         
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
@@ -87,8 +71,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
             enemyMovement.speed = 10f; // Set speed to its absolute value
             spriteRenderer.sprite = initialSprite;
             enemyMovement.OnEnable();
-            //gameObject.GetComponentInChildren<Canvas>().enabled = false;
-            freezebarCanvas.enabled = false;
+            enemyfreeze.freezeBar.gameObject.SetActive(false);
             enemyfreeze.CancelInvoke();
             enemyfreeze.currHealth = (int)5f;
             enemyMovement.unFreezeEnemy = null;
@@ -100,14 +83,12 @@ public class FreezeUnfreezeObject : MonoBehaviour
             gameObject.GetComponent<Collider2D>().isTrigger = true;
             icemonster_mov.isFrozen = false;
             gameObject.layer = LayerMask.NameToLayer("Default");
-            //gameObject.GetComponentInChildren<Canvas>().enabled = false;
-            freezebarCanvas.enabled = false;
+            enemyfreeze.freezeBar.gameObject.SetActive(false);
             enemyfreeze.CancelInvoke();
             enemyfreeze.currHealth = (int)timeFrozen;
             unfreezeAfterDelay = null;
         }
         spriteRenderer.sprite = initialSprite;
-        isUnfreezingCoroutineRunning = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

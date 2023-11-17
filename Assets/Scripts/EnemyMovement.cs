@@ -18,7 +18,6 @@ public class EnemyMovement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private FreezeUnfreezeObject freeze;
     private EnemyFreezeTimer enemyfreezeTimer;
-    public Canvas freezebarCanvas;
     public Coroutine unFreezeEnemy;
     // Update is called once per frame
 
@@ -28,8 +27,6 @@ public class EnemyMovement : MonoBehaviour
         initialSprite = spriteRenderer.sprite;
         freeze = GetComponent<FreezeUnfreezeObject>();
         enemyfreezeTimer = GetComponent<EnemyFreezeTimer>();
-        freezebarCanvas = enemyfreezeTimer.freezeCanvas;
-
     }
     void Update()
     {
@@ -87,8 +84,8 @@ public class EnemyMovement : MonoBehaviour
             OnDisable();
             Destroy(collision.gameObject);
             enemyfreezeTimer.enabled = true;
-            freezebarCanvas.enabled = true;
-            enemyfreezeTimer.HealthBar.SetMaxHealth((int)5f);
+            enemyfreezeTimer.freezeBar.gameObject.SetActive(true);
+            enemyfreezeTimer.freezeBar.SetMaxHealth((int)5f);
             enemyfreezeTimer.currHealth = (int)5f;
             enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
             unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
@@ -103,8 +100,8 @@ public class EnemyMovement : MonoBehaviour
             OnDisable();
             Destroy(collision.gameObject);
             enemyfreezeTimer.enabled = true;
-            freezebarCanvas.enabled = true;
-            enemyfreezeTimer.HealthBar.SetMaxHealth((int)5f);
+            enemyfreezeTimer.freezeBar.enabled = true;
+            enemyfreezeTimer.freezeBar.SetMaxHealth((int)5f);
             enemyfreezeTimer.currHealth = (int)5f;
             enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
             unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
