@@ -9,7 +9,7 @@ public class IceMonster_Movement : MonoBehaviour
     public bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
-    public float timeFrozen = 5f;
+    //public float timeFrozen = 5f;
     //Public Variables
     public Vector2[] setPoints;
     public float movingSpeed = 1.0f;
@@ -20,9 +20,12 @@ public class IceMonster_Movement : MonoBehaviour
     private Sprite originalSprite;
 
     private FreezeUnfreezeObject freeze;
+    public EnemyFreezeTimer enemyfreezeTimer;
+    
 
     void Start()
     {
+        enemyfreezeTimer = GetComponent<EnemyFreezeTimer>();
         originalSprite = spriteRenderer.sprite;
         setPoints[0] = new Vector2(monster.transform.position.x, monster.transform.position.y);
         generatePoints();
@@ -70,10 +73,27 @@ public class IceMonster_Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall")
         {
-            isFrozen = true;
-            monster.layer = LayerMask.NameToLayer("Ground");
-            freeze.ApplyFrozenAppearanceIceMonster();
-           // StartCoroutine(freeze.UnfreezeAfterDelay(timeFrozen)); // Unfreeze
+            if (!isFrozen)
+            {
+                isFrozen = true;
+                monster.layer = LayerMask.NameToLayer("Ground");
+                freeze.ApplyFrozenAppearanceIceMonster();
+            }
+            else
+            {
+                // Ice Monster is already frozen, hit with snowball again to replenish freeze bar
+                //if (freeze.isUnfreezingCoroutineRunning)
+                //{
+                    enemyfreezeTimer.CancelInvoke();
+                StopCoroutine(freeze.unfreezeAfterDelay);
+                
+                    Debug.Log("Cancelling invoke after being frozen");
+                    //yield break; // Exit the coroutine if it's already running
+                //}
+                freeze.enemyfreeze.currHealth = (int)freeze.timeFrozen;
+                freeze.ApplyFrozenAppearanceIceMonster();// Assuming currHealth represents the freeze bar
+            }
+            // StartCoroutine(freeze.UnfreezeAfterDelay(timeFrozen)); // Unfreeze
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "PlayerFireball" && isFrozen)

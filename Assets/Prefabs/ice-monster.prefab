@@ -166,7 +166,7 @@ MonoBehaviour:
   HealthBar: {fileID: 3906822555512010603}
   currHealth: 0
   frozenTime: 10
-  freezeCanvas: {fileID: 0}
+  freezeCanvas: {fileID: 7346450184632524010}
 --- !u!1001 &5749048292032140402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -328,3 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88a128144b7b0c44953cac657ad0505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &7346450184632524010 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3043146314783885464, guid: cacbf713f4173484686c92073bb29bae, type: 3}
+  m_PrefabInstance: {fileID: 5749048292032140402}
+  m_PrefabAsset: {fileID: 0}

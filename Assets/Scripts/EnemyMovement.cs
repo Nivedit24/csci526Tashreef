@@ -14,6 +14,9 @@ public class EnemyMovement : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private FreezeUnfreezeObject freeze;
+    private EnemyFreezeTimer enemyfreezeTimer;
+    public Canvas freezebarCanvas;
+    public Coroutine unFreezeEnemy;
     // Update is called once per frame
 
     void Start()
@@ -21,6 +24,8 @@ public class EnemyMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialSprite = spriteRenderer.sprite;
         freeze = GetComponent<FreezeUnfreezeObject>();
+        enemyfreezeTimer = GetComponent<EnemyFreezeTimer>();
+        freezebarCanvas = enemyfreezeTimer.freezeCanvas;
 
     }
     void Update()
@@ -67,11 +72,31 @@ public class EnemyMovement : MonoBehaviour
             isFrozen = true;
             spriteRenderer.sprite = freeze.frozenSprite;
             speed = 0;
-            StartCoroutine(freeze.UnfreezeAfterDelay(5f));
             OnDisable();
             Destroy(collision.gameObject);
+            enemyfreezeTimer.enabled = true;
+            freezebarCanvas.enabled = true;
+            enemyfreezeTimer.HealthBar.SetMaxHealth((int)5f);
+            enemyfreezeTimer.currHealth = (int)5f;
+            enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
+            unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
+            
         }
-
+        else if(collision.gameObject.tag == "PlayerSnowBall")
+        {
+            enemyfreezeTimer.CancelInvoke();
+            StopCoroutine(unFreezeEnemy);
+            speed = 0;
+            OnDisable();
+            Destroy(collision.gameObject);
+            enemyfreezeTimer.enabled = true;
+            freezebarCanvas.enabled = true;
+            enemyfreezeTimer.HealthBar.SetMaxHealth((int)5f);
+            enemyfreezeTimer.currHealth = (int)5f;
+            enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
+            StartCoroutine(freeze.UnfreezeAfterDelay(5f));
+            
+        }
     }
 
     void LaunchProjectiles()

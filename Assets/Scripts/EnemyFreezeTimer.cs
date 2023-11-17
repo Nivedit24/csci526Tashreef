@@ -9,13 +9,17 @@ public class EnemyFreezeTimer : MonoBehaviour
     //public int maxHealth = 100;
     public int currHealth;
     public float frozenTime = 10f;
-    public Canvas freezeCanvas; 
+    public Canvas freezeCanvas;
+    public int CHILD_INDEX = 1;
     void Start()
     {
-        freezeCanvas = gameObject.GetComponentInChildren<Canvas>();
-        freezeCanvas.enabled = false;
-        frozenTime = gameObject.GetComponent < FreezeUnfreezeObject >().timeFrozen;
-        Debug.Log("Time frozen: "+frozenTime);
+        //if (gameObject.tag == "IceMonster")
+        //   freezeCanvas = gameObject.GetComponentInChildren<Canvas>();
+        //else
+        //    freezeCanvas = transform.Find("CanvasEnemy (1)").gameObject.GetComponent<Canvas>();
+        freezeCanvas.enabled = false; ;
+        frozenTime = gameObject.GetComponent<FreezeUnfreezeObject>().timeFrozen;
+        Debug.Log("Time frozen: " + frozenTime);
         HealthBar.SetMaxHealth((int)(frozenTime));
         currHealth = (int)(frozenTime);
     }
