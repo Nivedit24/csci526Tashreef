@@ -1851,7 +1851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint11
+      value: Checkpoint10
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -2399,7 +2399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint06
+      value: Checkpoint01
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -2751,6 +2751,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 1399669680}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: boulderPlatforms.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -2776,7 +2784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint08
+      value: Checkpoint06
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -4038,7 +4046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint01
+      value: Checkpoint02
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -5892,7 +5900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint02
+      value: Checkpoint04
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -8513,6 +8521,30 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 277208949}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 196679872}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[2]
+      value: 
+      objectReference: {fileID: 1817437274}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[3]
+      value: 
+      objectReference: {fileID: 174521981}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[4]
+      value: 
+      objectReference: {fileID: 1083989458}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: boulderPlatforms.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -8550,7 +8582,7 @@ PrefabInstance:
       objectReference: {fileID: 1083989458}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint10
+      value: Checkpoint11
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -9355,6 +9387,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 1425924530}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: boulderPlatforms.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -9376,7 +9416,7 @@ PrefabInstance:
       objectReference: {fileID: 1425924530}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint07
+      value: Checkpoint03
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -11486,6 +11526,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
+      propertyPath: enemyArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 778174995}
+    - target: {fileID: -4223976112362242784, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: boulderPlatforms.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -11511,7 +11559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint09
+      value: Checkpoint07
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -11920,7 +11968,7 @@ PrefabInstance:
       objectReference: {fileID: 740031653}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint05
+      value: Checkpoint09
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -14574,7 +14622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint04
+      value: Checkpoint08
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
@@ -15228,7 +15276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588568, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Name
-      value: Checkpoint03
+      value: Checkpoint05
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588569, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_Color.b
