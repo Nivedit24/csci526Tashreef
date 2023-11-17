@@ -100,8 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileBody: {fileID: -7397381614248002600}
-  speed: 50
+  speed: 100
   projectileCount: 5
+  heartEnergy: {fileID: 0}
 --- !u!50 &-7397381614248002600
 Rigidbody2D:
   serializedVersion: 4

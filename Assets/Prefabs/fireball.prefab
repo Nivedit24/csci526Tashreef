@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileBody: {fileID: 3425581951715454790}
-  speed: 50
+  speed: 100
   projectileCount: 5
   heartEnergy: {fileID: 4042173386672749232, guid: 7bfa4a8021df6d444b864119b73f517b, type: 3}
 --- !u!50 &3425581951715454790

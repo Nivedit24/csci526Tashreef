@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 7559952329552335240}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.04, y: -2.07, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1704445365196783922}
@@ -165,6 +165,8 @@ MonoBehaviour:
   LaunchPoints:
   - {fileID: 1704445365196783922}
   - {fileID: 5015186307536605115}
+  bossPrefabs: []
+  bossLaunchPoints: []
   isFrozen: 0
   frozenSprite: {fileID: 0}
 --- !u!114 &3461874616176127032
@@ -182,6 +184,7 @@ MonoBehaviour:
   HealthBar: {fileID: 5910473992202921001}
   maxHealth: 100
   currHealth: 0
+  giveHeart: 0
 --- !u!114 &1878750375961495031
 MonoBehaviour:
   m_ObjectHideFlags: 0
