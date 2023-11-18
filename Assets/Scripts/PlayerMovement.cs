@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private long deadCounter;
     private long deadSinceLastCheckPoint = 0;
     private int levelName;
-    public int energyBallsCounter;
+    public int energyBallsCounter = 0;
     private int goldStarsCollected = 0;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
@@ -236,8 +236,9 @@ public class PlayerMovement : MonoBehaviour
                 EquipEarthShield();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Space) && energyBallsCounter > 0)
         {
+
             energyLeft = energyBar.slider.value;
             switch (currPower)
             {

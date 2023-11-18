@@ -2793,6 +2793,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 396491997}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
+      propertyPath: currPower
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: energyBar
       value: 
       objectReference: {fileID: 1341631405}
