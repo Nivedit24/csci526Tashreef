@@ -10,7 +10,8 @@ public class EnemyMovement : MonoBehaviour
 
     public GameObject[] bossPrefabs;
     public Transform[] bossLaunchPoints;
-
+    public Transform[] enemiesLaunchPoints;
+    public GameObject[] enemiesPrefabs;
     public bool isFrozen = false;
     public Sprite frozenSprite;
     private Sprite initialSprite;
@@ -43,6 +44,7 @@ public class EnemyMovement : MonoBehaviour
         if (gameObject.tag == "BossMonster")
         {
             CancelInvoke("LaunchProjectilesBoss");
+            CancelInvoke("LaunchEnemies");
         }
     }
 
@@ -56,6 +58,7 @@ public class EnemyMovement : MonoBehaviour
         if (gameObject.tag == "BossMonster")
         {
             InvokeRepeating("LaunchProjectilesBoss", 0f, 3.0f);
+            InvokeRepeating("LaunchEnemies", 0f, 20.0f);
         }
     }
 
@@ -126,4 +129,13 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    void LaunchEnemies()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            int number = Random.Range(0, enemiesPrefabs.Length);
+            GameObject instantiatedPrefab = Instantiate(enemiesPrefabs[number], enemiesLaunchPoints[i].position, enemiesLaunchPoints[i].rotation);
+            //instantiatedPrefab.GetComponent<>().boss = this.gameObject;
+        }
+    }
 }

@@ -11,24 +11,33 @@ public class FreezeUnfreezeObject : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private IceMonster_Movement icemonster_mov;
     private EnemyMovement enemyMovement;
+    private PlayerMovement playerMovement;
     public EnemyFreezeTimer enemyfreeze;
     public Coroutine unfreezeAfterDelay;
+
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        initialSprite = spriteRenderer.sprite;
+        
         if (gameObject.tag == "IceMonster")
         {
             icemonster_mov = GetComponent<IceMonster_Movement>();
             enemyfreeze = GetComponent<EnemyFreezeTimer>();
+            initialSprite = spriteRenderer.sprite;
             enemyfreeze.enabled = false;
         }
-
+        else if(gameObject.tag == "Player")
+        {
+            playerMovement = GetComponent<PlayerMovement>();
+            enemyfreeze = GetComponent<EnemyFreezeTimer>();
+            enemyfreeze.enabled = false;
+        }
         else
         {
             enemyMovement = GetComponent<EnemyMovement>();
             enemyfreeze = GetComponent<EnemyFreezeTimer>();
+            initialSprite = spriteRenderer.sprite;
             enemyfreeze.enabled = false;
         }
 
@@ -69,7 +78,18 @@ public class FreezeUnfreezeObject : MonoBehaviour
             enemyfreeze.CancelInvoke();
             enemyfreeze.currHealth = (int)5f;
             enemyMovement.unFreezeEnemy = null;
-
+            spriteRenderer.sprite = initialSprite;
+        }
+        else if(gameObject.tag == "Player")
+        {
+            playerMovement.isFrozen = false;
+            enemyfreeze.freezeBar.gameObject.SetActive(false);
+            playerMovement.transform.Find("ice_cube").gameObject.SetActive(false);
+            enemyfreeze.CancelInvoke();
+            enemyfreeze.currHealth = (int)5f;
+            playerMovement.speed = playerMovement.speedDuplicate;
+            playerMovement.jumpSpeed = playerMovement.jumpSpeedDuplicate;
+            playerMovement.unFreezeEnemy = null;
         }
         else
         {
@@ -81,8 +101,9 @@ public class FreezeUnfreezeObject : MonoBehaviour
             enemyfreeze.CancelInvoke();
             enemyfreeze.currHealth = (int)timeFrozen;
             unfreezeAfterDelay = null;
+            spriteRenderer.sprite = initialSprite;
         }
-        spriteRenderer.sprite = initialSprite;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
