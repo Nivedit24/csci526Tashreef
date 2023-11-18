@@ -246,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         DismountAirBall();
                     }
-                    else if (energyLeft > 0)
+                    else if (energyLeft > 0 && !isFrozen)
                     {
                         HoverOnAirBall();
                     }
@@ -260,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         RemoveEarthShield();
                     }
-                    else if (energyLeft > 0)
+                    else if (energyLeft > 0 && !isFrozen)
                     {
                         EquipEarthShield();
                     }
@@ -582,8 +582,6 @@ public class PlayerMovement : MonoBehaviour
                     enemyfreezeTimer.CancelInvoke();
                     StopCoroutine(unFreezeEnemy);
                     isFrozen = true;
-                    speed = speedDuplicate;
-                    jumpSpeed = jumpSpeedDuplicate;
                     Destroy(collision.gameObject);
                     enemyfreezeTimer.enabled = true;
                     enemyfreezeTimer.freezeBar.enabled = true;
@@ -894,7 +892,7 @@ public class PlayerMovement : MonoBehaviour
     {
         speed = 0;
         jumpSpeed = 0;
-        transform.Find("ice_cube").gameObject.SetActive(true);  
+        transform.Find("ice_cube").gameObject.SetActive(true);
         yield return new WaitForSeconds(5f);
         speed = speedDuplicate;
         jumpSpeed = jumpSpeedDuplicate;
