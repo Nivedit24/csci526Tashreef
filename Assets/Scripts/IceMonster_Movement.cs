@@ -9,8 +9,6 @@ public class IceMonster_Movement : MonoBehaviour
     public bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
-    public float timeFrozen = 5f;
-    //Public Variables
     public Vector2[] setPoints;
     public float movingSpeed = 1.0f;
     private SpriteRenderer frozenSpriteRenderer;
@@ -20,9 +18,11 @@ public class IceMonster_Movement : MonoBehaviour
     private Sprite originalSprite;
 
     private FreezeUnfreezeObject freeze;
+    public EnemyFreezeTimer enemyfreezeTimer;
 
     void Start()
     {
+        enemyfreezeTimer = GetComponent<EnemyFreezeTimer>();
         originalSprite = spriteRenderer.sprite;
         setPoints[0] = new Vector2(monster.transform.position.x, monster.transform.position.y);
         generatePoints();
@@ -70,22 +70,26 @@ public class IceMonster_Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall")
         {
-            isFrozen = true;
-            monster.layer = LayerMask.NameToLayer("Ground");
-            freeze.ApplyFrozenAppearanceIceMonster();
-           // StartCoroutine(freeze.UnfreezeAfterDelay(timeFrozen)); // Unfreeze
+            if (!isFrozen)
+            {
+                isFrozen = true;
+                monster.layer = LayerMask.NameToLayer("Ground");
+                freeze.ApplyFrozenAppearanceIceMonster();
+            }
+            else
+            {
+                enemyfreezeTimer.CancelInvoke();
+                freeze.StopCoroutine(freeze.unfreezeAfterDelay);
+
+                freeze.enemyfreeze.currHealth = (int)freeze.timeFrozen;
+                freeze.ApplyFrozenAppearanceIceMonster();// Assuming currHealth represents the freeze bar
+            }
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "PlayerFireball" && isFrozen)
         {
-            Debug.Log("Hit with fireball after frozen");
-            //monster.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(freeze.UnfreezeAfterDelay(0f));
             Destroy(collision.gameObject);
         }
-
-
     }
-
-   
 }
