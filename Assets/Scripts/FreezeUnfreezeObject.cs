@@ -59,8 +59,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
+        if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster" || gameObject.tag == "BossMonster")
         {
             enemyMovement.isFrozen = false;
             enemyMovement.speed = 10f; // Set speed to its absolute value

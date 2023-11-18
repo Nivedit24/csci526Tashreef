@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update
     public Rigidbody2D projectileBody;
-    public float speed = 75.0f;
+    public float speed = 100.0f;
     public float projectileCount = 5.0f;
     private PlayerMovement playerMovement;
     public GameObject heartEnergy;
@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour
                 }
                 playerMovement.lastPowerUsed = Power.Fire.ToString();
 
-                if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster")
+                if (collision.gameObject.tag == "Demon" || collision.gameObject.tag == "EarthMonster" || collision.gameObject.tag == "BossMonster")
                 {
                     collision.gameObject.GetComponent<EnemyDamage>().TakeDamage(50);
                     if (collision.gameObject.GetComponent<EnemyDamage>().currHealth <= 0)

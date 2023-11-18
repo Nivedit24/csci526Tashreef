@@ -121,7 +121,6 @@ public class EnemyMovement : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             int number = Random.Range(0, bossPrefabs.Length);
-            //Quaternion rotation = bossPrefabs[number].tag == "BossBoulder" ? Quaternion.identity : bossLaunchPoints[i].rotation;
             GameObject instantiatedPrefab = Instantiate(bossPrefabs[number], bossLaunchPoints[i].position, bossLaunchPoints[i].rotation);
             instantiatedPrefab.GetComponent<EnemyProjectile>().boss = this.gameObject;
         }

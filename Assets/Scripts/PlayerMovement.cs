@@ -59,15 +59,11 @@ public class PlayerMovement : MonoBehaviour
     private int mountStartLevel;
     private int shieldStartLevel;
     public Dictionary<string, int> enemyHits = new Dictionary<string, int>();
-
     public string lastPowerUsed = "Start";
-
     public string gameOverSceneName = "GameOverScene";
     public TextMeshProUGUI goldStarsCollectedText;
     public HealthModifier energyBar;
-    public TMP_Text displayText;
     public TextMeshProUGUI completionText;
-    [SerializeField] private List<GameObject> instructions;
     [SerializeField] private List<GameObject> allEnemies;
     [SerializeField] private GameObject clouds;
     [SerializeField] private GameObject barrier;
@@ -347,12 +343,12 @@ public class PlayerMovement : MonoBehaviour
         {
             case "Goal":
 
-                if (SceneManager.GetActiveScene().buildIndex <= 5)
+                if (SceneManager.GetActiveScene().buildIndex <= 6)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2); // Each level gets 2 added from now on
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
-                if (SceneManager.GetActiveScene().buildIndex == 6)
+                if (SceneManager.GetActiveScene().buildIndex == 7)
                 {
                     callCheckPointTimeAnalyticsLevelChange(SceneManager.GetActiveScene().buildIndex - 2);
                     completionText.gameObject.SetActive(true);
@@ -382,15 +378,10 @@ public class PlayerMovement : MonoBehaviour
                 goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
                 other.gameObject.SetActive(false);
-                if (instructions.Contains(other.gameObject))
-                {
-                    DisplayText("Collect stars to checkpoint your progress", other.gameObject);
-                }
                 break;
             case "tempLayerChanger":
                 if (transform.position.y > other.transform.position.y)
                 {
-                    Debug.Log("temporary layer change");
                     string layer = LayerMask.LayerToName(transform.gameObject.layer);
                     if (layer != transitionLayer)
                     {
@@ -501,11 +492,6 @@ public class PlayerMovement : MonoBehaviour
                 energyBallsCounter++;
                 //callEnergyBallCounterAnalytics(energyBallsCounter);
 
-                Debug.Log("Collision with energy ball");
-                if (instructions.Contains(collision.gameObject))
-                {
-                    DisplayText("Replenish your Energy", collision.gameObject);
-                }
                 SetEnergyLevel(maxEnergy);
                 if (currState == State.Hover || currState == State.Shielded)
                 {
@@ -596,13 +582,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void DisplayText(string message, GameObject obj)
-    {
-        displayText.text = message;
-        Invoke("HideTextAfterDelay", 3f);
-        instructions.Remove(obj);
-    }
-
     public void updateStarsUI()
     {
         goldStarsCollectedText.text = $"{goldStarsCollected}/{goldStarsRequired}";
@@ -610,11 +589,6 @@ public class PlayerMovement : MonoBehaviour
         {
             barrier.SetActive(false);
         }
-    }
-
-    void HideTextAfterDelay()
-    {
-        displayText.text = "";
     }
 
     public void HoverOnAirBall()

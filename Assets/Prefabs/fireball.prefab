@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 349436567607013170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 18.924747, y: 7.674445, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileBody: {fileID: 3425581951715454790}
-  speed: 50
+  speed: 100
   projectileCount: 5
   heartEnergy: {fileID: 4042173386672749232, guid: 7bfa4a8021df6d444b864119b73f517b, type: 3}
 --- !u!50 &3425581951715454790

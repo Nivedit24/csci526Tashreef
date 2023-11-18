@@ -9,16 +9,16 @@ public class StarUpdate : MonoBehaviour
     private bool check = true;
     private bool active = true;
     public int requiredActivations;
-    public GameObject[] earthMonsterArray = null;
+    public GameObject[] enemyArray = null;
 
     void Start()
     {
-        requiredActivations = earthMonsterArray == null ? 0 : earthMonsterArray.Length;
+        requiredActivations = enemyArray == null ? 0 : enemyArray.Length;
     }
 
     // Update is called once per frame
     void Update()
-    {   
+    {
         //changing this added value
         curScale = check ? curScale + 0.00062f : curScale - 0.00062f;
         if (curScale >= 0.5 || curScale <= 0.25)
@@ -32,11 +32,11 @@ public class StarUpdate : MonoBehaviour
 
     private bool IsChallengeCompleted()
     {
-        if (earthMonsterArray != null)
+        if (enemyArray != null)
         {
-            foreach (GameObject earthMonster in earthMonsterArray)
+            foreach (GameObject enemy in enemyArray)
             {
-                if (earthMonster.activeSelf)
+                if (enemy.activeSelf)
                 {
                     return false;
                 }
