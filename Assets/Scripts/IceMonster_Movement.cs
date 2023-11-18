@@ -9,8 +9,6 @@ public class IceMonster_Movement : MonoBehaviour
     public bool isFrozen = false;
     public float moveRangeX = 3;
     public float moveRangeY = 0;
-    //public float timeFrozen = 5f;
-    //Public Variables
     public Vector2[] setPoints;
     public float movingSpeed = 1.0f;
     private SpriteRenderer frozenSpriteRenderer;
@@ -21,7 +19,6 @@ public class IceMonster_Movement : MonoBehaviour
 
     private FreezeUnfreezeObject freeze;
     public EnemyFreezeTimer enemyfreezeTimer;
-    
 
     void Start()
     {
@@ -83,9 +80,7 @@ public class IceMonster_Movement : MonoBehaviour
             {
                 enemyfreezeTimer.CancelInvoke();
                 freeze.StopCoroutine(freeze.unfreezeAfterDelay);
-                
-                Debug.Log("Cancelling invoke after being frozen");
-                    
+
                 freeze.enemyfreeze.currHealth = (int)freeze.timeFrozen;
                 freeze.ApplyFrozenAppearanceIceMonster();// Assuming currHealth represents the freeze bar
             }
@@ -93,14 +88,8 @@ public class IceMonster_Movement : MonoBehaviour
         }
         if (collision.gameObject.tag == "PlayerFireball" && isFrozen)
         {
-            Debug.Log("Hit with fireball after frozen");
-            //monster.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(freeze.UnfreezeAfterDelay(0f));
             Destroy(collision.gameObject);
         }
-
-
     }
-
-   
 }

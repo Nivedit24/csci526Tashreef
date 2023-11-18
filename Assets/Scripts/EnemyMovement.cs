@@ -89,9 +89,9 @@ public class EnemyMovement : MonoBehaviour
             enemyfreezeTimer.currHealth = (int)5f;
             enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
             unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
-            
+
         }
-        else if(collision.gameObject.tag == "PlayerSnowBall")
+        else if (collision.gameObject.tag == "PlayerSnowBall")
         {
             enemyfreezeTimer.CancelInvoke();
             StopCoroutine(unFreezeEnemy);

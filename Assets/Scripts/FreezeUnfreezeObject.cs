@@ -5,13 +5,10 @@ using UnityEngine;
 
 public class FreezeUnfreezeObject : MonoBehaviour
 {
-    //public bool isFrozen;
     public float timeFrozen = 5f;
     public Sprite frozenSprite;
     private Sprite initialSprite;
-
     private SpriteRenderer spriteRenderer;
-
     private IceMonster_Movement icemonster_mov;
     private EnemyMovement enemyMovement;
     public EnemyFreezeTimer enemyfreeze;
@@ -28,8 +25,8 @@ public class FreezeUnfreezeObject : MonoBehaviour
             enemyfreeze.enabled = false;
         }
 
-        else {
-            
+        else
+        {
             enemyMovement = GetComponent<EnemyMovement>();
             enemyfreeze = GetComponent<EnemyFreezeTimer>();
             enemyfreeze.enabled = false;
@@ -46,25 +43,23 @@ public class FreezeUnfreezeObject : MonoBehaviour
 
     public void ApplyFrozenAppearanceIceMonster()
     {
-            enemyfreeze.enabled = true;
-            enemyfreeze.freezeBar.gameObject.SetActive(true);
-            enemyfreeze.freezeBar.SetMaxHealth((int)timeFrozen);
-            enemyfreeze.currHealth = (int)timeFrozen;
-            enemyfreeze.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
-            spriteRenderer.sprite = frozenSprite;
-            
-            transform.gameObject.tag = "Untagged";
-            gameObject.GetComponent<Collider2D>().isTrigger = false;
+        enemyfreeze.enabled = true;
+        enemyfreeze.freezeBar.gameObject.SetActive(true);
+        enemyfreeze.freezeBar.SetMaxHealth((int)timeFrozen);
+        enemyfreeze.currHealth = (int)timeFrozen;
+        enemyfreeze.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
+        spriteRenderer.sprite = frozenSprite;
 
-        unfreezeAfterDelay =   StartCoroutine(UnfreezeAfterDelay(timeFrozen));
+        transform.gameObject.tag = "Untagged";
+        gameObject.GetComponent<Collider2D>().isTrigger = false;
 
+        unfreezeAfterDelay = StartCoroutine(UnfreezeAfterDelay(timeFrozen));
     }
 
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
-        
         yield return new WaitForSeconds(delay);
-        
+
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             enemyMovement.isFrozen = false;
@@ -98,11 +93,8 @@ public class FreezeUnfreezeObject : MonoBehaviour
             switch (gameObject.tag)
             {
                 case "EarthMonster":
-
                     break;
-
                 case "IceMonster":
-
                     break;
             }
         }
