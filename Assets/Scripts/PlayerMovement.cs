@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private long deadCounter;
     private long deadSinceLastCheckPoint = 0;
     private int levelName;
-    public int energyBallsCounter;
+    public int energyBallsCounter = 0;
     private int goldStarsCollected = 0;
     private Rigidbody2D platformRigidbody = null;
     public int goldStarsRequired = 5;
@@ -81,13 +81,17 @@ public class PlayerMovement : MonoBehaviour
     private bool firePower = false;
     private bool waterPower = false;
     private bool earthPower = false;
-
+    public bool isFrozen = false;
+    private FreezeUnfreezeObject freeze;
+    private EnemyFreezeTimer enemyfreezeTimer;
+    public Coroutine unFreezeEnemy;
     // Start is called before the first frame update
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
         checkPoint = new CheckPoint(transform);
-
+        freeze = GetComponent<FreezeUnfreezeObject>();
+        enemyfreezeTimer = GetComponent<EnemyFreezeTimer>();
         currState = State.Normal;
         // For analytics
         deadCounter = 0;
@@ -245,6 +249,40 @@ public class PlayerMovement : MonoBehaviour
             else if (energyLeft > 0)
             {
                 EquipEarthShield();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && energyBallsCounter > 0)
+        {
+
+            energyLeft = energyBar.slider.value;
+            switch (currPower)
+            {
+                case Power.Air:
+                    if (currState == State.Hover)
+                    {
+                        DismountAirBall();
+                    }
+                    else if (energyLeft > 0 && !isFrozen)
+                    {
+                        HoverOnAirBall();
+                    }
+                    break;
+                case Power.Fire:
+                    break;
+                case Power.Water:
+                    break;
+                case Power.Earth:
+                    if (currState == State.Shielded)
+                    {
+                        RemoveEarthShield();
+                    }
+                    else if (energyLeft > 0 && !isFrozen)
+                    {
+                        EquipEarthShield();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -525,7 +563,33 @@ public class PlayerMovement : MonoBehaviour
                 damageReceiver.TakeDamage(20, currState == State.Shielded);
                 break;
             case "BossSnowball":
-                StartCoroutine(FreezePlayer());
+                if (!isFrozen && currState != State.Shielded)
+                {
+                    isFrozen = true;
+                    speed = 0;
+                    jumpSpeed = 0;
+                    Destroy(collision.gameObject);
+                    enemyfreezeTimer.enabled = true;
+                    enemyfreezeTimer.freezeBar.gameObject.SetActive(true);
+                    transform.Find("ice_cube").gameObject.SetActive(true);
+                    enemyfreezeTimer.freezeBar.SetMaxHealth((int)5f);
+                    enemyfreezeTimer.currHealth = (int)5f;
+                    enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
+                    unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
+                }
+                else
+                {
+                    enemyfreezeTimer.CancelInvoke();
+                    StopCoroutine(unFreezeEnemy);
+                    isFrozen = true;
+                    Destroy(collision.gameObject);
+                    enemyfreezeTimer.enabled = true;
+                    enemyfreezeTimer.freezeBar.enabled = true;
+                    enemyfreezeTimer.freezeBar.SetMaxHealth((int)5f);
+                    enemyfreezeTimer.currHealth = (int)5f;
+                    enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
+                    unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
+                }
                 break;
             case "HeartEnergy":
                 damageReceiver.giveHealth();
@@ -828,9 +892,11 @@ public class PlayerMovement : MonoBehaviour
     {
         speed = 0;
         jumpSpeed = 0;
+        transform.Find("ice_cube").gameObject.SetActive(true);
         yield return new WaitForSeconds(5f);
         speed = speedDuplicate;
         jumpSpeed = jumpSpeedDuplicate;
+        transform.Find("ice_cube").gameObject.SetActive(false);
     }
 }
 
