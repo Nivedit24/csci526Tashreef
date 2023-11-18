@@ -819,7 +819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45.0428
+      value: 36.6
       objectReference: {fileID: 0}
     - target: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1137,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.942734
+      value: 15.499924
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1730,7 +1730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 60.242752
+      value: 65.61623
       objectReference: {fileID: 0}
     - target: {fileID: 3812138032692588574, guid: 485bb727c111945a2a64ca40d6ec13fb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1825,7 +1825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 81.526535
+      value: 86.9
       objectReference: {fileID: 0}
     - target: {fileID: 7213199139711125971, guid: 519aed366ad214c1290e5c33c3d36b91, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2303,6 +2303,10 @@ PrefabInstance:
       propertyPath: elements
       value: 
       objectReference: {fileID: 414588634}
+    - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
+      propertyPath: currPower
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7103223003799653950, guid: 91eabbdc42e7e4ae6ad0c2088e9f2cd2, type: 3}
       propertyPath: energyBar
       value: 
