@@ -5,24 +5,32 @@ using UnityEngine;
 
 public class FreezeUnfreezeObject : MonoBehaviour
 {
-    //public bool isFrozen;
     public float timeFrozen = 5f;
     public Sprite frozenSprite;
     private Sprite initialSprite;
-
     private SpriteRenderer spriteRenderer;
-
     private IceMonster_Movement icemonster_mov;
     private EnemyMovement enemyMovement;
+    public EnemyFreezeTimer enemyfreeze;
+    public Coroutine unfreezeAfterDelay;
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialSprite = spriteRenderer.sprite;
         if (gameObject.tag == "IceMonster")
+        {
             icemonster_mov = GetComponent<IceMonster_Movement>();
+            enemyfreeze = GetComponent<EnemyFreezeTimer>();
+            enemyfreeze.enabled = false;
+        }
+
         else
+        {
             enemyMovement = GetComponent<EnemyMovement>();
+            enemyfreeze = GetComponent<EnemyFreezeTimer>();
+            enemyfreeze.enabled = false;
+        }
 
     }
 
@@ -30,30 +38,39 @@ public class FreezeUnfreezeObject : MonoBehaviour
     void Update()
     {
 
+
     }
 
     public void ApplyFrozenAppearanceIceMonster()
     {
-        if (frozenSprite != null)
-        {
-            spriteRenderer.sprite = frozenSprite;
-            transform.gameObject.tag = "Untagged";
-            gameObject.GetComponent<Collider2D>().isTrigger = false;
-        }
+        enemyfreeze.enabled = true;
+        enemyfreeze.freezeBar.gameObject.SetActive(true);
+        enemyfreeze.freezeBar.SetMaxHealth((int)timeFrozen);
+        enemyfreeze.currHealth = (int)timeFrozen;
+        enemyfreeze.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
+        spriteRenderer.sprite = frozenSprite;
 
-        StartCoroutine(UnfreezeAfterDelay(timeFrozen));
+        transform.gameObject.tag = "Untagged";
+        gameObject.GetComponent<Collider2D>().isTrigger = false;
 
+        unfreezeAfterDelay = StartCoroutine(UnfreezeAfterDelay(timeFrozen));
     }
 
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster")
         {
             enemyMovement.isFrozen = false;
             enemyMovement.speed = 10f; // Set speed to its absolute value
             spriteRenderer.sprite = initialSprite;
             enemyMovement.OnEnable();
+            enemyfreeze.freezeBar.gameObject.SetActive(false);
+            enemyfreeze.CancelInvoke();
+            enemyfreeze.currHealth = (int)5f;
+            enemyMovement.unFreezeEnemy = null;
+
         }
         else
         {
@@ -61,6 +78,10 @@ public class FreezeUnfreezeObject : MonoBehaviour
             gameObject.GetComponent<Collider2D>().isTrigger = true;
             icemonster_mov.isFrozen = false;
             gameObject.layer = LayerMask.NameToLayer("Default");
+            enemyfreeze.freezeBar.gameObject.SetActive(false);
+            enemyfreeze.CancelInvoke();
+            enemyfreeze.currHealth = (int)timeFrozen;
+            unfreezeAfterDelay = null;
         }
         spriteRenderer.sprite = initialSprite;
     }
@@ -72,11 +93,8 @@ public class FreezeUnfreezeObject : MonoBehaviour
             switch (gameObject.tag)
             {
                 case "EarthMonster":
-
                     break;
-
                 case "IceMonster":
-
                     break;
             }
         }
