@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyFreezeTimer : MonoBehaviour
 {
     public int currHealth;
-    public float frozenTime = 10f;
+    public float frozenTime = 5f;
     public HealthModifier freezeBar;
     void Start()
     {
