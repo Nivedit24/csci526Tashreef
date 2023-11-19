@@ -6,13 +6,11 @@ using TMPro;
 public class canvas_2_script_level_3 : MonoBehaviour
 {
     public GameObject textObject1;
-    public GameObject textObject2;
     public GameObject energyBall;
     public GameObject iceMonster;
-    public GameObject energyBall2;
     public GameObject player;
     public GameObject background_1;
-    public GameObject background_2;
+    public GameObject pusingCube;
     public bool isDropHit = false;
     private bool isMonsterFrozen = false;
     
@@ -28,7 +26,6 @@ public class canvas_2_script_level_3 : MonoBehaviour
     void Update()
     {
         text1 = textObject1.GetComponent<TextMeshProUGUI>();
-        text2 = textObject2.GetComponent<TextMeshProUGUI>();
         if (energyBall.activeSelf == false && player.GetComponent<PlayerMovement>().currPower == Power.Water && !isMonsterFrozen)
         {
             text1.text = "SPACEBAR \n Shoot";
@@ -60,21 +57,13 @@ public class canvas_2_script_level_3 : MonoBehaviour
             isMonsterFrozen = false;
         }
 
-        if(energyBall2.activeSelf == false && !isDropHit)
+        if(!isDropHit)
         {
-            text2.text = "Shoot a falling drop";
-            background_2.SetActive(true);
-        }
-        else if(energyBall2.activeSelf == false)
-        {
-            text2.text = "Good! Now Push \n the frozen cube";
-            background_2.SetActive(true);
+            pusingCube.SetActive(false);
         }
         else
         {
-            text2.text = "";
-            background_2.SetActive(false);
+            pusingCube.SetActive(true);
         }
-
     }
 }
