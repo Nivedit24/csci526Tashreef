@@ -52,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
     public static bool analytics01Enabled = true;
     public static bool analytics02Enabled = true;
 
+    public int parentPlarformDirection = 0;
+    public float parentPlatformSpeed = 0;
+
     public int fireShotCount = 0;
     public int iceShotCount = 0;
     public int airballTime = 0;
@@ -173,7 +176,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
         {
-            playerRB.AddForce(new Vector2(playerRB.velocity.x, jumpSpeed), ForceMode2D.Impulse);
+            Debug.Log("parentPlarformDirection*parentPlatformSpeed : " + parentPlarformDirection * parentPlatformSpeed);
+            Debug.Log("jumpSpeed : " + jumpSpeed);
+            playerRB.AddForce(new Vector2(playerRB.velocity.x, parentPlarformDirection*parentPlatformSpeed*5.0f + jumpSpeed), ForceMode2D.Impulse);
         }
         else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && (currState == State.Hover || currState == State.Shielded) && !isTouchingGround)
         {

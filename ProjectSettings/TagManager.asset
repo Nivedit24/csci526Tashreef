@@ -45,6 +45,7 @@ TagManager:
   - BossSnowball
   - BossMonster
   - BossBoulder
+  - HeartEnergy
   layers:
   - Default
   - TransparentFX
@@ -54,8 +55,8 @@ TagManager:
   - UI
   - Ground
   - Cloud
-  - 
-  - 
+  - Boulder
+  - AcidDrop
   - 
   - 
   - 
