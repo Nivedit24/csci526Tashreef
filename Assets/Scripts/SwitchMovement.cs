@@ -19,9 +19,16 @@ public class SwitchMovement : MonoBehaviour
         switches.GetComponent<Renderer>().material.color = Color.red;
     }
 
+    Transform fetchPlayerIfPresentAsChild()
+    {
+        Transform platformHoler = platform.transform.Find("PlatformHolder");
+        return platformHoler.Find("Player");
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
+        Transform player = fetchPlayerIfPresentAsChild();
         if (activated)
         {
             if (platform.transform.position.y > startPositionY + rangeYUp)
@@ -33,6 +40,11 @@ public class SwitchMovement : MonoBehaviour
                 direction = 1;
             }
             platform.transform.Translate(Vector3.up * speed * Time.deltaTime * direction);
+            if (player)
+            {
+                player.gameObject.GetComponent<PlayerMovement>().parentPlarformDirection = direction;
+                player.gameObject.GetComponent<PlayerMovement>().parentPlatformSpeed = speed;
+            }
         }
         switches.GetComponent<Renderer>().material.color = activated ? Color.green : Color.red;
     }
