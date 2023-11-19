@@ -39,7 +39,9 @@ public class platformHolder : MonoBehaviour
         {
             case "Player":
               other.gameObject.transform.SetParent(null);
-            break;
+                other.gameObject.GetComponent<PlayerMovement>().parentPlarformDirection = 0;
+                other.gameObject.GetComponent<PlayerMovement>().parentPlatformSpeed = 0;
+                break;
             case "AcidBlock":
                 if (other.gameObject.activeSelf)
                 {

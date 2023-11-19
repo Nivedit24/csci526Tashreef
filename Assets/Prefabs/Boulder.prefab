@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8660428449511302753}
   - component: {fileID: 8660428449511302754}
   - component: {fileID: 4006298552315558796}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Boulder
   m_TagString: Boulder
   m_Icon: {fileID: 0}
@@ -140,3 +140,4 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8660428449511302753}
   speed: 50
   enemy: {fileID: 7852299632020693929, guid: 69942aca4f07dce40a627596086020a9, type: 3}
+  boss: {fileID: 0}
