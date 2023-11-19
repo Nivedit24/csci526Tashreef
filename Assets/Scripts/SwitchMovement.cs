@@ -12,6 +12,7 @@ public class SwitchMovement : MonoBehaviour
     public float speed = 10.0f;
     public float rangeYUp = 10.0f;
     public float rangeYDown = 10.0f;
+    public bool allowResetToParentPlatform = false;
     void Start()
     {
         startPositionY = platform.transform.position.y;

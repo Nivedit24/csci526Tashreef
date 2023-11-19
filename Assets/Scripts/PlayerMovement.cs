@@ -763,6 +763,11 @@ public class PlayerMovement : MonoBehaviour
             foreach (Transform movingPlatform in allMovingPlatforms.transform)
             {
                 movingPlatform.transform.position = initialPositionsOfMovingPlatforms[i];
+                Transform attachedSwitch = movingPlatform.transform.Find("Switch");
+                if (attachedSwitch && attachedSwitch.gameObject.GetComponent<SwitchMovement>().allowResetToParentPlatform)
+                {
+                    attachedSwitch.gameObject.GetComponent<SwitchMovement>().activated = false;
+                }
                 i += 1;
             }
         }
