@@ -104,12 +104,6 @@ public class PlayerMovement : MonoBehaviour
         energyBallsCounter = 0;
         speedDuplicate = speed;
         jumpSpeedDuplicate = jumpSpeed;
-        List<string> enemyNames = new List<string> { "Tornado", "Spikes", "FireDemonOrBall", "ThunderOrCloud", "EarthMonster", "AcidRain", "Water", "IceMonster", "Volcano" };
-
-        foreach (string enemyName in enemyNames)
-        {
-            enemyHits[enemyName] = 0;
-        }
 
         energyBar.SetMaxHealth((int)(maxEnergy * 10));
 
@@ -176,17 +170,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
         {
-            Debug.Log("parentPlarformDirection*parentPlatformSpeed : " + parentPlarformDirection * parentPlatformSpeed);
-            Debug.Log("jumpSpeed : " + jumpSpeed);
-            playerRB.AddForce(new Vector2(playerRB.velocity.x, parentPlarformDirection*parentPlatformSpeed*5.0f + jumpSpeed), ForceMode2D.Impulse);
+            playerRB.AddForce(new Vector2(playerRB.velocity.x, parentPlarformDirection * parentPlatformSpeed * 5.0f + jumpSpeed), ForceMode2D.Impulse);
         }
-        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && (currState == State.Hover || currState == State.Shielded) && !isTouchingGround)
+        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
         }
-        else if (airPower && Input.GetKeyDown(KeyCode.Z))
+        else if (airPower && Input.GetKeyDown(KeyCode.Z) && energyBallsCounter > 0)
         {
             currPower = Power.Air;
+            logoChange(0);
             shootProjectile.enabled = false;
             logoChange(0);
             if (currState == State.Shielded)
@@ -204,9 +197,10 @@ public class PlayerMovement : MonoBehaviour
                 HoverOnAirBall();
             }
         }
-        else if (firePower && Input.GetKeyDown(KeyCode.X))
+        else if (firePower && Input.GetKeyDown(KeyCode.X) && energyBallsCounter > 0)
         {
             currPower = Power.Fire;
+            logoChange(1);
             shootProjectile.enabled = true;
             logoChange(1);
             if (currState == State.Hover)
@@ -221,9 +215,10 @@ public class PlayerMovement : MonoBehaviour
             currState = State.Normal;
             launchPointDisplay(0);
         }
-        else if (waterPower && Input.GetKeyDown(KeyCode.C))
+        else if (waterPower && Input.GetKeyDown(KeyCode.C) && energyBallsCounter > 0)
         {
             currPower = Power.Water;
+            logoChange(2);
             shootProjectile.enabled = true;
             logoChange(2);
             if (currState == State.Hover)
@@ -237,9 +232,10 @@ public class PlayerMovement : MonoBehaviour
             currState = State.Normal;
             launchPointDisplay(1);
         }
-        else if (earthPower && Input.GetKeyDown(KeyCode.V))
+        else if (earthPower && Input.GetKeyDown(KeyCode.V) && energyBallsCounter > 0)
         {
             currPower = Power.Earth;
+            logoChange(3);
             shootProjectile.enabled = false;
             logoChange(3);
             if (currState == State.Hover)
@@ -258,7 +254,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space) && energyBallsCounter > 0)
         {
-
             energyLeft = energyBar.slider.value;
             switch (currPower)
             {
@@ -271,10 +266,6 @@ public class PlayerMovement : MonoBehaviour
                     {
                         HoverOnAirBall();
                     }
-                    break;
-                case Power.Fire:
-                    break;
-                case Power.Water:
                     break;
                 case Power.Earth:
                     if (currState == State.Shielded)
@@ -321,18 +312,9 @@ public class PlayerMovement : MonoBehaviour
                 RemovePendingIceCubes();
                 playerRB.transform.position = checkPoint.position;
                 currState = State.Normal;
-                return;
-            case State.Normal:
-                powerTimer.enabled = true;
-                break;
-            case State.Hover:
-                powerTimer.enabled = true;
-                break;
-            case State.Shielded:
-                powerTimer.enabled = true;
                 break;
             default:
-                return;
+                break;
         }
 
         if (currPower == Power.Air || currPower == Power.Earth)
@@ -408,15 +390,23 @@ public class PlayerMovement : MonoBehaviour
                 if (cloudDrag)
                 {
                     transform.gameObject.layer = LayerMask.NameToLayer(beforeTransitionLayer);
-                    Debug.Log("beforeTransitionLayer : " + beforeTransitionLayer);
                     playerRB.drag = 0.0f;
                     cloudDrag = false;
                 }
                 break;
             case "AcidDrop":
-                enemyHits["AcidRain"]++;
-                Debug.Log("Collided with Acid drop");
-                damageReceiver.TakeDamage(5, currState == State.Shielded);
+                damageReceiver.TakeDamage(Util.enemyTagToDamage["AcidDrop"], currState == State.Shielded);
+                if (currState != State.Shielded)
+                {
+                    if (enemyHits.ContainsKey("AcidDrop"))
+                    {
+                        enemyHits["AcidDrop"] += 1;
+                    }
+                    else
+                    {
+                        enemyHits.Add("AcidDrop", 1);
+                    }
+                }
                 break;
         }
     }
@@ -426,11 +416,32 @@ public class PlayerMovement : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "IceMonster":
-                enemyHits["IceMonster"]++;
-                damageReceiver.TakeDamage(10, currState == State.Shielded);
+                damageReceiver.TakeDamage(Util.enemyTagToDamage["IceMonster"], currState == State.Shielded);
+                if (currState != State.Shielded)
+                {
+                    if (enemyHits.ContainsKey("IceMonster"))
+                    {
+                        enemyHits["IceMonster"] += 1;
+                    }
+                    else
+                    {
+                        enemyHits.Add("IceMonster", 1);
+                    }
+                }
                 break;
             case "WaterBody":
-                damageReceiver.TakeDamage(5, currState == State.Shielded);
+                damageReceiver.TakeDamage(Util.enemyTagToDamage["WaterBody"], currState == State.Shielded);
+                if (currState != State.Shielded)
+                {
+                    if (enemyHits.ContainsKey("WaterBody"))
+                    {
+                        enemyHits["WaterBody"] += 1;
+                    }
+                    else
+                    {
+                        enemyHits.Add("WaterBody", 1);
+                    }
+                }
                 break;
             case "Sand":
                 float drag = currState != State.Shielded ? 30f : 0f;
@@ -499,6 +510,7 @@ public class PlayerMovement : MonoBehaviour
             case "EnergyBall":
                 // Analytics for energy ball
                 energyBallsCounter++;
+                powerTimer.enabled = true;
                 //callEnergyBallCounterAnalytics(energyBallsCounter);
 
                 SetEnergyLevel(maxEnergy);
@@ -507,66 +519,22 @@ public class PlayerMovement : MonoBehaviour
                     powerStartTime = DateTime.UtcNow;
                 }
                 collision.gameObject.SetActive(false);
-                break;
+                return;
             case "Respawn":
                 KillPlayer();
-                break;
-            case "Tornado":
-                enemyHits["Tornado"]++;
-                Debug.Log("Player is hit by Tornado");
-                damageReceiver.TakeDamage(10, currState == State.Shielded);
-                break;
-            case "lightning":
-                enemyHits["ThunderOrCloud"]++;
-                Debug.Log("Struck by Lightning");
-                damageReceiver.TakeDamage(25, currState == State.Shielded);
-                break;
+                return;
             case "cloudDirectionChanger":
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-                break;
+                return;
             case "LightningCloud":
-                enemyHits["ThunderOrCloud"]++;
                 Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-                break;
-            case "Demon":
-                enemyHits["FireDemonOrBall"]++;
-                Debug.Log("Hit by demon");
-                damageReceiver.TakeDamage(20, currState == State.Shielded);
-                break;
-            case "VolcanoBall":
-                enemyHits["Volcano"]++;
-                Debug.Log("Hit by volcanoBall");
-                damageReceiver.TakeDamage(25, currState == State.Shielded);
-                break;
-            case "DemonFireball":
-                enemyHits["FireDemonOrBall"]++;
-                Debug.Log("Hit by DemonFireBall");
-                damageReceiver.TakeDamage(25, currState == State.Shielded);
-                break;
-            case "DeathFloor":
-                enemyHits["Spikes"]++;
-                Debug.Log("Player is hit by Death Floor");
-                damageReceiver.TakeDamage(25, currState == State.Shielded);
-                break;
-            case "EarthMonster":
-                enemyHits["EarthMonster"]++;
-                damageReceiver.TakeDamage(25, currState == State.Shielded);
-                break;
+                return;
             case "BreakWall":
                 if (currState == State.Shielded)
                 {
                     Destroy(collision.gameObject); // Destroy the wall.
                 }
-                break;
-            case "Boulder":
-                damageReceiver.TakeDamage(10, currState == State.Shielded);
-                break;
-            case "BossFireball":
-                damageReceiver.TakeDamage(50, currState == State.Shielded);
-                break;
-            case "BossBoulder":
-                damageReceiver.TakeDamage(20, currState == State.Shielded);
-                break;
+                return;
             case "BossSnowball":
                 if (!isFrozen && currState != State.Shielded)
                 {
@@ -595,12 +563,30 @@ public class PlayerMovement : MonoBehaviour
                     enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
                     unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
                 }
-                break;
+                return;
             case "HeartEnergy":
                 damageReceiver.giveHealth();
                 Destroy(collision.gameObject);
-                break;
+                return;
             default:
+                string enemyTag = collision.gameObject.tag;
+                Dictionary<string, int> enemyTagToDamage = Util.enemyTagToDamage;
+                if (enemyTagToDamage.ContainsKey(enemyTag))
+                {
+                    int damage = enemyTagToDamage[enemyTag];
+                    damageReceiver.TakeDamage(damage, currState == State.Shielded);
+                    if (currState != State.Shielded)
+                    {
+                        if (enemyHits.ContainsKey(enemyTag))
+                        {
+                            enemyHits[enemyTag] += 1;
+                        }
+                        else
+                        {
+                            enemyHits.Add(enemyTag, 1);
+                        }
+                    }
+                }
                 break;
         }
     }
@@ -710,7 +696,6 @@ public class PlayerMovement : MonoBehaviour
     {
         int temp = shieldStartLevel - (int)energyBar.slider.value;
         earthShieldTime += temp;
-        print(" EarthShield Time: " + temp);
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(false);
         currState = State.Normal;
@@ -809,7 +794,7 @@ public class PlayerMovement : MonoBehaviour
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
-        //print("CheckPointName: " + checkPointNumber);
+
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
@@ -827,6 +812,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
     {
+        Debug.Log("Obstacle Name: " + obstacleName + " Hit Counter: " + hitCounter);
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
@@ -925,12 +911,3 @@ internal class CheckPoint
     }
 }
 
-public enum State
-{
-    Normal, Hover, Shielded, Dead, Gone
-}
-
-public enum Power
-{
-    Air, Fire, Water, Earth
-}
