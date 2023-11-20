@@ -181,7 +181,6 @@ public class PlayerMovement : MonoBehaviour
             currPower = Power.Air;
             logoChange(0);
             shootProjectile.enabled = false;
-            logoChange(0);
             if (currState == State.Shielded)
             {
                 RemoveEarthShield();
@@ -202,7 +201,6 @@ public class PlayerMovement : MonoBehaviour
             currPower = Power.Fire;
             logoChange(1);
             shootProjectile.enabled = true;
-            logoChange(1);
             if (currState == State.Hover)
             {
                 DismountAirBall();
@@ -220,7 +218,6 @@ public class PlayerMovement : MonoBehaviour
             currPower = Power.Water;
             logoChange(2);
             shootProjectile.enabled = true;
-            logoChange(2);
             if (currState == State.Hover)
             {
                 DismountAirBall();
@@ -237,7 +234,6 @@ public class PlayerMovement : MonoBehaviour
             currPower = Power.Earth;
             logoChange(3);
             shootProjectile.enabled = false;
-            logoChange(3);
             if (currState == State.Hover)
             {
                 DismountAirBall();
