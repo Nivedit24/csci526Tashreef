@@ -66,7 +66,7 @@ public class Projectile : MonoBehaviour
                 playerMovement.lastPowerUsed = Power.Water.ToString();
 
                 string collisionTag = collision.gameObject.tag;
-                if (collisionTag == "Cloud" || collisionTag == "LayerRestorer")
+                if (collisionTag == "Cloud" || collisionTag == "LayerRestorer" || collisionTag == "Sand")
                 {
                     Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
                 }
