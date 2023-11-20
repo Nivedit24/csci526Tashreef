@@ -60,7 +60,6 @@ public class IceMonster_Movement : MonoBehaviour
             float randomy = monster.transform.position.y + moveRangeY;
 
             setPoints[i] = new Vector2(randomx, randomy);
-            Debug.Log(setPoints[i]);
         }
         isFrozen = false;
         spriteRenderer.sprite = originalSprite;
