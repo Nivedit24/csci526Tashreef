@@ -381,13 +381,16 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "AcidDrop":
                 damageReceiver.TakeDamage(Util.enemyTagToDamage["AcidDrop"], currState == State.Shielded);
-                if (enemyHits.ContainsKey("AcidDrop"))
+                if (currState != State.Shielded)
                 {
-                    enemyHits["AcidDrop"] += 1;
-                }
-                else
-                {
-                    enemyHits.Add("AcidDrop", 1);
+                    if (enemyHits.ContainsKey("AcidDrop"))
+                    {
+                        enemyHits["AcidDrop"] += 1;
+                    }
+                    else
+                    {
+                        enemyHits.Add("AcidDrop", 1);
+                    }
                 }
                 break;
         }
@@ -399,24 +402,30 @@ public class PlayerMovement : MonoBehaviour
         {
             case "IceMonster":
                 damageReceiver.TakeDamage(Util.enemyTagToDamage["IceMonster"], currState == State.Shielded);
-                if (enemyHits.ContainsKey("IceMonster"))
+                if (currState != State.Shielded)
                 {
-                    enemyHits["IceMonster"] += 1;
-                }
-                else
-                {
-                    enemyHits.Add("IceMonster", 1);
+                    if (enemyHits.ContainsKey("IceMonster"))
+                    {
+                        enemyHits["IceMonster"] += 1;
+                    }
+                    else
+                    {
+                        enemyHits.Add("IceMonster", 1);
+                    }
                 }
                 break;
             case "WaterBody":
                 damageReceiver.TakeDamage(Util.enemyTagToDamage["WaterBody"], currState == State.Shielded);
-                if (enemyHits.ContainsKey("WaterBody"))
+                if (currState != State.Shielded)
                 {
-                    enemyHits["WaterBody"] += 1;
-                }
-                else
-                {
-                    enemyHits.Add("WaterBody", 1);
+                    if (enemyHits.ContainsKey("WaterBody"))
+                    {
+                        enemyHits["WaterBody"] += 1;
+                    }
+                    else
+                    {
+                        enemyHits.Add("WaterBody", 1);
+                    }
                 }
                 break;
             case "Sand":
@@ -551,13 +560,16 @@ public class PlayerMovement : MonoBehaviour
                 {
                     int damage = enemyTagToDamage[enemyTag];
                     damageReceiver.TakeDamage(damage, currState == State.Shielded);
-                    if (enemyHits.ContainsKey(enemyTag))
+                    if (currState != State.Shielded)
                     {
-                        enemyHits[enemyTag] += 1;
-                    }
-                    else
-                    {
-                        enemyHits.Add(enemyTag, 1);
+                        if (enemyHits.ContainsKey(enemyTag))
+                        {
+                            enemyHits[enemyTag] += 1;
+                        }
+                        else
+                        {
+                            enemyHits.Add(enemyTag, 1);
+                        }
                     }
                 }
                 break;
@@ -669,7 +681,6 @@ public class PlayerMovement : MonoBehaviour
     {
         int temp = shieldStartLevel - (int)energyBar.slider.value;
         earthShieldTime += temp;
-        print(" EarthShield Time: " + temp);
         Transform shield = transform.Find("EarthShield");
         shield.gameObject.SetActive(false);
         currState = State.Normal;
@@ -768,7 +779,7 @@ public class PlayerMovement : MonoBehaviour
 
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
-        //print("CheckPointName: " + checkPointNumber);
+
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
@@ -786,6 +797,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
     {
+        Debug.Log("Obstacle Name: " + obstacleName + " Hit Counter: " + hitCounter);
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
