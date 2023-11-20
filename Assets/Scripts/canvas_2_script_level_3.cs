@@ -13,13 +13,13 @@ public class canvas_2_script_level_3 : MonoBehaviour
     public GameObject pusingCube;
     public bool isDropHit = false;
     private bool isMonsterFrozen = false;
-    
+
 
     private TextMeshProUGUI text1, text2;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -33,7 +33,6 @@ public class canvas_2_script_level_3 : MonoBehaviour
         }
         else if (energyBall.activeSelf == false && player.GetComponent<PlayerMovement>().currPower != Power.Water)
         {
-            Debug.Log("Ice Instructions");
             text1.text = "Press C \n Select Ice";
             background_1.SetActive(true);
         }
@@ -57,7 +56,7 @@ public class canvas_2_script_level_3 : MonoBehaviour
             isMonsterFrozen = false;
         }
 
-        if(!isDropHit)
+        if (!isDropHit)
         {
             pusingCube.SetActive(false);
         }

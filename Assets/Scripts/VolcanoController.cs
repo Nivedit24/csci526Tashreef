@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class VolcanoController : MonoBehaviour
 {
-    public GameObject projectilePrefab; 
-    public Transform[] LaunchPoints;  
+    public GameObject projectilePrefab;
+    public Transform[] LaunchPoints;
     public float launchInterval = 5f;   // Time interval between each launch
     public float projectileSpeed = 5f;
     public Sprite frozenSprite;
@@ -16,7 +16,7 @@ public class VolcanoController : MonoBehaviour
 
     void Start()
     {
-        spriteRenderer = GetComponent < SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         initialSprite = spriteRenderer.sprite;
         InvokeRepeating("LaunchProjectiles", 0f, launchInterval);
     }
@@ -34,7 +34,6 @@ public class VolcanoController : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall" && !isFrozen)
         {
-            Debug.Log("Snowball hit volcano");
             isFrozen = true;
 
             // Change the sprite to the frozen sprite

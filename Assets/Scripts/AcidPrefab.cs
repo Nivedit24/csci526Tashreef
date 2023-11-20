@@ -30,7 +30,7 @@ public class AcidPrefab : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerSnowBall")
         {
-            if(transform.gameObject.tag != "AcidBlock")
+            if (transform.gameObject.tag != "AcidBlock")
             {
                 transform.gameObject.GetComponent<AcidDropToBlock>().ApplyFrozenAppearance();
                 transform.gameObject.tag = "AcidBlock";
@@ -49,14 +49,13 @@ public class AcidPrefab : MonoBehaviour
             Destroy(gameObject);
         }
 
-        
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Hitting fireball to acid block should melt it.
         if (collision.gameObject.tag == "PlayerFireball" && transform.gameObject.tag == "AcidBlock")
         {
-            Debug.Log("Hit with fireball after becoming AcidBlock");
             Destroy(gameObject);
         }
 
