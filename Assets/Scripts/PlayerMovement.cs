@@ -168,11 +168,11 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = new Vector2(direction * speed, playerRB.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, parentPlarformDirection * parentPlatformSpeed * 5.0f + jumpSpeed), ForceMode2D.Impulse);
         }
-        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !isTouchingGround)
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && !isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
         }
@@ -246,35 +246,6 @@ public class PlayerMovement : MonoBehaviour
             else if (energyLeft > 0)
             {
                 EquipEarthShield();
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && energyBallsCounter > 0)
-        {
-            energyLeft = energyBar.slider.value;
-            switch (currPower)
-            {
-                case Power.Air:
-                    if (currState == State.Hover)
-                    {
-                        DismountAirBall();
-                    }
-                    else if (energyLeft > 0 && !isFrozen)
-                    {
-                        HoverOnAirBall();
-                    }
-                    break;
-                case Power.Earth:
-                    if (currState == State.Shielded)
-                    {
-                        RemoveEarthShield();
-                    }
-                    else if (energyLeft > 0 && !isFrozen)
-                    {
-                        EquipEarthShield();
-                    }
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -507,7 +478,6 @@ public class PlayerMovement : MonoBehaviour
                 // Analytics for energy ball
                 energyBallsCounter++;
                 powerTimer.enabled = true;
-                //callEnergyBallCounterAnalytics(energyBallsCounter);
 
                 SetEnergyLevel(maxEnergy);
                 if (currState == State.Hover || currState == State.Shielded)
@@ -794,21 +764,8 @@ public class PlayerMovement : MonoBehaviour
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
-    public void callEnergyBallCounterAnalytics(int energyBallsCounter)
-    {
-        TimeSpan gameTime = DateTime.Now - startGameTime;
-        TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
-        lastCheckPointTime = DateTime.Now;// EnergyBallsCounter is calculated in time from the last checkPoint
-
-        Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
-
-        ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
-    }
-
     public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
     {
-        Debug.Log("Obstacle Name: " + obstacleName + " Hit Counter: " + hitCounter);
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
