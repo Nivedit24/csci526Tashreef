@@ -21,7 +21,6 @@ public class EnemyMovement : MonoBehaviour
     private EnemyFreezeTimer enemyfreezeTimer;
     public Coroutine unFreezeEnemy;
     // Update is called once per frame
-    public List<GameObject> enemiesList;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -143,7 +142,6 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator destroyPrefab(GameObject prefab, float delay)
     {
         yield return new WaitForSeconds(delay);
-        enemiesList.Remove(prefab);
         Destroy(prefab);
     }
 }
