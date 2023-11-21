@@ -296,7 +296,6 @@ public class PlayerMovement : MonoBehaviour
                 ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
                 RemovePendingIceCubes();
-                enemyMovement.removeEnemies();
                 playerRB.transform.position = checkPoint.position;
                 currState = State.Normal;
                 break;
