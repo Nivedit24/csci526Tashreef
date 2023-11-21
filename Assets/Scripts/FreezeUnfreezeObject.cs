@@ -19,7 +19,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
         if (gameObject.tag == "IceMonster")
         {
             icemonster_mov = GetComponent<IceMonster_Movement>();
@@ -27,7 +27,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
             initialSprite = spriteRenderer.sprite;
             enemyfreeze.enabled = false;
         }
-        else if(gameObject.tag == "Player")
+        else if (gameObject.tag == "Player")
         {
             playerMovement = GetComponent<PlayerMovement>();
             enemyfreeze = GetComponent<EnemyFreezeTimer>();
@@ -68,6 +68,11 @@ public class FreezeUnfreezeObject : MonoBehaviour
     public IEnumerator UnfreezeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        UnFreeze();
+    }
+
+    public void UnFreeze()
+    {
         if (gameObject.tag == "Demon" || gameObject.tag == "EarthMonster" || gameObject.tag == "BossMonster")
         {
             enemyMovement.isFrozen = false;
@@ -80,7 +85,7 @@ public class FreezeUnfreezeObject : MonoBehaviour
             enemyMovement.unFreezeEnemy = null;
             spriteRenderer.sprite = initialSprite;
         }
-        else if(gameObject.tag == "Player")
+        else if (gameObject.tag == "Player")
         {
             playerMovement.isFrozen = false;
             enemyfreeze.freezeBar.gameObject.SetActive(false);
@@ -103,7 +108,6 @@ public class FreezeUnfreezeObject : MonoBehaviour
             unfreezeAfterDelay = null;
             spriteRenderer.sprite = initialSprite;
         }
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
