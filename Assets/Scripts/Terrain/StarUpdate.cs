@@ -5,7 +5,7 @@ using UnityEngine;
 public class StarUpdate : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float curScale = 0.25f;
+    public float curScale = 1f;
     private bool check = true;
     private bool active = true;
     public int requiredActivations;
@@ -20,8 +20,8 @@ public class StarUpdate : MonoBehaviour
     void Update()
     {
         //changing this added value
-        curScale = check ? curScale + 0.00062f : curScale - 0.00062f;
-        if (curScale >= 0.5 || curScale <= 0.25)
+        curScale = check ? curScale + 0.001f : curScale - 0.001f;
+        if (curScale >= 1.5 || curScale <= 0.5)
             check = !check;
 
         transform.localScale = new Vector3(curScale, curScale, 1.0f);
