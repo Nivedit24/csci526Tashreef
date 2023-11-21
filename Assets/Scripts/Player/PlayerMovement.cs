@@ -798,7 +798,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
     {
-        Debug.Log("Obstacle Name: " + obstacleName + " Hit Counter: " + hitCounter);
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
         string checkpointName = other.gameObject.name;
         string checkPointNumber = checkpointName.Substring(checkpointName.Length - 2).ToString();
