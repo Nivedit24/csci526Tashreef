@@ -21,7 +21,6 @@ public class EnemyMovement : MonoBehaviour
     private EnemyFreezeTimer enemyfreezeTimer;
     public Coroutine unFreezeEnemy;
     // Update is called once per frame
-
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -58,7 +57,7 @@ public class EnemyMovement : MonoBehaviour
         if (gameObject.tag == "BossMonster")
         {
             InvokeRepeating("LaunchProjectilesBoss", 0f, 3.0f);
-            InvokeRepeating("LaunchEnemies", 0f, 20.0f);
+            InvokeRepeating("LaunchEnemies", 0f, 10.0f);
         }
     }
 
@@ -135,7 +134,14 @@ public class EnemyMovement : MonoBehaviour
         {
             int number = Random.Range(0, enemiesPrefabs.Length);
             GameObject instantiatedPrefab = Instantiate(enemiesPrefabs[number], enemiesLaunchPoints[i].position, enemiesLaunchPoints[i].rotation);
+            StartCoroutine(destroyPrefab(instantiatedPrefab, 15f));
             //instantiatedPrefab.GetComponent<>().boss = this.gameObject;
         }
+    }
+
+    IEnumerator destroyPrefab(GameObject prefab, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(prefab);
     }
 }
