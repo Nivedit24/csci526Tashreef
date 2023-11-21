@@ -7,6 +7,7 @@
 
 - ## [Alpha](https://nivedit24.github.io/csci526Tashreef/alpha/)
 - ## [Beta](https://nivedit24.github.io/csci526Tashreef/beta/)
+- ## [Gold](https://nivedit24.github.io/csci526Tashreef/gold/)
 
 In this 2D platformer, players find themselves in a world infused with elemental magic. As the protagonist, you possess a unique ability to harness and control the forces of air, water, earth and fire. Each element grants you specific powers, enabling you to manipulate your environment and overcome formidable obstacles.
 
