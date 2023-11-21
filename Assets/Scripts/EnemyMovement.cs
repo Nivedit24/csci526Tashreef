@@ -21,7 +21,7 @@ public class EnemyMovement : MonoBehaviour
     private EnemyFreezeTimer enemyfreezeTimer;
     public Coroutine unFreezeEnemy;
     // Update is called once per frame
-
+    public List<GameObject> enemiesList;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -135,7 +135,23 @@ public class EnemyMovement : MonoBehaviour
         {
             int number = Random.Range(0, enemiesPrefabs.Length);
             GameObject instantiatedPrefab = Instantiate(enemiesPrefabs[number], enemiesLaunchPoints[i].position, enemiesLaunchPoints[i].rotation);
+            StartCoroutine(destroyPrefab(instantiatedPrefab, 5f));
+            enemiesList.Add(instantiatedPrefab);
             //instantiatedPrefab.GetComponent<>().boss = this.gameObject;
         }
+    }
+
+    public void removeEnemies()
+    {
+        for (int i = 0; i < enemiesList.Count; i++)
+            Destroy(enemiesList[i]);
+        enemiesList.Clear();
+    }
+
+    IEnumerator destroyPrefab(GameObject prefab, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        enemiesList.Remove(prefab);
+        Destroy(prefab);
     }
 }
