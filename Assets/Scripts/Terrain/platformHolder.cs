@@ -30,6 +30,9 @@ public class platformHolder : MonoBehaviour
             case "Switch":
                 collision.gameObject.transform.SetParent(transform);
                 break;
+            case "Shield":
+                collision.transform.parent.gameObject.transform.SetParent(transform);
+                break;
         }
     }
 
@@ -46,6 +49,15 @@ public class platformHolder : MonoBehaviour
                 if (other.gameObject.activeSelf)
                 {
                     other.gameObject.transform.SetParent(acidBlockParent);
+                }
+                break;
+            case "Shield":
+                if (other.gameObject.activeSelf)
+                {
+                    Transform player = other.transform.parent;
+                    player.gameObject.transform.SetParent(null);
+                    player.gameObject.GetComponent<PlayerMovement>().parentPlarformDirection = 0;
+                    player.gameObject.GetComponent<PlayerMovement>().parentPlatformSpeed = 0;
                 }
                 break;
         }

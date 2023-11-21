@@ -54,6 +54,7 @@ public class EnemyProjectile : MonoBehaviour
         if (enemyMovement != null)
         {
             float dir = enemyMovement.speed > 0 ? -1 : 1;
+            dir = enemyMovement.speed == 0 ? enemyMovement.staticEnemyProjectileDir : dir;
             enemyPrefab.velocity = new Vector2(dir * speed, enemyPrefab.velocity.y);
         }
     }

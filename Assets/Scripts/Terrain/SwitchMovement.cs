@@ -16,17 +16,24 @@ public class SwitchMovement : MonoBehaviour
     void Start()
     {
         startPositionY = platform.transform.position.y;
-        switches.GetComponent<Renderer>().material.color = Color.red;
+        if (switches)
+        {
+            switches.GetComponent<Renderer>().material.color = Color.red;
+        }
     }
 
     Transform fetchPlayerIfPresentAsChild()
     {
         Transform platformHoler = platform.transform.Find("PlatformHolder");
-        return platformHoler.Find("Player");
+        if (platformHoler)
+        {
+            return platformHoler.Find("Player");
+        }
+        return null;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Transform player = fetchPlayerIfPresentAsChild();
         if (activated)
@@ -46,7 +53,10 @@ public class SwitchMovement : MonoBehaviour
                 player.gameObject.GetComponent<PlayerMovement>().parentPlatformSpeed = speed;
             }
         }
-        switches.GetComponent<Renderer>().material.color = activated ? Color.green : Color.red;
+        if (switches)
+        {
+            switches.GetComponent<Renderer>().material.color = activated ? Color.green : Color.red;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collider)
