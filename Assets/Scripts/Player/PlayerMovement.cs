@@ -784,18 +784,6 @@ public class PlayerMovement : MonoBehaviour
         ob2.Send(sessionID, checkPointNumber.ToString(), levelName.ToString(), checkPointDelta.TotalSeconds, gameTime.TotalSeconds, deadSinceLastCheckPoint);
     }
 
-    public void callEnergyBallCounterAnalytics(int energyBallsCounter)
-    {
-        TimeSpan gameTime = DateTime.Now - startGameTime;
-        TimeSpan checkPointDelta = DateTime.Now - lastCheckPointTime;
-        lastCheckPointTime = DateTime.Now;// EnergyBallsCounter is calculated in time from the last checkPoint
-
-        Analytics02CheckPointTime ob2 = gameObject.AddComponent<Analytics02CheckPointTime>();
-        levelName = SceneManager.GetActiveScene().buildIndex - 2; // Each level gets 2 added from now on
-
-        ob2.Send(sessionID, "Energy Ball", levelName.ToString(), (double)energyBallsCounter, gameTime.TotalSeconds, deadCounter);
-    }
-
     public void callObstacleCountAnalytics(Collider2D other, string obstacleName, long hitCounter)
     {
         levelName = SceneManager.GetActiveScene().buildIndex - 2;
