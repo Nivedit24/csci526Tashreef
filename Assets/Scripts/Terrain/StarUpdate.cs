@@ -17,10 +17,10 @@ public class StarUpdate : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //changing this added value
-        curScale = check ? curScale + 0.001f : curScale - 0.001f;
+        curScale = check ? curScale + 0.02f : curScale - 0.02f;
         if (curScale >= 1.5 || curScale <= 0.5)
             check = !check;
 
