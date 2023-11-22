@@ -15,11 +15,12 @@ public class EnemyMovement : MonoBehaviour
     public bool isFrozen = false;
     public Sprite frozenSprite;
     private Sprite initialSprite;
-
+    public bool isStatic = false;
     private SpriteRenderer spriteRenderer;
     private FreezeUnfreezeObject freeze;
     private EnemyFreezeTimer enemyfreezeTimer;
     public Coroutine unFreezeEnemy;
+    public int staticEnemyProjectileDir = 1;
     // Update is called once per frame
     void Start()
     {
@@ -27,6 +28,10 @@ public class EnemyMovement : MonoBehaviour
         initialSprite = spriteRenderer.sprite;
         freeze = GetComponent<FreezeUnfreezeObject>();
         enemyfreezeTimer = GetComponent<EnemyFreezeTimer>();
+        if (isStatic)
+        {
+            speed = 0;
+        }
     }
     void Update()
     {
