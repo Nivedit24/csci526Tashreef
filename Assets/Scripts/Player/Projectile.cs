@@ -47,7 +47,10 @@ public class Projectile : MonoBehaviour
                             collision.gameObject.GetComponent<FreezeUnfreezeObject>().UnFreeze();
                         }
                         if (collision.gameObject.GetComponent<EnemyDamage>().giveHeart)
-                            Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+                        {
+                            GameObject instantiatedPrefab = Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+                            playerMovement.heartStore.Add(instantiatedPrefab);
+                        }
                         collision.gameObject.SetActive(false);
                     }
                     Destroy(gameObject);
