@@ -87,6 +87,8 @@ public class IceMonster_Movement : MonoBehaviour
         }
         if (collision.gameObject.tag == "PlayerFireball" && isFrozen)
         {
+            enemyfreezeTimer.CancelInvoke();
+            freeze.StopCoroutine(freeze.unfreezeAfterDelay);
             StartCoroutine(freeze.UnfreezeAfterDelay(0f));
             Destroy(collision.gameObject);
         }
