@@ -6,6 +6,7 @@ public class RotateShield : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject heartEnergy;
+    public PlayerMovement playerMovement;
     void Start()
     {
 
@@ -37,7 +38,10 @@ public class RotateShield : MonoBehaviour
                     collision.gameObject.GetComponent<FreezeUnfreezeObject>().UnFreeze();
                 }
                 if (collision.gameObject.GetComponent<EnemyDamage>().giveHeart)
-                    Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+                {
+                    GameObject instatiatedPrefab = Instantiate(heartEnergy, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+                    playerMovement.heartStore.Add(instatiatedPrefab);
+                }
                 collision.gameObject.SetActive(false);
             }
         }
