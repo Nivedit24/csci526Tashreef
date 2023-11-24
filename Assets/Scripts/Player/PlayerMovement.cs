@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
     private EnemyFreezeTimer enemyfreezeTimer;
     public Coroutine unFreezeEnemy;
     public EnemyMovement enemyMovement;
+    public List<GameObject> heartStore;
     // Start is called before the first frame update
     void Start()
     {
@@ -291,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 deadCounter++;
                 callDeathCoordinatesAnalytics(playerRB.transform.position);
-
+                deleteHearts();
                 ResetUsedMovingPlatforms();
                 ResetUsedCollectables(energyBalls);
                 ResetAllEnemies();
@@ -553,7 +554,7 @@ public class PlayerMovement : MonoBehaviour
                 return;
             case "HeartEnergy":
                 damageReceiver.giveHealth();
-                Destroy(collision.gameObject);
+                collision.gameObject.SetActive(false);
                 return;
             default:
                 string enemyTag = collision.gameObject.tag;
@@ -756,6 +757,11 @@ public class PlayerMovement : MonoBehaviour
         damageReceiver.currHealth = damageReceiver.maxHealth;
     }
 
+    public void deleteHearts()
+    {
+        for (int i = 0; i < heartStore.Count; i++)
+            Destroy(heartStore[i]);
+    }
     public void callCheckPointTimeAnalyticsLevelChange(int levelName)
     {
         TimeSpan gameTime = DateTime.Now - startGameTime;
