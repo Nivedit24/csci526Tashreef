@@ -354,6 +354,7 @@ public class PlayerMovement : MonoBehaviour
 
                 goldStarsCollected += 1;
                 checkPoint.SetCheckPoint(transform);
+                other.gameObject.GetComponent<StarUpdate>().ToggleEnemyStars(false);
                 other.gameObject.SetActive(false);
                 break;
             case "tempLayerChanger":
