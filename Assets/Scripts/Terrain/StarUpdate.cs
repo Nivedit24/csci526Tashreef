@@ -14,6 +14,7 @@ public class StarUpdate : MonoBehaviour
     void Start()
     {
         requiredActivations = enemyArray == null ? 0 : enemyArray.Length;
+        ToggleEnemyStars(true);
     }
 
     // Update is called once per frame
@@ -43,5 +44,20 @@ public class StarUpdate : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void ToggleEnemyStars(bool active)
+    {
+        if (enemyArray != null)
+        {
+            foreach (GameObject enemy in enemyArray)
+            {
+                Transform star = enemy.transform.Find("star");
+                if (star != null)
+                {
+                    star.gameObject.SetActive(active);
+                }
+            }
+        }
     }
 }
