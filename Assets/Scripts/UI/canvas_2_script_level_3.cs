@@ -10,7 +10,7 @@ public class canvas_2_script_level_3 : MonoBehaviour
     public GameObject iceMonster;
     public GameObject player;
     public GameObject background_1;
-    public GameObject pusingCube;
+    public GameObject pushingCube;
     public bool isDropHit = false;
     public GameObject doorThreeDoorPuzzle;
     public GameObject iceThroughWallInstruction;
@@ -60,11 +60,11 @@ public class canvas_2_script_level_3 : MonoBehaviour
 
         if (!isDropHit)
         {
-            pusingCube.SetActive(false);
+            pushingCube.SetActive(false);
         }
         else
         {
-            pusingCube.SetActive(true);
+            pushingCube.SetActive(true);
         }
 
         if (doorThreeDoorPuzzle.activeSelf)
