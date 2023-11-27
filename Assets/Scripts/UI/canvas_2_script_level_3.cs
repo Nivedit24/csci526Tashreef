@@ -12,6 +12,8 @@ public class canvas_2_script_level_3 : MonoBehaviour
     public GameObject background_1;
     public GameObject pusingCube;
     public bool isDropHit = false;
+    public GameObject doorThreeDoorPuzzle;
+    public GameObject iceThroughWallInstruction;
     private bool isMonsterFrozen = false;
 
 
@@ -63,6 +65,15 @@ public class canvas_2_script_level_3 : MonoBehaviour
         else
         {
             pusingCube.SetActive(true);
+        }
+
+        if (doorThreeDoorPuzzle.activeSelf)
+        {
+            iceThroughWallInstruction.SetActive(true);
+        }
+        else
+        {
+            iceThroughWallInstruction.SetActive(false);
         }
     }
 }
