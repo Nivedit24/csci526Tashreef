@@ -24,10 +24,10 @@ public class SwitchMovement : MonoBehaviour
 
     Transform fetchPlayerIfPresentAsChild()
     {
-        Transform platformHoler = platform.transform.Find("PlatformHolder");
-        if (platformHoler)
+        Transform platformHolder = platform.transform.Find("PlatformHolder");
+        if (platformHolder)
         {
-            return platformHoler.Find("Player");
+            return platformHolder.Find("Player");
         }
         return null;
     }
