@@ -448,6 +448,10 @@ PrefabInstance:
       propertyPath: rangeYDown
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3048278660293952273, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3048278660293952275, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
       propertyPath: m_Name
       value: Switch
@@ -495,6 +499,10 @@ PrefabInstance:
     - target: {fileID: 3048278660293952286, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7194246584537823806, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 594d146f1a9a048d1b1064218530a3f1, type: 3}
