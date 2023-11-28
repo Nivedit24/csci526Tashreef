@@ -54,7 +54,6 @@ public class DamageReceiver : MonoBehaviour
         if (currHealth <= 0)
         {
             playerMovement.KillPlayer();
-            healthBar.SetMaxHealth(maxHealth);
         }
         StartCoroutine(InvincibilityFrame());
     }
