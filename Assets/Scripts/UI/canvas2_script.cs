@@ -45,7 +45,7 @@ public class canvas2_script : MonoBehaviour
         }
         else if (energyBall.activeSelf == false && player.GetComponent<PlayerMovement>().isHovering == false && checkpointFirst.activeSelf == true)
         {
-            text1.text = "SPACEBAR \n Activate Wind";
+            text1.text = "Press Z \n Activate Wind";
             background_1.SetActive(true);
         }
         else if (energyBall.activeSelf == false && player.GetComponent<PlayerMovement>().isHovering == true && checkpointFirst.activeSelf == true)
@@ -62,7 +62,7 @@ public class canvas2_script : MonoBehaviour
 
         if (enegyBallNearCloud.activeSelf == false)
         {
-            text3.text = "SPACEBAR \n Activate Wind";
+            text3.text = "Z \n Activate Wind";
             background_3.SetActive(true);
         }
         else
@@ -74,7 +74,7 @@ public class canvas2_script : MonoBehaviour
 
         if (player.GetComponent<PlayerMovement>().isHovering == true && checkpointFirst.activeSelf != true)
         {
-            text2.text = "SPACEBAR \n Deactivate Wind \n Save Energy";
+            text2.text = "Z \n Deactivate Wind \n Save Energy";
             background_2.SetActive(true);
         }
         else

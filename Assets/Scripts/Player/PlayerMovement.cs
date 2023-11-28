@@ -118,10 +118,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 case Power.Air:
                     elements.transform.GetChild(0).gameObject.SetActive(true);
-                    if (activePowers.Count > 1)
-                    {
-                        elements.transform.GetChild(4).gameObject.SetActive(true);
-                    }
+                    elements.transform.GetChild(4).gameObject.SetActive(true);
                     airPower = true;
                     break;
                 case Power.Fire:
