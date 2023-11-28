@@ -1095,7 +1095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 8.067904
+      value: 7.3137293
       objectReference: {fileID: 0}
     - target: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
       propertyPath: m_LocalScale.y
@@ -1103,11 +1103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -430.3
+      value: -399.4
       objectReference: {fileID: 0}
     - target: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -146.8865
+      value: -180.6754
       objectReference: {fileID: 0}
     - target: {fileID: 965844549847242964, guid: 0b96b5687caee4486a6229acdec7746b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3195,7 +3195,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -425.8, y: -153.96}
+  m_AnchoredPosition: {x: -394.6, y: -187.7}
   m_SizeDelta: {x: 35, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &609436490
@@ -3218,7 +3218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "SPACEBAR \nDeactivate Wind\nSave Energy"
+  m_text: "Z \nDeactivate Wind\nSave Energy"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6239,7 +6239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "SPACEBAR \nActivate Wind"
+  m_text: Press Z  to Activate Wind
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

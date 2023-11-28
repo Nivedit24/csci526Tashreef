@@ -118,10 +118,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 case Power.Air:
                     elements.transform.GetChild(0).gameObject.SetActive(true);
-                    if (activePowers.Count > 1)
-                    {
-                        elements.transform.GetChild(4).gameObject.SetActive(true);
-                    }
+                    elements.transform.GetChild(4).gameObject.SetActive(true);
                     airPower = true;
                     break;
                 case Power.Fire:
@@ -170,11 +167,11 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = new Vector2(direction * speed, playerRB.velocity.y);
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isTouchingGround)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, parentPlarformDirection * parentPlatformSpeed * 5.0f + jumpSpeed), ForceMode2D.Impulse);
         }
-        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !isTouchingGround)
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && !isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, -jumpSpeed), ForceMode2D.Impulse);
         }
@@ -187,7 +184,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 RemoveEarthShield();
             }
-            if (energyLeft > 0 && currState != State.Hover)
+            energyLeft = energyBar.slider.value;
+
+            if (currState == State.Hover)
+            {
+                DismountAirBall();
+            }
+            else if (energyLeft > 0)
             {
                 HoverOnAirBall();
             }
@@ -234,7 +237,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 DismountAirBall();
             }
-            if (energyLeft > 0 && currState != State.Shielded)
+            energyLeft = energyBar.slider.value;
+            if (currState == State.Shielded)
+            {
+                RemoveEarthShield();
+            }
+            else if (energyLeft > 0)
             {
                 EquipEarthShield();
             }
@@ -499,7 +507,6 @@ public class PlayerMovement : MonoBehaviour
                 // Analytics for energy ball
                 energyBallsCounter++;
                 powerTimer.enabled = true;
-                //callEnergyBallCounterAnalytics(energyBallsCounter);
 
                 SetEnergyLevel(maxEnergy);
                 if (currState == State.Hover || currState == State.Shielded)
