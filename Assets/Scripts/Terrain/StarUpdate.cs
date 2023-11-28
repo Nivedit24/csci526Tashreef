@@ -27,7 +27,7 @@ public class StarUpdate : MonoBehaviour
 
         transform.localScale = new Vector3(curScale, curScale, 1.0f);
         active = IsChallengeCompleted();
-        transform.gameObject.GetComponent<Renderer>().material.color = active ? Color.white : Color.black;
+        transform.gameObject.GetComponent<Renderer>().material.color = active ? Color.white : Color.gray;
         transform.gameObject.GetComponent<Collider2D>().enabled = active;
     }
 
