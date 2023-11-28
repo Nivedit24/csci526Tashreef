@@ -559,7 +559,7 @@ public class PlayerMovement : MonoBehaviour
                     enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
                     unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
                 }
-                else if(currState != State.Shielded)
+                else if (currState != State.Shielded)
                 {
                     enemyfreezeTimer.CancelInvoke();
                     StopCoroutine(unFreezeEnemy);
@@ -775,7 +775,7 @@ public class PlayerMovement : MonoBehaviour
     public void KillPlayer()
     {
         currState = State.Dead;
-        damageReceiver.currHealth = damageReceiver.maxHealth;
+        damageReceiver.giveHealth();
     }
 
     public void deleteHearts()

@@ -7,15 +7,9 @@ using UnityEngine.Networking;
 public class Analytics03ObstaclesPowers : MonoBehaviour
 {
     private string URL;
-    private long sessionIdGlobal;    
-    private string checkpointNameGlobal; 
-    private string levelNameGlobal;
-    private float timeTakenCheckPoint;
-    private float timeTakenTotal;
 
     private void Awake()
     {
-        sessionIdGlobal = DateTime.Now.Ticks;
         URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScSof7c_5OT_nEkbgvv473mRJLW2SIy1-nHwNFU0vnJJHGKGw/formResponse";
     }
 
@@ -26,12 +20,6 @@ public class Analytics03ObstaclesPowers : MonoBehaviour
             return;
         }
 
-        sessionIdGlobal = sessionId;
-
-        checkpointNameGlobal = checkpointName;        
-        
-        levelNameGlobal = levelName;
-        
         //Debug.Log("SEND CO-routine is called");
         StartCoroutine(Post(sessionId.ToString(), checkpointName, levelName, ObstacleOrPower, totalSoFar.ToString()));
     }
@@ -66,19 +54,5 @@ public class Analytics03ObstaclesPowers : MonoBehaviour
 
         www.Dispose();
         // form.Dispose();
-        
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
