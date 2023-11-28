@@ -280,11 +280,13 @@ MonoBehaviour:
   goldStarsRequired: 5
   iceCubes: []
   iceCubesOnDoorSwitches: []
-  dragFactor: 0
+  dragFactor: 3
   currState: 0
   damageReceiver: {fileID: 7103223003799653951}
   isHovering: 0
   shootProjectile: {fileID: 7103223003799653949}
+  parentPlarformDirection: 0
+  parentPlatformSpeed: 0
   fireShotCount: 0
   iceShotCount: 0
   airballTime: 0
@@ -305,6 +307,8 @@ MonoBehaviour:
   elements: {fileID: 0}
   powerTimer: {fileID: 7103223003799653948}
   isFrozen: 0
+  enemyMovement: {fileID: 0}
+  heartStore: []
 --- !u!114 &7103223003799653951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,7 +434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currHealth: 0
-  frozenTime: 10
   freezeBar: {fileID: 4538752114606469670}
 --- !u!114 &3919365487622720582
 MonoBehaviour:
@@ -966,6 +969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heartEnergy: {fileID: 4042173386672749232, guid: 7bfa4a8021df6d444b864119b73f517b, type: 3}
+  playerMovement: {fileID: 0}
+  shieldDamage: 2
   speed: 2000
   startRotate: 0
 --- !u!1001 &4956626757434380663

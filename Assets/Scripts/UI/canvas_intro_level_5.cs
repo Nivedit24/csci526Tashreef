@@ -24,7 +24,7 @@ public class canvas_intro_level_5 : MonoBehaviour
         }
         else
         {
-            text1.text = "Collect All 4 \n \n To Unlock";
+            text1.text = "Collect All 11 \n \n To Unlock";
             barrierForBossBattle.SetActive(true);
         }
     }
