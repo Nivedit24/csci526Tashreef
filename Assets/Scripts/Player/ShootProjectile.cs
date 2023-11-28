@@ -25,7 +25,7 @@ public class ShootProjectile : MonoBehaviour
     {
         GameObject projectile = playerMovement.currPower == Power.Fire ? firePrefab : icePrefab;
 
-        if (playerMovement.energyBallsCounter > 0 && playerMovement.energyLeft >= 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
+        if (playerMovement.energyLeft >= 0 && Input.GetKeyDown(KeyCode.Space) && shootTime <= 0)
         {
             if (playerMovement.faceRight)
                 Instantiate(projectile, launchPointRight.position, launchPointRight.rotation);
