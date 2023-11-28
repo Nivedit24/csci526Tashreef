@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = new Vector2(direction * speed, playerRB.velocity.y);
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && isTouchingGround)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isTouchingGround)
         {
             playerRB.AddForce(new Vector2(playerRB.velocity.x, parentPlarformDirection * parentPlatformSpeed * 5.0f + jumpSpeed), ForceMode2D.Impulse);
         }
@@ -248,6 +248,35 @@ public class PlayerMovement : MonoBehaviour
             else if (energyLeft > 0)
             {
                 EquipEarthShield();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && energyBallsCounter > 0)
+        {
+            energyLeft = energyBar.slider.value;
+            switch (currPower)
+            {
+                case Power.Air:
+                    if (currState == State.Hover)
+                    {
+                        DismountAirBall();
+                    }
+                    else if (energyLeft > 0 && !isFrozen)
+                    {
+                        HoverOnAirBall();
+                    }
+                    break;
+                case Power.Earth:
+                    if (currState == State.Shielded)
+                    {
+                        RemoveEarthShield();
+                    }
+                    else if (energyLeft > 0 && !isFrozen)
+                    {
+                        EquipEarthShield();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
