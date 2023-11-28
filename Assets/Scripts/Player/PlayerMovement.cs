@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject barrier;
     [SerializeField] private GameObject allMovingPlatforms;
     [SerializeField] private GameObject allSwitches;
+    [SerializeField] private GameObject downWardCanvas;
     [SerializeField] public List<Power> activePowers;
     private List<Vector3> initialPositionsOfMovingPlatforms = new List<Vector3>();
     private List<int> initialSwitchDirection = new List<int>();
@@ -401,6 +402,19 @@ public class PlayerMovement : MonoBehaviour
                     else
                     {
                         enemyHits.Add("AcidDrop", 1);
+                    }
+                }
+                break;
+            case "downWardArrowInstruction":
+                if (downWardCanvas)
+                {
+                    if (transform.position.x < other.transform.position.x)
+                    {
+                        downWardCanvas.SetActive(false);
+                    }
+                    else
+                    {
+                        downWardCanvas.SetActive(true);
                     }
                 }
                 break;

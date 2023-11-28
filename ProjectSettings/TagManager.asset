@@ -46,6 +46,7 @@ TagManager:
   - BossMonster
   - BossBoulder
   - HeartEnergy
+  - downWardArrowInstruction
   layers:
   - Default
   - TransparentFX
