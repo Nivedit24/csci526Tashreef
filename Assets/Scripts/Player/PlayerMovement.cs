@@ -538,7 +538,7 @@ public class PlayerMovement : MonoBehaviour
                     enemyfreezeTimer.InvokeRepeating("reduceFrozenTime", 1.0f, 1.0f);
                     unFreezeEnemy = StartCoroutine(freeze.UnfreezeAfterDelay(5f));
                 }
-                else
+                else if(currState != State.Shielded)
                 {
                     enemyfreezeTimer.CancelInvoke();
                     StopCoroutine(unFreezeEnemy);
