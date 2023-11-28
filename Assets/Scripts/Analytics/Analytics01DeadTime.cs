@@ -7,16 +7,9 @@ using UnityEngine.Networking;
 public class Analytics01DeadTime : MonoBehaviour
 {
     private string URL;
-    private long sessionIdGlobal;
-    private int testInt;
-    
-    private string checkpointNameGlobal; 
-    private string levelNameGlobal;
-    private float timeTaken;
 
     private void Awake()
     {
-        sessionIdGlobal = DateTime.Now.Ticks;
         URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScRQv83I1oLYwYwnpucIUAv5anjT6hIB-HTqILrXkoFefMnrw/formResponse";
     }
 
@@ -61,19 +54,5 @@ public class Analytics01DeadTime : MonoBehaviour
 
         www.Dispose();
         // form.Dispose();
-        
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
